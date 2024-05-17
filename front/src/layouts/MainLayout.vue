@@ -118,12 +118,11 @@ export default {
       essentialLinks: [
         { title: 'Inicio', icon: 'home', to: '/' },
         { title: 'Usuarios', icon: 'people', to: '/users' },
-        { title: 'Historiales', icon: 'history', to: '/history' },
-        { title: 'Estudiantes', icon: 'school', to: '/students' },
-        // { title: 'Cursos', icon: 'class', to: '/courses' },
-        // { title: 'Matriculas', icon: 'assignment', to: '/enrollments' },
-        // { title: 'Pagos', icon: 'payment', to: '/payments' },
-        { title: 'Reportes', icon: 'description', to: '/reports' },
+        { title: 'Empresas', icon: 'business', to: '/companies' },
+        { title: 'Botes', icon: 'directions_boat', to: '/boats' },
+        { title: 'Tripulantes', icon: 'group', to: '/crews' },
+        { title: 'Clientes', icon: 'person', to: '/clients' },
+        { title: 'Productos', icon: 'shopping_cart', to: '/products' }
       ],
     };
   },

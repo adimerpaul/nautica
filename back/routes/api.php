@@ -17,13 +17,10 @@ Route::group(['middleware' => 'auth:sanctum'], function(){
     Route::delete('/users/{id}', [\App\Http\Controllers\UserController::class, 'delete']);
     Route::put('/passwordUpdate/{id}', [\App\Http\Controllers\UserController::class, 'passwordUpdate']);
 
-    Route::get('/students', [\App\Http\Controllers\StudentController::class, 'index']);
-    Route::post('/students', [\App\Http\Controllers\StudentController::class, 'store']);
-    Route::put('/students/{id}', [\App\Http\Controllers\StudentController::class, 'update']);
-    Route::delete('/students/{id}', [\App\Http\Controllers\StudentController::class, 'destroy']);
-    Route::get('/students/{id}', [\App\Http\Controllers\StudentController::class, 'show']);
-    Route::post('/students/{id}/diagnoses', [\App\Http\Controllers\DiagnosisController::class, 'store']);
-    Route::delete('/diagnoses/{id}', [\App\Http\Controllers\DiagnosisController::class, 'destroy']);
+    Route::get('/companies', [\App\Http\Controllers\CompanyController::class, 'index']);
+    Route::post('/companies', [\App\Http\Controllers\CompanyController::class, 'store']);
+    Route::put('/companies/{id}', [\App\Http\Controllers\CompanyController::class, 'update']);
+    Route::delete('/companies/{id}', [\App\Http\Controllers\CompanyController::class, 'destroy']);
 });
 
 Route::get('/compromiso/{loan_id}', [\App\Http\Controllers\ReportController::class, 'compromiso']);

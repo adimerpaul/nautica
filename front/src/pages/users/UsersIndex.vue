@@ -146,9 +146,9 @@ export default {
     userDelete (user) {
       this.$alert.confirm('¿Está seguro de eliminar este usere?').onOk(() => {
         this.loading = true
-        this.$axios.delete(`users/${user.id}`).then(response => {
-          const index = this.users.findIndex(user => user.id === user.id)
-          this.users.splice(index, 1)
+        this.$axios.delete(`users/${user.id}`).then(res => {
+          const index = this.users.findIndex(user => user.id === res.data.id)
+          if (index > -1) this.users.splice(index, 1)
         }).catch(error => {
           this.$alert.error(error.response.data.message)
         }).finally(() => {
