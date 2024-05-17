@@ -1,6 +1,6 @@
 <template>
   <q-page class="bg-grey-3 q-pa-md">
-    <q-table :rows="users" :columns="columns" title="Clientes" :rows-per-page-options="[0]" row-key="id" dense :filter="filter" :loading="loading">
+    <q-table :rows="users" :columns="columns" title="Usuarios" :rows-per-page-options="[0]" row-key="id" dense :filter="filter" :loading="loading">
       <template v-slot:body-cell-option="props">
           <q-td auto-width>
             <q-btn flat dense icon="edit" @click="userEdit(props.row)" >
@@ -20,10 +20,9 @@
       </template>
       <template v-slot:body-cell-role="props">
         <q-td :props="props">
-          <q-chip dense label="Admin" color="primary" text-color="white" v-if="props.row.role === 'ADMIN'" />
-          <q-chip dense label="Tutor" color="indigo" text-color="white" v-if="props.row.role === 'ATTORNEY'" />
-          <q-chip dense label="Profesor" color="green" text-color="white" v-if="props.row.role === 'TEACHER'" />
-          <q-chip dense label="Doctor" color="red" text-color="white" v-if="props.row.role === 'DOCTOR'" />
+          <q-chip dense label="Vendedor" color="primary" text-color="white" v-if="props.row.role === 'VENDEDOR'" icon="account_circle"/>
+          <q-chip dense label="Admin" color="indigo" text-color="white" v-if="props.row.role === 'ADMIN'" icon="account_circle"/>
+          <q-chip dense label="Super admin" color="purple" text-color="white" v-if="props.row.role === 'SUPERADMIN'" icon="account_circle"/>
         </q-td>
       </template>
       <template v-slot:top-right>
@@ -65,8 +64,9 @@
               </q-input>
             </div>
             <div class="col-12">
+<!--              vendedor,administrador,superadmin,-->
               <q-select v-model="user.role" label="Rol" outlined dense
-                        :options="[{label: 'Admin', value: 'ADMIN'}, {label: 'Tutor', value: 'ATTORNEY'}, {label: 'Profesor', value: 'TEACHER'}, {label: 'Doctor', value: 'DOCTOR'}]"
+                        :options="[{label: 'Vendedor', value: 'VENDEDOR'}, {label: 'Admin', value: 'ADMIN'}, {label: 'Super Admin', value: 'SUPERADMIN'}]"
                         :rules="[val => !!val || 'Campo requerido']"
                         emit-value map-options
               />

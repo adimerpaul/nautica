@@ -37,6 +37,12 @@ class UserController extends Controller{
         return User::orderBy('id', 'desc')->get();
     }
     public function store(Request $request){
+        $validatedData = $request->validate([
+            'name' => 'required',
+            'username' => 'required|unique:users',
+            'role' => 'required',
+            'password' => 'required',
+        ]);
         $user = new User();
         $user->name = $request->name;
         $user->email = $request->email;

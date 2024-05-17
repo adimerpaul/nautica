@@ -154,7 +154,7 @@ export default {
     title() {
       const route = this.$route.path
       if (route === '/') return 'Inicio'
-      if (route === '/prestamos') return 'Prestamos'
+      if (route === '/users') return 'Usuarios'
       else if (route === '/clients') return 'Clientes'
       else if (route === '/debtors') return 'Deudores'
       else if (route === '/payments') return 'Pagos'
