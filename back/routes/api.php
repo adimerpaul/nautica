@@ -21,6 +21,11 @@ Route::group(['middleware' => 'auth:sanctum'], function(){
     Route::post('/companies', [\App\Http\Controllers\CompanyController::class, 'store']);
     Route::put('/companies/{id}', [\App\Http\Controllers\CompanyController::class, 'update']);
     Route::delete('/companies/{id}', [\App\Http\Controllers\CompanyController::class, 'destroy']);
+
+    Route::get('/boats', [\App\Http\Controllers\BoatController::class, 'index']);
+    Route::post('/boats', [\App\Http\Controllers\BoatController::class, 'store']);
+    Route::put('/boats/{id}', [\App\Http\Controllers\BoatController::class, 'update']);
+    Route::delete('/boats/{id}', [\App\Http\Controllers\BoatController::class, 'destroy']);
 });
 
 Route::get('/compromiso/{loan_id}', [\App\Http\Controllers\ReportController::class, 'compromiso']);

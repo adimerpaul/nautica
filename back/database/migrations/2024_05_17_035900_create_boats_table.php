@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('boats', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->color('color');
             $table->unsignedBigInteger('company_id');
             $table->foreign('company_id')->references('id')->on('companies');
             $table->timestamps();

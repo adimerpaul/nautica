@@ -70,10 +70,9 @@
                 </q-item-section>
                 <q-item-section>
                   <q-item-label class="text-white text-bold">
-                    <q-chip label="Admin" color="primary" text-color="white" v-if="$store.user?.role === 'ADMIN'" icon="account_circle"/>
-                    <q-chip label="Tutor" color="indigo" text-color="white" v-if="$store.user?.role === 'ATTORNEY'" icon="account_circle"/>
-                    <q-chip label="Profesor" color="green" text-color="white" v-if="$store.user?.role === 'TEACHER'" icon="account_circle"/>
-                    <q-chip label="Doctor" color="red" text-color="white" v-if="$store.user?.role === 'DOCTOR'" icon="account_circle"/>
+                    <q-chip dense label="Vendedor" color="orange" text-color="white" v-if="$store.user?.role === 'VENDEDOR'" icon="account_circle"/>
+                    <q-chip dense label="Admin" color="indigo" text-color="white" v-if="$store.user?.role === 'ADMIN'" icon="account_circle"/>
+                    <q-chip dense label="Super admin" color="purple" text-color="white" v-if="$store.user?.role === 'SUPERADMIN'" icon="account_circle"/>
                   </q-item-label>
                   <q-item-label caption class="text-white">{{ $store.user.name }}</q-item-label>
                 </q-item-section>
@@ -155,7 +154,11 @@ export default {
       if (route === '/') return 'Inicio'
       if (route === '/users') return 'Usuarios'
       else if (route === '/clients') return 'Clientes'
-      else if (route === '/debtors') return 'Deudores'
+      else if (route === '/companies') return 'Empresas'
+      else if (route === '/boats') return 'Botes'
+      else if (route === '/crews') return 'Tripulantes'
+      else if (route === '/products') return 'Productos'
+      else if (route === '/loans') return 'Prestamos'
       else if (route === '/payments') return 'Pagos'
       else if (route === '/finished-loans') return 'Prestamos Finalizados'
       return 'Inicio'

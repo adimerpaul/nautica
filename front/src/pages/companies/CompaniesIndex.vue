@@ -11,6 +11,11 @@
             </q-btn>
           </q-td>
       </template>
+      <template v-slot:body-cell-name="props">
+        <q-td :props="props">
+          <q-chip :label="props.row.name" text-color="white" :style="{backgroundColor: props.row.color}" icon="business" />
+        </q-td>
+      </template>
       <template v-slot:top-right>
         <q-btn outline dense icon="add_circle" @click="companyAdd" label="Agregar" no-caps :loading="loading">
           <q-tooltip>Agregar</q-tooltip>

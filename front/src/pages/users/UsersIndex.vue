@@ -20,7 +20,7 @@
       </template>
       <template v-slot:body-cell-role="props">
         <q-td :props="props">
-          <q-chip dense label="Vendedor" color="primary" text-color="white" v-if="props.row.role === 'VENDEDOR'" icon="account_circle"/>
+          <q-chip dense label="Vendedor" color="orange" text-color="white" v-if="props.row.role === 'VENDEDOR'" icon="account_circle"/>
           <q-chip dense label="Admin" color="indigo" text-color="white" v-if="props.row.role === 'ADMIN'" icon="account_circle"/>
           <q-chip dense label="Super admin" color="purple" text-color="white" v-if="props.row.role === 'SUPERADMIN'" icon="account_circle"/>
         </q-td>
