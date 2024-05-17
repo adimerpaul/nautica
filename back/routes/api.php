@@ -31,6 +31,11 @@ Route::group(['middleware' => 'auth:sanctum'], function(){
     Route::post('/crews', [\App\Http\Controllers\CrewController::class, 'store']);
     Route::put('/crews/{id}', [\App\Http\Controllers\CrewController::class, 'update']);
     Route::delete('/crews/{id}', [\App\Http\Controllers\CrewController::class, 'destroy']);
+
+    Route::get('/clients', [\App\Http\Controllers\ClientController::class, 'index']);
+    Route::post('/clients', [\App\Http\Controllers\ClientController::class, 'store']);
+    Route::put('/clients/{id}', [\App\Http\Controllers\ClientController::class, 'update']);
+    Route::delete('/clients/{id}', [\App\Http\Controllers\ClientController::class, 'destroy']);
 });
 
 Route::get('/compromiso/{loan_id}', [\App\Http\Controllers\ReportController::class, 'compromiso']);

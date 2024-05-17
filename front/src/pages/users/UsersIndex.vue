@@ -40,7 +40,7 @@
     <q-dialog v-model="userDialog" persistent>
       <q-card style="width: 250px;max-width: 90vw;">
         <q-card-section class="row items-center q-pb-none">
-          <div class="text-h6">{{ user.id ? 'Editar' : 'Agregar' }} Cliente</div>
+          <div class="text-h6">{{ user.id ? 'Editar' : 'Agregar' }} Usuario</div>
           <q-space />
           <q-btn flat dense icon="close" @click="userDialog = false" />
         </q-card-section>

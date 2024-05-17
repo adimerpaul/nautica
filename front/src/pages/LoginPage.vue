@@ -12,26 +12,28 @@
                     <q-img src="~assets/login.jpg" />
                   </div>
                   <div class="col-12 col-md-4 q-pa-md">
-                    <div class="text-h6 text-center text-bold">Iniciar Sesión</div>
-                    <div class="text-caption text-center">Ingresa tus credenciales para acceder al sistema</div>
-                    <q-input v-model="username" label="Usuario" outlined :rules="[val => !!val || 'Este campo es requerido']"
-                             rounded
-                    >
-                      <template v-slot:prepend>
-                        <q-icon name="account_circle" />
-                      </template>
-                    </q-input>
-                    <q-input v-model="password" label="Contraseña" :type="passwordVisible ? 'text' : 'password'" outlined :rules="[val => !!val || 'Este campo es requerido']"
-                             rounded
-                    >
-                      <template v-slot:prepend>
-                        <q-icon name="lock" />
-                      </template>
-                      <template v-slot:append>
-                        <q-icon :name="passwordVisible ? 'visibility' : 'visibility_off'" @click="passwordVisible = !passwordVisible" />
-                      </template>
-                    </q-input>
-                    <q-btn color="primary" class="full-width" rounded label="Iniciar Sesión" @click="login" no-caps :loading="loading" />
+                    <q-form @submit.prevent="login">
+                      <div class="text-h6 text-center text-bold">Iniciar Sesión</div>
+                      <div class="text-caption text-center">Ingresa tus credenciales para acceder al sistema</div>
+                      <q-input v-model="username" label="Usuario" outlined :rules="[val => !!val || 'Este campo es requerido']"
+                               rounded
+                      >
+                        <template v-slot:prepend>
+                          <q-icon name="account_circle" />
+                        </template>
+                      </q-input>
+                      <q-input v-model="password" label="Contraseña" :type="passwordVisible ? 'text' : 'password'" outlined :rules="[val => !!val || 'Este campo es requerido']"
+                               rounded
+                      >
+                        <template v-slot:prepend>
+                          <q-icon name="lock" />
+                        </template>
+                        <template v-slot:append>
+                          <q-icon :name="passwordVisible ? 'visibility' : 'visibility_off'" @click="passwordVisible = !passwordVisible" />
+                        </template>
+                      </q-input>
+                      <q-btn color="primary" class="full-width" rounded label="Iniciar Sesión" type="submit" no-caps :loading="loading" />
+                    </q-form>
                   </div>
                 </div>
               </q-card-section>

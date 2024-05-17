@@ -3,15 +3,11 @@
     <q-table :rows="clients" :columns="columns" title="Clientes" :rows-per-page-options="[0]" row-key="id" dense :filter="filter" :loading="loading">
       <template v-slot:body-cell-option="props">
           <q-td auto-width>
-            <q-btn flat dense icon="edit" @click="clientEdit(props.row.id)" >
+            <q-btn flat dense icon="edit" @click="clientEdit(props.row)" >
               <q-tooltip>Editar</q-tooltip>
             </q-btn>
             <q-btn flat dense icon="delete" @click="clientDelete(props.row.id)" >
               <q-tooltip>Eliminar</q-tooltip>
-            </q-btn>
-<!--            historial de prestamos-->
-            <q-btn flat dense icon="history" @click="clientHistory(props.row)" >
-              <q-tooltip>Historial</q-tooltip>
             </q-btn>
           </q-td>
       </template>
@@ -36,11 +32,21 @@
         <q-form @submit="clientSave">
         <q-card-section>
           <div class="row">
+<!--            $fillable = ['name', 'lastname', 'company', 'nit', 'phone'];-->
             <div class="col-12">
               <q-input v-model="client.name" label="Nombre" outlined dense :rules="[val => !!val || 'Campo requerido']" />
             </div>
             <div class="col-12">
-              <q-input v-model="client.ci" label="CI" outlined dense :rules="[val => !!val || 'Campo requerido']" />
+              <q-input v-model="client.lastname" label="Apellido" outlined dense :rules="[val => !!val || 'Campo requerido']" />
+            </div>
+            <div class="col-12">
+              <q-input v-model="client.company" label="Empresa" outlined dense :rules="[val => !!val || 'Campo requerido']" />
+            </div>
+            <div class="col-12">
+              <q-input v-model="client.nit" label="NIT" outlined dense :rules="[val => !!val || 'Campo requerido']" />
+            </div>
+            <div class="col-12">
+              <q-input v-model="client.phone" label="Teléfono" outlined dense :rules="[val => !!val || 'Campo requerido']" />
             </div>
           </div>
         </q-card-section>
@@ -49,52 +55,6 @@
           <q-btn color="primary" label="Guardar" type="submit" :loading="loading" />
         </q-card-actions>
         </q-form>
-      </q-card>
-    </q-dialog>
-    <q-dialog v-model="clienDialogHistory" persistent>
-      <q-card style="width: 500px;max-width: 90vw;">
-        <q-card-section class="row items-center q-pb-none">
-          <div class="text-h6">Historial de Prestamos</div>
-          <q-space />
-          <q-btn flat dense icon="close" @click="clienDialogHistory = false" />
-        </q-card-section>
-        <q-card-section>
-          <div class="row">
-            <div class="col-6">
-              <div><b>Nombre:</b> {{ client.name }}</div>
-            </div>
-            <div class="col-6">
-              <div><b>CI:</b> {{ client.ci }}</div>
-            </div>
-            <div class="col-12">
-              <q-markup-table dense wrap-cells>
-                <thead>
-                  <tr>
-                    <th>Fecha</th>
-                    <th>Monto</th>
-                    <th>Cuotas</th>
-                    <th>Interes</th>
-<!--                    <th>Total</th>-->
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr v-for="loan in client.loans" :key="loan.id">
-                    <td>{{ loan.date }}</td>
-                    <td>{{ loan.amount }}</td>
-                    <td>{{ loan.payments }}</td>
-                    <td>{{ loan.interest_rate }}</td>
-<!--                    <td>{{ loan.total }}</td>-->
-                  </tr>
-                </tbody>
-              </q-markup-table>
-<!--              <pre>{{ client }}</pre>-->
-            </div>
-          </div>
-        </q-card-section>
-        <q-card-actions align="right">
-          <q-btn flat label="Cerrar" v-close-popup :loading="loading" />
-<!--          <q-btn color="primary" label="Guardar" type="submit" :loading="loading" />-->
-        </q-card-actions>
       </q-card>
     </q-dialog>
 <!--    <pre>{{ clients }}</pre>-->
@@ -109,7 +69,10 @@ export default {
         { name: 'option', label: 'Opciones', align: 'left', field: row => row.option },
         { name: 'id', label: 'ID', align: 'left', field: row => row.id },
         { name: 'name', label: 'Nombre', align: 'left', field: row => row.name },
-        { name: 'ci', label: 'CI', align: 'left', field: row => row.ci }
+        { name: 'lastname', label: 'Apellido', align: 'left', field: row => row.lastname },
+        { name: 'company', label: 'Empresa', align: 'left', field: row => row.company },
+        { name: 'nit', label: 'NIT', align: 'left', field: row => row.nit },
+        { name: 'phone', label: 'Teléfono', align: 'left', field: row => row.phone }
       ],
       loading: false,
       clients: [],
@@ -138,7 +101,7 @@ export default {
       } else {
         this.$axios.post('clients', this.client).then(response => {
           this.clientDialog = false
-          this.clients.push(response.data)
+          this.clients.unshift(response.data)
         }).catch(error => {
           this.$alert.error(error.response.data.message)
         }).finally(() => {
@@ -163,14 +126,9 @@ export default {
       this.clienDialogHistory = true
       this.client = {...client}
     },
-    clientEdit (id) {
+    clientEdit (cliente) {
       this.clientDialog = true
-      this.clientFind = this.clients.find(client => client.id === id)
-      this.client = {
-        id: this.clientFind.id,
-        name: this.clientFind.name,
-        ci: this.clientFind.ci
-      }
+      this.client = {...cliente}
     },
     clientAdd () {
       this.clientDialog = true
