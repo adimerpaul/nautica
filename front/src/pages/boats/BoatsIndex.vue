@@ -18,7 +18,7 @@
       </template>
       <template v-slot:body-cell-company="props">
         <q-td :props="props">
-          <q-chip :label="props.row.company?.name" text-color="white" :style="{backgroundColor: props.row.company?.color}" icon="business" />
+          <q-chip :label="props.row.company?.name" text-color="white" dense :style="{backgroundColor: props.row.company?.color}" icon="business" />
         </q-td>
       </template>
       <template v-slot:top-right>
