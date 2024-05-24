@@ -13,14 +13,18 @@ return new class extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->text('description');
-            $table->string('image');
-            $table->double('price', 8, 2);
-            $table->string('status');
-            $table->integer('stock');
-            $table->unsignedBigInteger('category_id');
+            $table->string('name')->nullable();
+            $table->text('description')->nullable();
+            $table->string('image')->nullable();
+            $table->double('price', 8, 2)->nullable();
+            $table->string('status')->nullable();
+            $table->integer('stock')->nullable();
+            $table->unsignedBigInteger('category_id')->nullable();
             $table->foreign('category_id')->references('id')->on('categories');
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->unsignedBigInteger('company_id')->nullable();
+            $table->foreign('company_id')->references('id')->on('companies');
             $table->timestamps();
         });
     }
