@@ -26,6 +26,7 @@
               no-caps
               icon="add_circle"
               rounded
+              :loading="loading"
             ></q-btn>
           </div>
           <div class="col-12 col-md-4 q-pa-xs">
@@ -40,7 +41,7 @@
           <div class="col-12">
             <div class="row">
               <div class="col-6 col-md-2" v-for="product in products" :key="product.id">
-                <q-card class="q-ma-xs" flat bordered >
+                <q-card class="q-ma-xs cursor-pointer" flat bordered @click="productEditClick(product)">
                   <q-img
                     :src="`${$url}../images/${product.image}`"
                     spinner-color="white"
@@ -65,9 +66,9 @@
               </div>
             </div>
           </div>
-          <div class="col-12">
-            <pre>{{products}}</pre>
-          </div>
+<!--          <div class="col-12">-->
+<!--            <pre>{{products}}</pre>-->
+<!--          </div>-->
         </div>
       </q-card-section>
     </q-card>
@@ -142,7 +143,7 @@
               </div>
               <div class="col-12">
                 <label class="text-caption text-bold">Estado:</label>
-                <q-toggle v-model="product.status" :color="product.status ? 'green' : 'red'">
+                <q-toggle v-model="product.status" :color="product.status ? 'green' : 'red'" true-value="1" false-value="0">
                   <div :class="`text-${product.status ? 'green' : 'red'} text-subtitle2 text-bold`">
                     {{product.status ? 'Activo' : 'Inactivo'}}
                   </div>
@@ -158,8 +159,31 @@
                 no-caps
                 icon="save"
                 rounded
+                :loading="loading"
+                v-if="product.id === undefined"
               ></q-btn>
-              <pre>{{product}}</pre>
+              <q-btn
+                color="yellow-8"
+                label="Actualizar"
+                class="text-bold full-width q-mb-md"
+                type="submit"
+                no-caps
+                icon="save"
+                rounded
+                :loading="loading"
+                v-if="product.id !== undefined"></q-btn>
+              <q-btn
+                color="red"
+                outline
+                label="Eliminar"
+                class="text-bold full-width"
+                no-caps
+                icon="close"
+                rounded
+                @click="productDelete"
+                :loading="loading"
+                v-if="product.id !== undefined"></q-btn>
+<!--              <pre>{{product}}</pre>-->
             </div>
           </q-form>
         </q-card-section>
@@ -181,6 +205,7 @@ export default {
       category: '',
       search: '',
       productDialog: false,
+      loading: false,
     }
   },
   mounted() {
@@ -188,17 +213,42 @@ export default {
     this.categoriesGet()
   },
   methods: {
+    productDelete () {
+      this.$alert.confirm('¿Estas seguro de eliminar este producto?').onOk(() => {
+        this.loading = true
+        this.$axios.delete(`products/${this.product.id}`).then(response => {
+          this.productDialog = false
+          this.productsGet()
+        }).finally(() => {
+          this.loading = false
+        })
+      })
+
+      // this.$alert.confirm('¿Está seguro de eliminar este boate?').onOk(() => {
+      //   this.loading = true
+      //   this.$axios.delete(`boats/${boat.id}`).then(res => {
+      //     const index = this.boats.findIndex(boat => boat.id === res.data.id)
+      //     console.log(index)
+      //     if (index !== -1) this.boats.splice(index, 1)
+      //   }).catch(error => {
+      //     this.$alert.error(error.response.data.message)
+      //   }).finally(() => {
+      //     this.loading = false
+      //   })
+      // })
+    },
     handleFileChange () {
       const file = event.target.files[0]
       if (file) {
         this.product.image = URL.createObjectURL(file)
       }
     },
-    productSave(){
+    productCreate () {
       if(this.$refs.file.files.length === 0){
         this.$alert.error('Debe seleccionar una imagen')
         return false
       }
+      this.loading = true
       const formData = new FormData()
       formData.append('product', JSON.stringify(this.product))
       formData.append('file', this.$refs.file.files[0])
@@ -209,7 +259,35 @@ export default {
       }).then(response => {
         this.productDialog = false
         this.productsGet()
+      }).finally(() => {
+        this.loading = false
       })
+    },
+    productUpdate () {
+      this.loading = true
+      const formData = new FormData()
+      formData.append('product', JSON.stringify(this.product))
+      if(this.$refs.file.files.length > 0){
+        formData.append('file', this.$refs.file.files[0])
+      }
+      this.$axios.post(`products/${this.product.id}`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      }).then(response => {
+        this.productDialog = false
+        this.productsGet()
+      }).finally(() => {
+        this.loading = false
+      })
+    },
+    productSave(){
+
+      if (this.product.id) {
+        this.productUpdate()
+      } else {
+        this.productCreate()
+      }
     },
     productClick () {
       this.productDialog = true
@@ -219,9 +297,13 @@ export default {
         price: '',
         stock: '',
         image: 'images.png',
-        status: true,
+        status: '1',
         costo: '',
       }
+    },
+    productEditClick (product) {
+      this.productDialog = true
+      this.product = {...product}
     },
     productsGet () {
       this.$axios.get('products').then(response => {
