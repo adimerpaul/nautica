@@ -17,6 +17,7 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->string('image')->nullable();
             $table->double('price', 8, 2)->nullable();
+            $table->double('costo', 8, 2)->nullable();
             $table->string('status')->nullable();
             $table->integer('stock')->nullable();
             $table->unsignedBigInteger('category_id')->nullable();

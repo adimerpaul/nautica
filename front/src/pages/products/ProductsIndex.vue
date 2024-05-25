@@ -22,7 +22,7 @@
               color="green"
               label="Crear Producto"
               class="text-bold"
-              to="/products/create"
+              @click="productClick()"
               no-caps
               icon="add_circle"
               rounded
@@ -48,7 +48,7 @@
                     style="height: 100px"
                   >
                     <div class="absolute-bottom text-subtitle2 text-center text-bold"
-                         style="padding: 0px; background: linear-gradient(rgba(0,0,0,0.1), rgba(0,0,0,0.7)); color: white;line-height: 1;">
+                         style="padding: 0px; background: linear-gradient(rgba(0,0,0,0.05), rgba(0,0,0,0.7)); color: white;line-height: 1;">
                       {{product.name}}
                       <div class="row items-center">
                         <div class="text-bold text-center q-pl-xs">
@@ -66,11 +66,102 @@
             </div>
           </div>
           <div class="col-12">
-<!--            <pre>{{products}}</pre>-->
+            <pre>{{products}}</pre>
           </div>
         </div>
       </q-card-section>
     </q-card>
+    <q-dialog v-model="productDialog" maximized position="right">
+      <q-card style="width: 350px; max-width: 80vw;">
+        <q-card-section class="row items-center q-pb-none">
+          <div class="text-bold text-h6">
+            {{product.id ? 'Editar' : 'Crear'}}
+            Producto
+          </div>
+          <q-space />
+          <q-btn flat icon="close" @click="productDialog = false" />
+        </q-card-section>
+        <q-card-section>
+          <q-form @submit="productSave">
+            <div class="row">
+              <div class="col-12 col-md-12 flex flex-center">
+                <q-avatar
+                  class="bg-grey-3"
+                  text-color="grey-8"
+                  size="100px">
+                  <q-img
+                    :src="`${$url}../images/${product.image}`"
+                    spinner-color="grey-8"
+                    spinner-size="40"
+                    style="height: 100px"
+                  />
+                  <q-badge
+                    color="grey-8"
+                    text-color="white"
+                    floating
+                  >
+                    <q-icon name="camera_alt" />
+                  </q-badge>
+                </q-avatar>
+              </div>
+              <div class="col-12">
+                <label class="text-caption text-bold">Nombre:</label>
+                <q-input v-model="product.name" outlined dense :rules="[val => !!val || 'Campo requerido']" />
+              </div>
+              <div class="col-12">
+                <label class="text-caption text-bold">Descripcion:</label>
+                <q-input v-model="product.description" outlined dense type="textarea" />
+              </div>
+              <div class="col-12 col-md-6">
+                <label class="text-caption text-bold">Precio:</label>
+                <q-input v-model="product.price" outlined dense type="number" step="0.01" :rules="[val => !!val || 'Campo requerido']" />
+              </div>
+              <div class="col-12 col-md-6">
+                <label class="text-caption text-bold">Costo:</label>
+                <q-input v-model="product.costo" outlined dense type="number" step="0.01" :rules="[val => !!val || 'Campo requerido']" />
+              </div>
+              <div class="col-12">
+                <label class="text-caption text-bold">Cantidad:</label>
+                <q-input v-model="product.stock" outlined dense type="number" :rules="[val => !!val || 'Campo requerido']" />
+              </div>
+              <div class="col-12">
+                <label class="text-caption text-bold">Categoria:</label>
+                <q-select
+                  v-model="category"
+                  :options="categories"
+                  outlined
+                  dense
+                  emit-value
+                  map-options
+                  option-value="id"
+                  option-label="name"
+                  :rules="[val => !!val || 'Campo requerido']"
+                />
+              </div>
+              <div class="col-12">
+                <label class="text-caption text-bold">Estado:</label>
+                <q-toggle v-model="product.status" :color="product.status ? 'green' : 'red'">
+                  <div :class="`text-${product.status ? 'green' : 'red'} text-subtitle2 text-bold`">
+                    {{product.status ? 'Activo' : 'Inactivo'}}
+                  </div>
+                </q-toggle>
+              </div>
+            </div>
+            <div>
+              <q-btn
+                color="primary"
+                label="Guardar"
+                class="text-bold full-width"
+                type="submit"
+                no-caps
+                icon="save"
+                rounded
+              ></q-btn>
+            </div>
+          </q-form>
+        </q-card-section>
+      </q-card>
+    </q-dialog>
   </q-page>
 </template>
 <script>
@@ -82,9 +173,11 @@ export default {
   data () {
     return {
       products: [],
+      product: {},
       categories: [],
       category: '',
-      search: ''
+      search: '',
+      productDialog: false,
     }
   },
   mounted() {
@@ -92,6 +185,26 @@ export default {
     this.categoriesGet()
   },
   methods: {
+    productSave(){
+      console.log(this.product)
+      // this.$axios.post('products', this.product).then(response => {
+      //   this.productsGet()
+      //   this.productDialog = false
+      // })
+    },
+    productClick () {
+      this.productDialog = true
+      this.product = {
+        id: '',
+        name: '',
+        description: '',
+        price: '',
+        stock: '',
+        image: 'images.png',
+        status: true,
+        costo: '',
+      }
+    },
     productsGet () {
       this.$axios.get('products').then(response => {
         this.products = response.data

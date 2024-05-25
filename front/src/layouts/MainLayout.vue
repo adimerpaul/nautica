@@ -66,7 +66,9 @@
             <q-item-label class="q-pa-xs">
               <q-item dense>
                 <q-item-section avatar>
-                  <q-img src="/logo.png" />
+                  <q-avatar class="bg-white" text-color="primary" size="45px">
+                    <q-img src="/logo.png" />
+                  </q-avatar>
                 </q-item-section>
                 <q-item-section>
                   <q-item-label class="text-white text-bold">
