@@ -38,6 +38,7 @@ Route::group(['middleware' => 'auth:sanctum'], function(){
     Route::delete('/clients/{id}', [\App\Http\Controllers\ClientController::class, 'destroy']);
 
     Route::get('/products', [\App\Http\Controllers\ProductController::class, 'index']);
+    Route::post('/products', [\App\Http\Controllers\ProductController::class, 'store']);
 
     Route::get('/categories', [\App\Http\Controllers\CategoryController::class, 'index']);
 });

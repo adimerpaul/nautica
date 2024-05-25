@@ -86,11 +86,12 @@
             <div class="row">
               <div class="col-12 col-md-12 flex flex-center">
                 <q-avatar
+                  @click="$refs.file.click()"
                   class="bg-grey-3"
                   text-color="grey-8"
                   size="100px">
                   <q-img
-                    :src="`${$url}../images/${product.image}`"
+                    :src="product.image.includes('http')?product.image:`${$url}../images/${product.image}`"
                     spinner-color="grey-8"
                     spinner-size="40"
                     style="height: 100px"
@@ -103,6 +104,7 @@
                     <q-icon name="camera_alt" />
                   </q-badge>
                 </q-avatar>
+                <input type="file" class="hidden" @change="handleFileChange" ref="file" accept="image/*">
               </div>
               <div class="col-12">
                 <label class="text-caption text-bold">Nombre:</label>
@@ -127,7 +129,7 @@
               <div class="col-12">
                 <label class="text-caption text-bold">Categoria:</label>
                 <q-select
-                  v-model="category"
+                  v-model="product.category_id"
                   :options="categories"
                   outlined
                   dense
@@ -157,6 +159,7 @@
                 icon="save"
                 rounded
               ></q-btn>
+              <pre>{{product}}</pre>
             </div>
           </q-form>
         </q-card-section>
@@ -185,17 +188,32 @@ export default {
     this.categoriesGet()
   },
   methods: {
+    handleFileChange () {
+      const file = event.target.files[0]
+      if (file) {
+        this.product.image = URL.createObjectURL(file)
+      }
+    },
     productSave(){
-      console.log(this.product)
-      // this.$axios.post('products', this.product).then(response => {
-      //   this.productsGet()
-      //   this.productDialog = false
-      // })
+      if(this.$refs.file.files.length === 0){
+        this.$alert.error('Debe seleccionar una imagen')
+        return false
+      }
+      const formData = new FormData()
+      formData.append('product', JSON.stringify(this.product))
+      formData.append('file', this.$refs.file.files[0])
+      this.$axios.post('products', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      }).then(response => {
+        this.productDialog = false
+        this.productsGet()
+      })
     },
     productClick () {
       this.productDialog = true
       this.product = {
-        id: '',
         name: '',
         description: '',
         price: '',
