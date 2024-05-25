@@ -33,10 +33,10 @@
             <Card2Component color="green-8" title="Productos" :subtitle="products.length + ' Unid'" :icon="'all_inbox'"/>
           </div>
           <div class="col-12 col-md-4 q-pa-xs">
-            <Card2Component color="indigo-8" title="Total Stock" :subtitle="products.length + ' $'" :icon="'shopping_cart'"/>
+            <Card2Component color="indigo-8" title="Total Stock" :subtitle="totalPrice + ' $'" :icon="'shopping_cart'"/>
           </div>
           <div class="col-12 col-md-4 q-pa-xs">
-            <Card2Component color="purple-8" title="Total Ganancias" :subtitle="products.length + ' $'" :icon="'attach_money'"/>
+            <Card2Component color="purple-8" title="Total Ganancias" :subtitle="totalCost + ' $'" :icon="'attach_money'"/>
           </div>
           <div class="col-12">
             <div class="row">
@@ -314,6 +314,22 @@ export default {
       this.$axios.get('categories').then(response => {
         this.categories = response.data
       })
+    },
+  },
+  computed: {
+    totalPrice () {
+      let total = 0
+      this.products.forEach(product => {
+        total += product.price * product.stock
+      })
+      return total.toFixed(2)
+    },
+    totalCost () {
+      let total = 0
+      this.products.forEach(product => {
+        total += product.costo * product.stock
+      })
+      return total.toFixed(2)
     },
   }
 }
