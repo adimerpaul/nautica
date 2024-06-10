@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->date('fechaInicio');
             $table->date('fechaFin');
-            $table->unsignedBigInteger('boats_id');
-            $table->foreign('boats_id')->references('id')->on('boats');
+            $table->unsignedBigInteger('boat_id');
+            $table->foreign('boat_id')->references('id')->on('boats');
             $table->timestamps();
         });
     }

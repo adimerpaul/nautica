@@ -123,7 +123,8 @@ export default {
         { title: 'Botes', icon: 'directions_boat', to: '/boats' },
         { title: 'Tripulantes', icon: 'group', to: '/crews' },
         { title: 'Clientes', icon: 'person', to: '/clients' },
-        { title: 'Productos', icon: 'shopping_cart', to: '/products' }
+        { title: 'Productos', icon: 'shopping_cart', to: '/products' },
+        { title: 'Viajes', icon: 'flight_takeoff', to: '/viajes' },
       ],
     };
   },
@@ -160,9 +161,8 @@ export default {
       else if (route === '/boats') return 'Botes'
       else if (route === '/crews') return 'Tripulantes'
       else if (route === '/products') return 'Productos'
-      else if (route === '/loans') return 'Prestamos'
-      else if (route === '/payments') return 'Pagos'
-      else if (route === '/finished-loans') return 'Prestamos Finalizados'
+      else if (route === '/viajes') return 'Viajes'
+      else
       return 'Inicio'
     },
   },

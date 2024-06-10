@@ -8,10 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Viaje extends Model
 {
     use HasFactory;
-    protected $fillable = ['fechaInicio', 'fechaFin', 'boats_id'];
+    protected $fillable = ['fechaInicio', 'fechaFin', 'boat_id'];
     protected $hidden = ['created_at', 'updated_at'];
     function boat(){
-        return $this->belongsTo(Boat::class, 'boats_id');
+        return $this->belongsTo(Boat::class, 'boat_id');
     }
     function products(){
         return $this->belongsToMany(Product::class, 'producto_viajes', 'viaje_id', 'product_id')
