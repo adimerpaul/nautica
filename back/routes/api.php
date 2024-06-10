@@ -45,6 +45,7 @@ Route::group(['middleware' => 'auth:sanctum'], function(){
     Route::get('/categories', [\App\Http\Controllers\CategoryController::class, 'index']);
 
     Route::get('/viajes', [\App\Http\Controllers\ViajeController::class, 'index']);
+    Route::get('/viajes/{id}', [\App\Http\Controllers\ViajeController::class, 'show']);
     Route::post('/viajes', [\App\Http\Controllers\ViajeController::class, 'store']);
     Route::put('/viajes/{id}', [\App\Http\Controllers\ViajeController::class, 'update']);
     Route::delete('/viajes/{id}', [\App\Http\Controllers\ViajeController::class, 'destroy']);

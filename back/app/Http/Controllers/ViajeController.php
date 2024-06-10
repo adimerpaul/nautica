@@ -16,6 +16,9 @@ class ViajeController extends Controller{
             ->get();
         return $viajes;
     }
+    public function show($id){
+        return Viaje::with('boat')->find($id);
+    }
     public function store(Request $request){
 //        protected $fillable = ['fechaInicio', 'fechaFin', 'boats_id'];
         $viaje = new Viaje();

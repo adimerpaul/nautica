@@ -26,9 +26,10 @@ export default boot(({ app, router }) => {
       return new Intl.DateTimeFormat('es-ES').format(new Date(value))
     },
     formatdMY: function (value) {
+      if (!value) return ''
       const meses = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic']
-      const date = new Date(value)
-      return `${date.getDate()} ${meses[date.getMonth()]} ${date.getFullYear()}`
+      const date = value.split('-')
+      return `${date[2]} ${meses[date[1] - 1]} ${date[0]}`
     }
   }
   const token = localStorage.getItem('tokenPrestamos')

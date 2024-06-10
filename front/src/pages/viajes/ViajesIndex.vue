@@ -2,10 +2,10 @@
   <q-page class="bg-grey-3 q-pa-xs">
     <q-card>
       <div class="row">
-        <div class="col-12 col-md-2 q-pa-xs">
+        <div class="col-6 col-md-2 q-pa-xs">
           <q-input v-model="fechaInicio" label="Fecha Inicio" type="date" outlined dense />
         </div>
-        <div class="col-12 col-md-2 q-pa-xs">
+        <div class="col-6 col-md-2 q-pa-xs">
           <q-input v-model="fechaFin" label="Fecha Fin" type="date" outlined dense />
         </div>
         <div class="col-12 col-md-3 q-pa-xs">
@@ -34,7 +34,7 @@
                 </q-item-section>
                 <q-item-section>Eliminar</q-item-section>
               </q-item>
-              <q-item clickable v-ripple @click="clientHistory(props.row)">
+              <q-item clickable v-ripple @click="addProducts(props.row)">
                 <q-item-section avatar>
                   <q-icon name="add_shopping_cart" />
                 </q-item-section>
@@ -115,8 +115,8 @@ export default {
         { name: 'id', label: 'ID', align: 'left', field: row => row.id },
         { name: 'name', label: 'Empresa', align: 'left', field: row => row?.boat?.company?.name },
         { name: 'boat', label: 'Barco', align: 'left', field: row => row?.boat?.name },
-        { name: 'fechaInicio', label: 'Fecha Inicio', align: 'left', field: row => row.fechaInicio },
-        { name: 'fechaFin', label: 'Fecha Fin', align: 'left', field: row => row.fechaFin },
+        { name: 'fechaInicio', label: 'Fecha Inicio', align: 'left', field: row => this.$filters.formatdMY(row.fechaInicio) },
+        { name: 'fechaFin', label: 'Fecha Fin', align: 'left', field: row => this.$filters.formatdMY(row.fechaFin) },
         { name: 'status', label: 'Estado', align: 'left', field: row => row.status },
       ],
       loading: false,
@@ -167,6 +167,9 @@ export default {
           this.loading = false
         })
       }
+    },
+    addProducts (viaje) {
+      this.$router.push('/viajesShow/' + viaje.id)
     },
     viajeDelete (viaje) {
       this.$alert.confirm('¿Está seguro de eliminar este viajee?').onOk(() => {
