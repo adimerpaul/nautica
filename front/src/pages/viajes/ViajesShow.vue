@@ -39,7 +39,62 @@
         </div>
         <div class="col-12">
           <label class="text-bold">Observaciones</label>
-          <q-editor v-model="viaje.observaciones" @update:model-value="debouncedUpdateObservaciones" />
+          <q-editor v-model="viaje.observaciones" @update:model-value="debouncedUpdateObservaciones" height="100px" />
+        </div>
+        <div class="col-12 text-right q-pa-xs">
+          <q-btn
+            color="green"
+            label="Agregar Producto"
+            @click="dialogAgregarProductoClick"
+            no-caps
+            size="sm"
+            class="text-bold"
+            icon="add_circle_outline"
+          />
+        </div>
+        <div class="col-12">
+          <q-markup-table dense>
+            <thead class="bg-primary text-white">
+<!--            protected $fillable = ['product_id', 'viaje_id', 'cantidad', 'fecha', 'status', 'user_id'];-->
+              <tr>
+                <th>Acciones</th>
+                <th>Fecha</th>
+                <th>Estado</th>
+                <th>Producto</th>
+                <th>Cantidad</th>
+                <th>Usuario</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="item in viaje.products" :key="item.id">
+                <td>
+                  <q-btn
+                    color="primary"
+                    label="Editar"
+                    no-caps
+                    size="sm"
+                    icon="edit"
+                  />
+                  <q-btn
+                    color="negative"
+                    label="Eliminar"
+                    no-caps
+                    size="sm"
+                    icon="delete"
+                  />
+                </td>
+                <td>{{$filters.formatdMY(item.fecha)}}</td>
+                <td>
+                  <q-chip :label="item.status" text-color="white"  dense v-if="item.status === 'Finalizado'" color="green" />
+                  <q-chip :label="item.status" text-color="white"  dense v-if="item.status === 'Pendiente'" color="orange" />
+                  <q-chip :label="item.status" text-color="white"  dense v-if="item.status === 'En curso'" color="blue" />
+                </td>
+                <td>{{item.product.name}}</td>
+                <td>{{item.cantidad}}</td>
+                <td>{{item.user.name}}</td>
+              </tr>
+            </tbody>
+          </q-markup-table>
         </div>
       </div>
     </q-card>
@@ -59,15 +114,30 @@ export default {
       viaje: {
         observaciones: ''
       },
-      debouncedUpdateObservaciones: null
+      debouncedUpdateObservaciones: null,
+      dialogAgregarProducto: false,
+      products: []
     }
   },
   mounted() {
     this.id = this.$route.params.id
     this.getViaje()
     this.debouncedUpdateObservaciones = debounce(this.updateObservaciones, 2000);
+    this.productsGet()
   },
   methods: {
+    productsGet() {
+      this.$axios.get('products')
+        .then(response => {
+          this.products = response.data
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    },
+    dialogAgregarProductoClick() {
+      this.dialogAgregarProducto = true
+    },
     updateObservaciones(value) {
       this.$axios.put(`updateObservaciones/${this.id}`, { observaciones: value })
         .then(response => {
