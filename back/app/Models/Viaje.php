@@ -11,7 +11,7 @@ class Viaje extends Model
     protected $fillable = ['fechaInicio', 'fechaFin', 'boat_id'];
     protected $hidden = ['created_at', 'updated_at'];
     function boat(){
-        return $this->belongsTo(Boat::class, 'boat_id');
+        return $this->belongsTo(Boat::class, 'boat_id')->with('company');
     }
     function products(){
         return $this->belongsToMany(Product::class, 'producto_viajes', 'viaje_id', 'product_id')

@@ -20,21 +20,50 @@
     <q-table :rows="viajes" :columns="columns" :rows-per-page-options="[0]" row-key="id" dense :filter="filter" :loading="loading">
       <template v-slot:body-cell-option="props">
         <q-td auto-width>
-          <q-btn flat dense icon="edit" @click="viajeEdit(props.row)" >
-            <q-tooltip>Editar</q-tooltip>
-          </q-btn>
-          <q-btn flat dense icon="delete" @click="viajeDelete(props.row)" >
-            <q-tooltip>Eliminar</q-tooltip>
-          </q-btn>
+          <q-btn-dropdown label="Opciones" color="primary" auto-close no-caps size="10px">
+            <q-list>
+              <q-item clickable v-ripple @click="viajeEdit(props.row)">
+                <q-item-section avatar>
+                  <q-icon name="edit" />
+                </q-item-section>
+                <q-item-section>Editar</q-item-section>
+              </q-item>
+              <q-item clickable v-ripple @click="viajeDelete(props.row)">
+                <q-item-section avatar>
+                  <q-icon name="delete" />
+                </q-item-section>
+                <q-item-section>Eliminar</q-item-section>
+              </q-item>
+              <q-item clickable v-ripple @click="clientHistory(props.row)">
+                <q-item-section avatar>
+                  <q-icon name="add_shopping_cart" />
+                </q-item-section>
+                <q-item-section>Agregar productos</q-item-section>
+              </q-item>
+            </q-list>
+          </q-btn-dropdown>
+<!--          <q-btn flat dense icon="edit" @click="viajeEdit(props.row)" >-->
+<!--            <q-tooltip>Editar</q-tooltip>-->
+<!--          </q-btn>-->
+<!--          <q-btn flat dense icon="delete" @click="viajeDelete(props.row)" >-->
+<!--            <q-tooltip>Eliminar</q-tooltip>-->
+<!--          </q-btn>-->
         </q-td>
       </template>
       <template v-slot:body-cell-name="props">
         <q-td :props="props">
-          <q-chip :label="props.row.name" text-color="white" :style="{backgroundColor: props.row.color}" icon="business" />
+          <q-chip :label="props.row?.boat?.company?.name" text-color="white" :style="{backgroundColor: props.row?.boat?.company?.color}" icon="business" />
+        </q-td>
+      </template>
+      <template v-slot:body-cell-status="props">
+        <q-td :props="props">
+          <q-chip :label="props.row?.status" text-color="white"  dense v-if="props.row?.status === 'Finalizado'" color="green" />
+          <q-chip :label="props.row?.status" text-color="white"  dense v-if="props.row?.status === 'Pendiente'" color="orange" />
+          <q-chip :label="props.row?.status" text-color="white"  dense v-if="props.row?.status === 'En curso'" color="blue" />
         </q-td>
       </template>
     </q-table>
-    <!--    <pre>{{viajes}}</pre>-->
+<!--    <pre>{{viajes}}</pre>-->
     <q-dialog v-model="viajeDialog" persistent>
       <q-card style="width: 250px;max-width: 90vw;">
         <q-card-section class="row items-center q-pb-none">
@@ -46,10 +75,12 @@
           <q-card-section>
             <div class="row">
               <div class="col-12">
-                <q-input v-model="viaje.fechaInicio" label="Fecha Inicio" type="date" outlined dense :rules="[val => !!val || 'Campo requerido']" />
+                <q-input v-model="viaje.fechaInicio" label="Fecha Inicio" type="date" outlined dense
+                         :rules="[val => !!val || 'Campo requerido']" />
               </div>
               <div class="col-12">
-                <q-input v-model="viaje.fechaFin" label="Fecha Fin" type="date" outlined dense :rules="[val => !!val || 'Campo requerido']" />
+                <q-input v-model="viaje.fechaFin" label="Fecha Fin" type="date" outlined dense
+                         :rules="[val => !!val || 'Campo requerido', val => moment(val).isSameOrAfter(viaje.fechaInicio) || 'La fecha debe ser mayor o igual a la fecha de inicio']" />
               </div>
               <div class="col-12">
                 <q-select v-model="viaje.boat_id" :options="boats" label="Barco" outlined dense
@@ -77,16 +108,19 @@ export default {
   name: 'CompaniesIndex',
   data () {
     return {
-      fechaInicio: moment().format('YYYY-MM-DD'),
-      fechaFin: moment().format('YYYY-MM-DD'),
+      fechaInicio: moment().startOf('month').format('YYYY-MM-DD'),
+      fechaFin: moment().endOf('month').format('YYYY-MM-DD'),
       columns: [
         { name: 'option', label: 'Opciones', align: 'left', field: row => row.option },
         { name: 'id', label: 'ID', align: 'left', field: row => row.id },
-        { name: 'name', label: 'Nombre', align: 'left', field: row => row.name },
-        { name: 'address', label: 'Dirección', align: 'left', field: row => row.address },
-        { name: 'phone', label: 'Teléfono', align: 'left', field: row => row.phone }
+        { name: 'name', label: 'Empresa', align: 'left', field: row => row?.boat?.company?.name },
+        { name: 'boat', label: 'Barco', align: 'left', field: row => row?.boat?.name },
+        { name: 'fechaInicio', label: 'Fecha Inicio', align: 'left', field: row => row.fechaInicio },
+        { name: 'fechaFin', label: 'Fecha Fin', align: 'left', field: row => row.fechaFin },
+        { name: 'status', label: 'Estado', align: 'left', field: row => row.status },
       ],
       loading: false,
+      moment: moment,
       viajes: [],
       viaje: {},
       viajeDialog: false,
