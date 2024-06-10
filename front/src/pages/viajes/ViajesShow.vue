@@ -37,17 +37,18 @@
           <q-chip size="12px" :label="viaje?.boat?.company?.name" text-color="white" :style="{backgroundColor: viaje?.boat?.company?.color}" icon="business" />
 
         </div>
-      </div>
-      <div class="row">
-        <div class="col-6 col-md-2 q-pa-xs">
-          <pre>{{id}}</pre>
-          <pre>{{viaje}}</pre>
+        <div class="col-12">
+          <label class="text-bold">Observaciones</label>
+          <q-editor v-model="viaje.observaciones" @update:model-value="debouncedUpdateObservaciones" />
         </div>
       </div>
     </q-card>
+    <pre>{{viaje}}</pre>
   </q-page>
 </template>
+
 <script>
+import { debounce } from 'lodash';
 import moment from "moment";
 
 export default {
@@ -55,14 +56,27 @@ export default {
   data () {
     return {
       id: '',
-      viaje: {}
+      viaje: {
+        observaciones: ''
+      },
+      debouncedUpdateObservaciones: null
     }
   },
   mounted() {
     this.id = this.$route.params.id
     this.getViaje()
+    this.debouncedUpdateObservaciones = debounce(this.updateObservaciones, 2000);
   },
   methods: {
+    updateObservaciones(value) {
+      this.$axios.put(`updateObservaciones/${this.id}`, { observaciones: value })
+        .then(response => {
+          this.viaje = response.data
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    },
     getViaje() {
       this.$axios.get(`viajes/${this.id}`)
         .then(response => {

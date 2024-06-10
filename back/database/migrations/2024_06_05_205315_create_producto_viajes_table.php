@@ -17,11 +17,11 @@ return new class extends Migration
             $table->foreign('product_id')->references('id')->on('products');
             $table->unsignedBigInteger('viaje_id');
             $table->foreign('viaje_id')->references('id')->on('viajes');
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users');
             $table->integer('cantidad');
             $table->dateTime('fecha');
-//            $table->integer('precio');
-//            $table->integer('total');
-            $table->string('status');
+            $table->string('status')->default('ACTIVO');
             $table->timestamps();
         });
     }

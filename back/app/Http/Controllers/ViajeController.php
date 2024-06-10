@@ -25,6 +25,7 @@ class ViajeController extends Controller{
         $viaje->fechaInicio = $request->input('fechaInicio');
         $viaje->fechaFin = $request->input('fechaFin');
         $viaje->boat_id = $request->input('boat_id');
+//        $viaje->observaciones = $request->input('observaciones');
         $viaje->save();
         return Viaje::with('boat')->find($viaje->id);
     }
@@ -33,6 +34,13 @@ class ViajeController extends Controller{
         $viaje->fechaInicio = $request->input('fechaInicio');
         $viaje->fechaFin = $request->input('fechaFin');
         $viaje->boat_id = $request->input('boat_id');
+//        $viaje->observaciones = $request->input('observaciones');
+        $viaje->save();
+        return Viaje::with('boat')->find($viaje->id);
+    }
+    public function updateObservaciones(Request $request, $id){
+        $viaje = Viaje::find($id);
+        $viaje->observaciones = $request->input('observaciones');
         $viaje->save();
         return Viaje::with('boat')->find($viaje->id);
     }
