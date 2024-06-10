@@ -98,6 +98,54 @@
         </div>
       </div>
     </q-card>
+    <q-dialog v-model="dialogAgregarProducto">
+      <q-card style="witdh: 300px;max-width: 300px;">
+        <q-card-section class="row items-center q-pb-none">
+          <div class="text-h6">Agregar Producto</div>
+          <q-space/>
+          <q-btn
+            flat
+            round
+            dense
+            icon="close"
+            @click="() => { dialogAgregarProducto = false }"
+          />
+        </q-card-section>
+        <q-card-section>
+          <q-select
+            v-model="product_id"
+            :options="products"
+            label="Producto"
+            emit-value
+            map-options
+            use-input
+            fill-input
+            clearable
+            outlined
+            option-value="id"
+            option-label="name"
+            @filter="filterFn"
+            :rules="[val => !!val || 'Seleccione un producto']"
+          />
+          <q-input
+            v-model="cantidad"
+            label="Cantidad"
+            type="number"
+            clearable
+            outlined
+            :rules="[val => !!val || 'Ingrese una cantidad']"
+          />
+          <q-btn
+            color="green"
+            label="Agregar"
+            @click="() => { console.log('Agregar') }"
+            no-caps
+            class="text-bold full-width"
+            icon="add_circle_outline"
+          />
+        </q-card-section>
+      </q-card>
+    </q-dialog>
     <pre>{{viaje}}</pre>
   </q-page>
 </template>
@@ -116,7 +164,10 @@ export default {
       },
       debouncedUpdateObservaciones: null,
       dialogAgregarProducto: false,
-      products: []
+      products: [],
+      productsAll: [],
+      product_id: '',
+      cantidad: ''
     }
   },
   mounted() {
@@ -126,10 +177,23 @@ export default {
     this.productsGet()
   },
   methods: {
+    filterFn(val, update, abort) {
+      if (val === '') {
+        update(() => {
+          this.products = this.productsAll
+        })
+        return
+      }
+      const needle = val.toLowerCase()
+      update(() => {
+        this.products = this.productsAll.filter(v => v.name.toLowerCase().indexOf(needle) > -1)
+      })
+    },
     productsGet() {
       this.$axios.get('products')
         .then(response => {
           this.products = response.data
+          this.productsAll = response.data
         })
         .catch(error => {
           console.log(error)
