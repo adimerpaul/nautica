@@ -24,7 +24,7 @@
     </q-table>
     <q-dialog v-model="clientDialog" persistent>
       <q-card style="width: 250px;max-width: 90vw;">
-        <q-card-section class="row items-center">
+        <q-card-section class="row items-center q-pb-none">
           <div class="text-h6">{{ client.id ? 'Editar' : 'Agregar' }} Cliente</div>
           <q-space />
           <q-btn flat dense icon="close" @click="clientDialog = false" />

@@ -66,7 +66,7 @@
                       <th>Producto</th>
                       <th class="text-right">Precio</th>
                       <th class="text-right">Cantidad</th>
-                      <th class="text-right">Total</th>
+                      <th class="text-right" width="80px">Total</th>
                     </tr>
                   </thead>
                   <tbody v-if="$store.orders.length > 0">
@@ -100,32 +100,17 @@
                       <td colspan="3" class="text-right text-bold">
                         Total
                       </td>
-                      <td class="text-right">
+                      <td class="text-right text-subtitle2 text-red text-bold">
                         {{ $store.orders.reduce((acc, item) => acc + parseFloat(item.price) * parseInt(item.quantity), 0).toFixed(2) }} $
+                      </td>
+                    </tr>
+                    <tr>
+                      <td colspan="4">
+                        <q-btn dense color="primary" label="Pagar" no-caps icon="o_payment" class="full-width text-bold" @click="pay" />
                       </td>
                     </tr>
                   </tfoot>
                 </q-markup-table>
-<!--                <div class="row">-->
-<!--                  <div class="col-12" v-for="product in $store.order" :key="product.id">-->
-<!--                    <div class="row items-center">-->
-<!--                      <div class="col-6 text-caption" style="line-height: 1;">-->
-<!--                        {{product.name}}-->
-<!--                      </div>-->
-<!--                      <div class="col-2 text-right row">-->
-<!--&lt;!&ndash;                        {{product.price}} $&ndash;&gt;-->
-<!--                        <input v-model="product.price" type="number" min="1"  style="width: 50px;">-->
-<!--                      </div>-->
-<!--                      <div class="col-2 text-right">-->
-<!--&lt;!&ndash;                        {{product.quantity}}&ndash;&gt;-->
-<!--                        <input v-model="product.quantity" type="number" min="1" style="width: 50px;">-->
-<!--                      </div>-->
-<!--                      <div class="col-2 text-right text-bold">-->
-<!--                        {{sumNum(product.price,product.quantity)}} $-->
-<!--                      </div>-->
-<!--                    </div>-->
-<!--                  </div>-->
-<!--                </div>-->
               </q-card-section>
             </q-card>
           </div>
@@ -146,7 +131,7 @@ export default {
       categories: [],
       category: '',
       search: '',
-      productDialog: false,
+      saleDialog: false,
       loading: false,
     }
   },
@@ -155,6 +140,12 @@ export default {
     this.categoriesGet()
   },
   methods: {
+    pay () {
+      if (this.$store.orders.length === 0) {
+        this.$alert.error('No hay productos en el carrito')
+      }
+      this.saleDialog = true
+    },
     deleteProduct (product) {
       const index = this.$store.orders.findIndex(item => item.id === product.id)
       this.$store.orders.splice(index, 1)
