@@ -60,7 +60,7 @@
               </q-card-section>
               <q-separator />
               <q-card-section class="q-pa-none">
-                <q-markup-table dense>
+                <q-markup-table dense wrap-cells>
                   <thead class="bg-primary text-white">
                     <tr>
                       <th>Producto</th>
@@ -101,12 +101,12 @@
                         Total
                       </td>
                       <td class="text-right text-subtitle2 text-red text-bold">
-                        {{ $store.orders.reduce((acc, item) => acc + parseFloat(item.price) * parseInt(item.quantity), 0).toFixed(2) }} $
+                        {{ total }} $
                       </td>
                     </tr>
                     <tr>
                       <td colspan="4">
-                        <q-btn dense color="primary" label="Pagar" no-caps icon="o_payment" class="full-width text-bold" @click="pay" />
+                        <q-btn dense color="primary" label="Pagar" no-caps icon="o_payment" push class="full-width text-bold" @click="pay" />
                       </td>
                     </tr>
                   </tfoot>
@@ -117,6 +117,54 @@
         </div>
       </q-card-section>
     </q-card>
+    <q-dialog v-model="saleDialog" persistent>
+      <q-card style="width: 700px;max-width: 90vw;">
+        <q-card-section class="q-pb-none">
+          <div class="text-h6 text-primary text-center">
+            Pago
+          </div>
+        </q-card-section>
+        <q-card-section>
+          <q-form @submit="saleInsert">
+            <div class="row">
+              <div class="col-12 col-md-4">
+                <q-select v-model="client" :options="clients" label="Cliente" outlined dense
+                          option-value="id" option-label="name" :rules="[val => !!val || 'Seleccione un cliente']" />
+              </div>
+              <div class="col-6 col-md-2 text-bold text-red text-h6 text-center">
+                {{total}}$
+              </div>
+              <div class="col-6 col-md-4">
+                <q-select v-model="tipo" :options="tipos" label="Tipo" outlined dense :rules="[val => !!val || 'Seleccione un tipo']" />
+              </div>
+              <div class="col-12 col-md-2">
+                <q-input v-model="monto" label="Adelanto" outlined dense type="number"
+                         :rules="[
+                           val => !!val || 'Ingrese un monto',
+                           val => val >= 0 || 'Ingrese un monto válido',
+                           val => val <= total || 'El monto no puede ser mayor al total']"
+                         v-if="tipo === 'CREDITO'" />
+              </div>
+<!--              <div class="col-12 text-right" v-if="tipo === 'CREDITO'">-->
+<!--&lt;!&ndash;                <q-btn label="Agregar" color="green" no-caps class="text-bold" icon="add_circle_outline" dense size="10px" />&ndash;&gt;-->
+<!--                <q-markup-table dense wrap-cells>-->
+<!--                  <thead class="bg-primary text-white">-->
+<!--                  <tr>-->
+<!--                    <th>Opción</th>-->
+<!--                    <th class="text-right">Monto</th>-->
+<!--                  </tr>-->
+<!--                  </thead>-->
+<!--                </q-markup-table>-->
+<!--              </div>-->
+            </div>
+            <q-card-actions align="right">
+              <q-btn label="Cancelar" color="red" no-caps class="text-bold" push icon="cancel" @click="saleDialog = false" />
+              <q-btn label="Pagar" color="primary" no-caps class="text-bold" push icon="o_payment" type="submit" />
+            </q-card-actions>
+          </q-form>
+        </q-card-section>
+      </q-card>
+    </q-dialog>
   </q-page>
 </template>
 <script>
@@ -127,24 +175,55 @@ export default {
     return {
       products: [],
       productsAll: [],
+      clients: [],
+      clientsAll: [],
+      client: '',
       product: {},
       categories: [],
       category: '',
       search: '',
       saleDialog: false,
       loading: false,
+      tipo: '',
+      tipos:['CREDITO','EFECTIVO'],
+      monto: ''
     }
   },
   mounted() {
     this.productsGet()
+    this.clientGet()
     this.categoriesGet()
   },
   methods: {
+    saleInsert () {
+      this.$axios.post('sales', {
+        client_id: this.client.id,
+        tipo: this.tipo,
+        monto: this.monto,
+        products: this.$store.orders
+      }).then(response => {
+        this.$alert.success('Venta realizada con éxito')
+        this.saleDialog = false
+        this.cartClear()
+      }).catch(error => {
+        this.$alert.error('Error al realizar la venta')
+      })
+    },
+    clientGet () {
+      this.$axios.get('clients').then(response => {
+        this.clients = response.data
+        this.clientsAll = response.data
+      })
+    },
     pay () {
       if (this.$store.orders.length === 0) {
         this.$alert.error('No hay productos en el carrito')
+        return false
       }
       this.saleDialog = true
+      this.client = ''
+      this.tipo = ''
+      this.monto = ''
     },
     deleteProduct (product) {
       const index = this.$store.orders.findIndex(item => item.id === product.id)
@@ -193,6 +272,11 @@ export default {
         this.products = this.productsAll.filter(product => product.category_id === this.category.id)
       }
     },
+  },
+  computed: {
+    total () {
+      return this.$store.orders.reduce((acc, item) => acc + parseFloat(item.price) * parseInt(item.quantity), 0).toFixed(2)
+    }
   }
 }
 </script>

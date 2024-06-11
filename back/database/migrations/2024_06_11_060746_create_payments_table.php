@@ -19,6 +19,7 @@ return new class extends Migration
             $table->foreign('user_id')->references('id')->on('users');
             $table->double('amount', 8, 2);
             $table->dateTime('date');
+            $table->string('status')->default('PAGADO');
             $table->timestamps();
         });
     }

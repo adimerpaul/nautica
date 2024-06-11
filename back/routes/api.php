@@ -52,6 +52,8 @@ Route::group(['middleware' => 'auth:sanctum'], function(){
     Route::put('/updateObservaciones/{id}', [\App\Http\Controllers\ViajeController::class, 'updateObservaciones']);
     Route::post('/productAdd', [\App\Http\Controllers\ViajeController::class, 'productAdd']);
     Route::put('/productAnular/{id}', [\App\Http\Controllers\ViajeController::class, 'productAnular']);
+
+    Route::post('/sales', [\App\Http\Controllers\SaleController::class, 'store']);
 });
 
 Route::get('/compromiso/{loan_id}', [\App\Http\Controllers\ReportController::class, 'compromiso']);
