@@ -18,6 +18,7 @@ return new class extends Migration
             $table->foreign('client_id')->references('id')->on('clients');
             $table->double('total', 8, 2);
             $table->string('tipo');
+            $table->string('status')->default('ACTIVO');
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();

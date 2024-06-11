@@ -158,8 +158,8 @@
 <!--              </div>-->
             </div>
             <q-card-actions align="right">
-              <q-btn label="Cancelar" color="red" no-caps class="text-bold" push icon="cancel" @click="saleDialog = false" />
-              <q-btn label="Pagar" color="primary" no-caps class="text-bold" push icon="o_payment" type="submit" />
+              <q-btn label="Cancelar" color="red" no-caps class="text-bold" push icon="cancel" @click="saleDialog = false" :loading="loading" />
+              <q-btn label="Pagar" color="primary" no-caps class="text-bold" push icon="o_payment" type="submit" :loading="loading" />
             </q-card-actions>
           </q-form>
         </q-card-section>
@@ -196,6 +196,7 @@ export default {
   },
   methods: {
     saleInsert () {
+      this.loading = true
       this.$axios.post('sales', {
         client_id: this.client.id,
         tipo: this.tipo,
@@ -205,8 +206,11 @@ export default {
         this.$alert.success('Venta realizada con éxito')
         this.saleDialog = false
         this.cartClear()
+        this.productsGet()
       }).catch(error => {
         this.$alert.error('Error al realizar la venta')
+      }).finally(() => {
+        this.loading = false
       })
     },
     clientGet () {
