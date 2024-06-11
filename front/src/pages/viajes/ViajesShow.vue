@@ -10,6 +10,7 @@
             no-caps
             icon="arrow_back"
             size="sm"
+            :loading="loading"
           />
         </div>
         <div class="col-6 col-md-2 q-pa-xs">
@@ -66,32 +67,27 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="item in viaje.products" :key="item.id">
+              <tr v-for="item in productViaje" :key="item.id">
                 <td>
-                  <q-btn
-                    color="primary"
-                    label="Editar"
-                    no-caps
-                    size="sm"
-                    icon="edit"
-                  />
                   <q-btn
                     color="negative"
-                    label="Eliminar"
+                    label="Anular"
                     no-caps
-                    size="sm"
+                    dense
+                    size="10px"
                     icon="delete"
+                    v-if="item.status === 'ACTIVO'"
                   />
                 </td>
-                <td>{{$filters.formatdMY(item.fecha)}}</td>
+                <td>{{$filters.formatdMYHID(item.fecha)}}</td>
                 <td>
-                  <q-chip :label="item.status" text-color="white"  dense v-if="item.status === 'Finalizado'" color="green" />
-                  <q-chip :label="item.status" text-color="white"  dense v-if="item.status === 'Pendiente'" color="orange" />
-                  <q-chip :label="item.status" text-color="white"  dense v-if="item.status === 'En curso'" color="blue" />
+                  <q-chip label="Activo" text-color="white" dense v-if="item.status === 'ACTIVO'" color="green" />
+                  <q-chip label="Inactivo" text-color="white" dense v-if="item.status === 'INACTIVO'" color="red" />
+<!--                  <q-chip :label="item.status" text-color="white"  dense v-if="item.status === 'En curso'" color="blue" />-->
                 </td>
-                <td>{{item.product.name}}</td>
-                <td>{{item.cantidad}}</td>
-                <td>{{item.user.name}}</td>
+                <td class="text-bold">{{item.product?.name}}</td>
+                <td class="text-right">{{item.cantidad}}</td>
+                <td class="text-right">{{item.user?.name}}</td>
               </tr>
             </tbody>
           </q-markup-table>
@@ -111,48 +107,51 @@
             @click="() => { dialogAgregarProducto = false }"
           />
         </q-card-section>
-        <q-card-section>
-          <q-select
-            v-model="product_id"
-            :options="products"
-            label="Producto"
-            emit-value
-            map-options
-            use-input
-            fill-input
-            clearable
-            outlined
-            option-value="id"
-            option-label="name"
-            @filter="filterFn"
-            :rules="[val => !!val || 'Seleccione un producto']"
-          />
-          <q-input
-            v-model="cantidad"
-            label="Cantidad"
-            type="number"
-            clearable
-            outlined
-            :rules="[val => !!val || 'Ingrese una cantidad']"
-          />
-          <q-btn
-            color="green"
-            label="Agregar"
-            @click="() => { console.log('Agregar') }"
-            no-caps
-            class="text-bold full-width"
-            icon="add_circle_outline"
-          />
-        </q-card-section>
+        <q-form @submit="productAdd">
+          <q-card-section>
+            <q-select
+              v-model="product_id"
+              :options="products"
+              label="Producto"
+              emit-value
+              map-options
+              use-input
+              fill-input
+              clearable
+              outlined
+              option-value="id"
+              option-label="name"
+              @filter="filterFn"
+              :rules="[val => !!val || 'Seleccione un producto']"
+            />
+            <q-input
+              v-model="cantidad"
+              label="Cantidad"
+              type="number"
+              clearable
+              outlined
+              step="0.01"
+              :rules="[val => !!val || 'Ingrese una cantidad']"
+            />
+            <q-btn
+              color="green"
+              label="Agregar"
+              type="submit"
+              no-caps
+              class="text-bold full-width"
+              icon="add_circle_outline"
+              :loading="loading"
+            />
+          </q-card-section>
+        </q-form>
       </q-card>
     </q-dialog>
-    <pre>{{viaje}}</pre>
+<!--    <pre>{{productViaje}}</pre>-->
   </q-page>
 </template>
 
 <script>
 import { debounce } from 'lodash';
-import moment from "moment";
 
 export default {
   name: 'ViajesShow',
@@ -167,7 +166,9 @@ export default {
       products: [],
       productsAll: [],
       product_id: '',
-      cantidad: ''
+      cantidad: '',
+      loading: false,
+      productViaje: []
     }
   },
   mounted() {
@@ -177,6 +178,23 @@ export default {
     this.productsGet()
   },
   methods: {
+    productAdd() {
+      this.loading = true
+      this.$axios.post('productAdd', {
+        product_id: this.product_id,
+        cantidad: this.cantidad,
+        viaje_id: this.id
+      })
+        .then(response => {
+          this.productViaje.unshift(response.data)
+          this.dialogAgregarProducto = false
+        })
+        .catch(error => {
+          console.log(error)
+        }).finally(() => {
+          this.loading = false
+        })
+    },
     filterFn(val, update, abort) {
       if (val === '') {
         update(() => {
@@ -201,6 +219,8 @@ export default {
     },
     dialogAgregarProductoClick() {
       this.dialogAgregarProducto = true
+      this.product_id = ''
+      this.cantidad = ''
     },
     updateObservaciones(value) {
       this.$axios.put(`updateObservaciones/${this.id}`, { observaciones: value })
@@ -214,7 +234,8 @@ export default {
     getViaje() {
       this.$axios.get(`viajes/${this.id}`)
         .then(response => {
-          this.viaje = response.data
+          this.viaje = response.data.viaje
+          this.productViaje = response.data.productoViaje
         })
         .catch(error => {
           console.log(error)

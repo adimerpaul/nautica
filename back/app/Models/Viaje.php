@@ -15,7 +15,7 @@ class Viaje extends Model
     }
     function products(){
         return $this->belongsToMany(Product::class, 'producto_viajes', 'viaje_id', 'product_id')
-            ->withPivot('cantidad', 'fecha', 'status');
+            ->withPivot('cantidad', 'fecha', 'status','user_id');
     }
     protected $appends = ['status'];
     function getStatusAttribute(){

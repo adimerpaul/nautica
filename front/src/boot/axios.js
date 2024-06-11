@@ -30,6 +30,13 @@ export default boot(({ app, router }) => {
       const meses = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic']
       const date = value.split('-')
       return `${date[2]} ${meses[date[1] - 1]} ${date[0]}`
+    },
+    formatdMYHID: function (value) {
+      if (!value) return ''
+      const meses = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic']
+      const date = value.substring(0, 10).split('-')
+      const time = value.substring(11, 16)
+      return `${date[2]} ${meses[date[1] - 1]} ${date[0]} ${time}`
     }
   }
   const token = localStorage.getItem('tokenPrestamos')

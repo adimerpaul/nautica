@@ -48,8 +48,10 @@ Route::group(['middleware' => 'auth:sanctum'], function(){
     Route::get('/viajes/{id}', [\App\Http\Controllers\ViajeController::class, 'show']);
     Route::post('/viajes', [\App\Http\Controllers\ViajeController::class, 'store']);
     Route::put('/viajes/{id}', [\App\Http\Controllers\ViajeController::class, 'update']);
-    Route::put('/updateObservaciones/{id}', [\App\Http\Controllers\ViajeController::class, 'updateObservaciones']);
     Route::delete('/viajes/{id}', [\App\Http\Controllers\ViajeController::class, 'destroy']);
+    Route::put('/updateObservaciones/{id}', [\App\Http\Controllers\ViajeController::class, 'updateObservaciones']);
+//    productAdd
+    Route::post('/productAdd', [\App\Http\Controllers\ViajeController::class, 'productAdd']);
 });
 
 Route::get('/compromiso/{loan_id}', [\App\Http\Controllers\ReportController::class, 'compromiso']);
