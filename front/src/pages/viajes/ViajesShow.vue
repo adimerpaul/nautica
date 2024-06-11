@@ -51,6 +51,7 @@
             size="sm"
             class="text-bold"
             icon="add_circle_outline"
+            :loading="loading"
           />
         </div>
         <div class="col-12">
@@ -76,13 +77,14 @@
                     dense
                     size="10px"
                     icon="delete"
+                    @click="anular(item)"
                     v-if="item.status === 'ACTIVO'"
                   />
                 </td>
                 <td>{{$filters.formatdMYHID(item.fecha)}}</td>
                 <td>
                   <q-chip label="Activo" text-color="white" dense v-if="item.status === 'ACTIVO'" color="green" />
-                  <q-chip label="Inactivo" text-color="white" dense v-if="item.status === 'INACTIVO'" color="red" />
+                  <q-chip label="Anulado" text-color="white" dense v-if="item.status === 'INACTIVO'" color="red" />
 <!--                  <q-chip :label="item.status" text-color="white"  dense v-if="item.status === 'En curso'" color="blue" />-->
                 </td>
                 <td class="text-bold">{{item.product?.name}}</td>
@@ -178,6 +180,25 @@ export default {
     this.productsGet()
   },
   methods: {
+    anular(item) {
+      this.$alert.confirm('¿Está seguro de anular este producto?').onOk(() => {
+        this.loading = true
+        this.$axios.put(`productAnular/${item.id}`)
+          .then(response => {
+            this.productViaje = this.productViaje.map(v => {
+              if (v.id === item.id) {
+                v.status = 'INACTIVO'
+              }
+              return v
+            })
+          })
+          .catch(error => {
+            console.log(error)
+          }).finally(() => {
+            this.loading = false
+          })
+      })
+    },
     productAdd() {
       this.loading = true
       this.$axios.post('productAdd', {
@@ -232,6 +253,7 @@ export default {
         })
     },
     getViaje() {
+      this.loading = true
       this.$axios.get(`viajes/${this.id}`)
         .then(response => {
           this.viaje = response.data.viaje
@@ -239,6 +261,8 @@ export default {
         })
         .catch(error => {
           console.log(error)
+        }).finally(() => {
+          this.loading = false
         })
     }
   }

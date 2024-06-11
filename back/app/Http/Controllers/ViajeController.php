@@ -2,11 +2,22 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
 use App\Models\ProductoViaje;
 use App\Models\Viaje;
 use Illuminate\Http\Request;
 
 class ViajeController extends Controller{
+    public function productAnular(Request $request, $id){
+        $productoViaje = ProductoViaje::find($id);
+        $productoViaje->status = 'INACTIVO';
+        $productoViaje->save();
+        //disminuir en producto la cantidad
+        $producto = Product::find($productoViaje->product_id);
+        $producto->stock = $producto->stock - $productoViaje->cantidad;
+        $producto->save();
+        return $productoViaje;
+    }
     public function productAdd(Request $request){
         $viaje_id = $request->viaje_id;
         $product_id = $request->product_id;
@@ -25,8 +36,8 @@ class ViajeController extends Controller{
         $productoViaje->fecha = now();
         $productoViaje->save();
         //aumtar en producto la cantidad
-        $producto = $productoViaje->product;
-        $producto->cantidad = $producto->cantidad + $cantidad;
+        $producto = Product::find($product_id);
+        $producto->stock = $producto->stock + $cantidad;
         $producto->save();
         return ProductoViaje::with(['product', 'user'])->where('id', $productoViaje->id)->first();
     }
@@ -36,13 +47,19 @@ class ViajeController extends Controller{
         $viajes = Viaje::where('fechaInicio', '>=', $fechaInicio)
             ->where('fechaInicio', '<=', $fechaFin)
             ->with('boat')
-            ->orderBy('fechaInicio', 'desc')
+            ->orderBy('id', 'desc')
             ->get();
         return $viajes;
     }
     public function show($id){
         $viaje= Viaje::with(['boat'])->find($id);
         $productoViaje = ProductoViaje::where('viaje_id', $id)->with(['product', 'user'])->orderBy('id', 'desc')->get();
+        if (!$viaje) {
+            return response()->json(['error' => 'Viaje no encontrado'], 404);
+        }
+        if (!$viaje->observaciones) {
+            $viaje->observaciones = '';
+        }
         return ['viaje' => $viaje, 'productoViaje' => $productoViaje];
     }
     public function store(Request $request){

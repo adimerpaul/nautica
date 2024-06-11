@@ -20,7 +20,7 @@
     <q-table :rows="viajes" :columns="columns" :rows-per-page-options="[0]" row-key="id" dense :filter="filter" :loading="loading">
       <template v-slot:body-cell-option="props">
         <q-td auto-width>
-          <q-btn-dropdown label="Opciones" color="primary" auto-close no-caps size="10px">
+          <q-btn-dropdown label="Opciones" color="primary" auto-close no-caps size="10px" v-if="props.row.status !== 'Finalizado'">
             <q-list>
               <q-item clickable v-ripple @click="viajeEdit(props.row)">
                 <q-item-section avatar>
@@ -172,7 +172,7 @@ export default {
       this.$router.push('/viajesShow/' + viaje.id)
     },
     viajeDelete (viaje) {
-      this.$alert.confirm('¿Está seguro de eliminar este viajee?').onOk(() => {
+      this.$alert.confirm('¿Está seguro de eliminar este viaje?').onOk(() => {
         this.loading = true
         this.$axios.delete(`viajes/${viaje.id}`).then(res => {
           const index = this.viajes.findIndex(viaje => viaje.id === res.data.id)
