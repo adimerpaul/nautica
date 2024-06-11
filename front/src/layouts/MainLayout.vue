@@ -125,6 +125,7 @@ export default {
         { title: 'Clientes', icon: 'person', to: '/clients' },
         { title: 'Productos', icon: 'shopping_cart', to: '/products' },
         { title: 'Viajes', icon: 'flight_takeoff', to: '/viajes' },
+        { title: 'Venta', icon: 'shopping_cart', to: '/sales' },
       ],
     };
   },
