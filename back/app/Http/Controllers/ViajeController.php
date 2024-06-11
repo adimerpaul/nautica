@@ -35,7 +35,7 @@ class ViajeController extends Controller{
         $productoViaje->user_id = $user_id;
         $productoViaje->fecha = now();
         $productoViaje->save();
-        //aumtar en producto la cantidad
+        //aumentar en producto la cantidad
         $producto = Product::find($product_id);
         $producto->stock = $producto->stock + $cantidad;
         $producto->save();

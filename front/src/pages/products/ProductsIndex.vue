@@ -143,7 +143,7 @@
               </div>
               <div class="col-12">
                 <label class="text-caption text-bold">Estado:</label>
-                <q-toggle v-model="product.status" :color="product.status ? 'green' : 'red'" true-value="1" false-value="0">
+                <q-toggle v-model="product.status" :color="product.status ? 'green' : 'red'" true-value="ACTIVE" false-value="INACTIVE">
                   <div :class="`text-${product.status ? 'green' : 'red'} text-subtitle2 text-bold`">
                     {{product.status ? 'Activo' : 'Inactivo'}}
                   </div>
