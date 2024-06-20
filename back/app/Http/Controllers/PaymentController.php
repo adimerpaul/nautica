@@ -16,4 +16,11 @@ class PaymentController extends Controller{
         $payment->save();
         return $payment;
     }
+
+    function anularPago($id){
+        $payment = Payment::find($id);
+        $payment->status = 'ANULADO';
+        $payment->save();
+        return $payment;
+    }
 }

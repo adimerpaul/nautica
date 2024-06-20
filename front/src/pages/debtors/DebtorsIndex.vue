@@ -11,23 +11,23 @@
           </div>
           <div class="col-12">
 <!--            {-->
-<!--            "id": 12,-->
-<!--            "date": "2024-06-20 05:09:39",-->
-<!--            "client_id": 3,-->
-<!--            "total": 11.75,-->
+<!--            "id": 13,-->
+<!--            "date": "2024-06-20 05:25:52",-->
+<!--            "client_id": 1,-->
+<!--            "total": 3,-->
 <!--            "tipo": "CREDITO",-->
 <!--            "user_id": 1,-->
 <!--            "status": "ACTIVO",-->
-<!--            "observacion": null,-->
-<!--            "pago": 10,-->
-<!--            "debt": 1.75,-->
+<!--            "observacion": "sin observacion",-->
+<!--            "pago": 1,-->
+<!--            "debt": 2,-->
 <!--            "client": {-->
-<!--            "id": 3,-->
-<!--            "name": "ANDRES",-->
-<!--            "lastname": "CALLE VEGA",-->
-<!--            "company": "SELA",-->
-<!--            "nit": "12345678",-->
-<!--            "phone": "126457"-->
+<!--            "id": 1,-->
+<!--            "name": "ADIMER PAUL",-->
+<!--            "lastname": "CHAMBI",-->
+<!--            "company": "FNI",-->
+<!--            "nit": "123456",-->
+<!--            "phone": "5261245"-->
 <!--            },-->
 <!--            "user": {-->
 <!--            "id": 1,-->
@@ -39,24 +39,24 @@
 <!--            },-->
 <!--            "details": [-->
 <!--            {-->
-<!--            "id": 27,-->
-<!--            "sale_id": 12,-->
-<!--            "product_id": 16,-->
+<!--            "id": 29,-->
+<!--            "sale_id": 13,-->
+<!--            "product_id": 13,-->
 <!--            "user_id": 1,-->
-<!--            "product_name": "Langosta de mar",-->
+<!--            "product_name": "Jaiba",-->
 <!--            "quantity": 1,-->
-<!--            "price": 8,-->
-<!--            "total": 8-->
-<!--            },-->
+<!--            "price": 3,-->
+<!--            "total": 3-->
+<!--            }-->
+<!--            ],-->
+<!--            "payments": [-->
 <!--            {-->
-<!--            "id": 28,-->
-<!--            "sale_id": 12,-->
-<!--            "product_id": 15,-->
+<!--            "id": 2,-->
+<!--            "sale_id": 13,-->
 <!--            "user_id": 1,-->
-<!--            "product_name": "Calamar",-->
-<!--            "quantity": 1,-->
-<!--            "price": 3.75,-->
-<!--            "total": 3.75-->
+<!--            "amount": 1,-->
+<!--            "date": "2024-06-20 05:25:52",-->
+<!--            "status": "PAGADO"-->
 <!--            }-->
 <!--            ]-->
 <!--            },-->
@@ -90,7 +90,7 @@
                           <q-item-label>Agregar Pago</q-item-label>
                         </q-item-section>
                       </q-item>
-                      <q-item clickable v-ripple>
+                      <q-item clickable v-ripple @click="history(deudor)">
                         <q-item-section avatar>
                           <q-icon name="visibility" color="primary"/>
                         </q-item-section>
@@ -143,14 +143,54 @@
                    :rules="[val => val > 0 || 'Debe ser mayor a 0', val => val <= deudor.debt || 'Debe ser menor o igual a la deuda']"/>
 
             <q-card-actions align="right">
-              <q-btn label="Cancelar" color="negative" @click="dialog = false" no-caps/>
-              <q-btn label="Guardar" color="primary" type="submit" no-caps/>
+              <q-btn label="Cancelar" color="negative" @click="dialog = false" no-caps :loading="loading"/>
+              <q-btn label="Guardar" color="primary" type="submit" no-caps :loading="loading"/>
             </q-card-actions>
           </q-form>
         </q-card-section>
       </q-card>
     </q-dialog>
-    <pre>{{deudores}}</pre>
+    <q-dialog v-model="historyDialog">
+      <q-card style="width: 500px;max-width: 90vw;">
+        <q-card-section>
+          <div>
+            <span class="text-bold">{{deudor.client.name+' '+deudor.client.lastname}}</span><br>
+            Deuda: <span class="text-bold text-red">{{deudor.debt}}</span> <br>
+            Pagado: <span class="text-bold text-green">{{deudor.pago}}</span> <br>
+            Total: <span class="text-bold">{{deudor.total}}</span>
+          </div>
+          <q-markup-table dense wrap-cells separator="cell">
+            <thead class="bg-primary text-white">
+              <tr>
+                <th>Opciones</th>
+                <th>Fecha</th>
+                <th>Monto</th>
+                <th>Usuario</th>
+                <th>Estado</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="payment in deudor.payments" :key="payment.id">
+                <td>
+                  <q-btn label="Anular" color="negative" dense icon="delete" no-caps size="10px" @click="anularPago(payment)"/>
+                </td>
+                <td>{{$filters.formatdMYHID(payment.date)}}</td>
+                <td class="text-right">{{payment.amount}}</td>
+                <td>{{payment.user?.name}}</td>
+                <td>
+                  <q-chip v-if="payment.status == 'PAGADO'" color="positive" text-color="white" label="Pagado" dense size="10px"/>
+                  <q-chip v-else color="negative" text-color="white" label="Anulado" dense size="10px"/>
+                </td>
+              </tr>
+            </tbody>
+          </q-markup-table>
+          <q-card-actions align="right">
+            <q-btn label="Cerrar" color="negative" @click="historyDialog = false" no-caps :loading="loading"/>
+          </q-card-actions>
+        </q-card-section>
+      </q-card>
+    </q-dialog>
+<!--    <pre>{{deudores}}</pre>-->
   </q-page>
 </template>
 <script>
@@ -161,6 +201,7 @@ export default {
       loading: false,
       deudores: [],
       dialog: false,
+      historyDialog: false,
       deudor: {},
       pago: ''
     }
@@ -169,12 +210,32 @@ export default {
     this.deudoresGet()
   },
   methods: {
+    anularPago (payment) {
+      this.$alert.confirm('¿Está seguro de anular el pago?').onOk(() => {
+        this.loading = true
+        this.$axios.post('anularPago/'+payment.id).then(response => {
+          this.$alert.success('Pago anulado con éxito')
+          const findIndex = this.deudor.payments.findIndex(p => p.id === payment.id)
+          this.deudor.payments[findIndex].status = 'ANULADO'
+          this.deudoresGet()
+        }).catch(error => {
+          this.$alert.error(error.response.data.message)
+        }).finally(() => {
+          this.loading = false
+        })
+      })
+    },
+    history (deudor) {
+      this.historyDialog = true
+      this.deudor = deudor
+    },
     agregarPago (deudor) {
       this.dialog = true
       this.deudor = deudor
       this.pago = deudor.debt
     },
     registrarPago () {
+      this.loading = true
       this.$axios.post('payments', {
         sale_id: this.deudor.id,
         amount: this.pago
@@ -184,6 +245,8 @@ export default {
         this.deudoresGet()
       }).catch(error => {
         this.$alert.error(error.response.data.message)
+      }).finally(() => {
+        this.loading = false
       })
     },
     deudoresGet () {

@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 class SaleController extends Controller{
     function debtors(Request $request){
         $search = $request->search;
-        $debtors = Sale::with('client', 'user', 'details')
+        $debtors = Sale::with('client', 'user', 'details', 'payments.user')
             ->where('tipo', 'CREDITO')
             ->where(function($query) use ($search) {
                 $query->whereHas('client', function($query) use ($search){
@@ -25,7 +25,7 @@ class SaleController extends Controller{
             ->get();
 
         foreach ($debtors as $debtor){
-            $pago = Payment::where('sale_id', $debtor->id)->sum('amount');
+            $pago = Payment::where('sale_id', $debtor->id)->where('status', 'PAGADO')->sum('amount');
             $debtor->pago = $pago;
             $debtor->debt = $debtor->total - $pago;
         }
