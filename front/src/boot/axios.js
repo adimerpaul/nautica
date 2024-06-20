@@ -37,6 +37,11 @@ export default boot(({ app, router }) => {
       const date = value.substring(0, 10).split('-')
       const time = value.substring(11, 16)
       return `${date[2]} ${meses[date[1] - 1]} ${date[0]} ${time}`
+    },
+    capitalizeText: function (value) {
+      if (!value) return ''
+      const textLower = value.toLowerCase()
+      return textLower.charAt(0).toUpperCase() + textLower.slice(1)
     }
   }
   const token = localStorage.getItem('tokenPrestamos')

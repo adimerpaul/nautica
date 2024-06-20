@@ -9,19 +9,21 @@ use App\Models\Sale;
 use Illuminate\Http\Request;
 
 class SaleController extends Controller{
-    function debtors(Request $search){
-        $search = $search->search;
+    function debtors(Request $request){
+        $search = $request->search;
         $debtors = Sale::with('client', 'user', 'details')
             ->where('tipo', 'CREDITO')
-            ->whereHas('client', function($query) use ($search){
-                $query->where('name', 'like', "%$search%");
+            ->where(function($query) use ($search) {
+                $query->whereHas('client', function($query) use ($search){
+                    $query->where('name', 'like', "%$search%");
+                })
+                ->orWhereHas('user', function($query) use ($search){
+                    $query->where('name', 'like', "%$search%");
+                });
             })
-            ->orWhereHas('user', function($query) use ($search){
-                $query->where('name', 'like', "%$search%");
-            })
-            ->orWhere('id', 'like', "%$search%")
             ->orderBy('id', 'desc')
             ->get();
+
         foreach ($debtors as $debtor){
             $pago = Payment::where('sale_id', $debtor->id)->sum('amount');
             $debtor->pago = $pago;
