@@ -14,6 +14,7 @@ const routes = [
       { path: 'viajes', component: () => import('pages/viajes/ViajesIndex.vue'), meta: { requiresAuth: true } },
       { path: 'viajesShow/:id', component: () => import('pages/viajes/ViajesShow.vue'), meta: { requiresAuth: true } },
       { path: 'sales', component: () => import('pages/sales/SalesIndex.vue'), meta: { requiresAuth: true } },
+      { path: 'debtors', component: () => import('pages/debtors/DebtorsIndex.vue'), meta: { requiresAuth: true } },
     ]
   },
   {

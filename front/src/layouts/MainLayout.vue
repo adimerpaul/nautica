@@ -126,6 +126,7 @@ export default {
         { title: 'Productos', icon: 'shopping_cart', to: '/products' },
         { title: 'Viajes', icon: 'flight_takeoff', to: '/viajes' },
         { title: 'Venta', icon: 'shopping_cart', to: '/sales' },
+        { title: 'Deudores', icon: 'credit_score', to: '/debtors' },
       ],
     };
   },
