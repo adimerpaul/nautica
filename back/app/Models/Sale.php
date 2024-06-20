@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Sale extends Model{
     use HasFactory;
-    protected $fillable = ['date', 'client_id', 'total','tipo', 'user_id'];
+    protected $fillable = ['date', 'client_id', 'total','tipo', 'user_id', 'observacion', 'pago'];
     protected $hidden = ['created_at', 'updated_at'];
     public function client(){
         return $this->belongsTo(Client::class);

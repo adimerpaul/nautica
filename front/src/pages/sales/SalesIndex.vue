@@ -119,20 +119,25 @@
     </q-card>
     <q-dialog v-model="saleDialog" persistent>
       <q-card style="width: 700px;max-width: 90vw;">
-        <q-card-section class="q-pb-none">
-          <div class="text-h6 text-primary text-center">
+        <q-card-section class="q-pb-none row items-center">
+          <div class="text-h6 text-primary text-center text-bold">
             Pago
           </div>
+          <q-space />
+          <q-icon name="o_payment" />
         </q-card-section>
         <q-card-section>
           <q-form @submit="saleInsert">
             <div class="row">
               <div class="col-12 col-md-4">
-                <q-select v-model="client" :options="clients" label="Cliente" outlined dense
+                <q-select v-model="client" :options="clients" label="Cliente" outlined dense @filter="fnFilter" use-input
                           option-value="id" option-label="name" :rules="[val => !!val || 'Seleccione un cliente']" />
               </div>
               <div class="col-6 col-md-2 text-bold text-red text-h6 text-center">
-                {{total}}$
+                <div style="line-height: 1">
+                  <span class="text-grey">Total</span> <br>
+                  {{total}}$
+                </div>
               </div>
               <div class="col-6 col-md-4">
                 <q-select v-model="tipo" :options="tipos" label="Tipo" outlined dense :rules="[val => !!val || 'Seleccione un tipo']" />
@@ -144,6 +149,12 @@
                            val => val >= 0 || 'Ingrese un monto válido',
                            val => val <= total || 'El monto no puede ser mayor al total']"
                          v-if="tipo === 'CREDITO'" />
+              </div>
+              <div class="col-12 col-md-6">
+                <q-input v-model="observacion" label="Observación" outlined dense type="textarea" rows="2" />
+              </div>
+              <div class="col-12 col-md-4">
+                <q-select v-model="pago" :options="['TRANSFERENCIA','EFECTIVO']" label="Pago" outlined dense :rules="[val => !!val || 'Seleccione un pago']" />
               </div>
 <!--              <div class="col-12 text-right" v-if="tipo === 'CREDITO'">-->
 <!--&lt;!&ndash;                <q-btn label="Agregar" color="green" no-caps class="text-bold" icon="add_circle_outline" dense size="10px" />&ndash;&gt;-->
@@ -185,8 +196,10 @@ export default {
       saleDialog: false,
       loading: false,
       tipo: '',
-      tipos:['CREDITO','EFECTIVO'],
-      monto: ''
+      tipos:['CREDITO','CONTADO'],
+      monto: '',
+      observacion: '',
+      pago: ''
     }
   },
   mounted() {
@@ -201,7 +214,9 @@ export default {
         client_id: this.client.id,
         tipo: this.tipo,
         monto: this.monto,
-        products: this.$store.orders
+        products: this.$store.orders,
+        observacion: this.observacion,
+        pago: this.pago
       }).then(response => {
         this.$alert.success('Venta realizada con éxito')
         this.saleDialog = false
@@ -228,6 +243,8 @@ export default {
       this.client = ''
       this.tipo = ''
       this.monto = ''
+      this.observacion = ''
+      this.pago = ''
     },
     deleteProduct (product) {
       const index = this.$store.orders.findIndex(item => item.id === product.id)
@@ -276,6 +293,19 @@ export default {
         this.products = this.productsAll.filter(product => product.category_id === this.category.id)
       }
     },
+    fnFilter (val, update, abort) {
+      // abort()
+      if (val === '') {
+        update(() => {
+          this.clients = this.clientsAll
+        })
+        return
+      }
+      update(() => {
+        const needle = val.toLowerCase()
+        this.clients = this.clientsAll.filter(v => v.name.toLowerCase().indexOf(needle) > -1)
+      })
+    }
   },
   computed: {
     total () {

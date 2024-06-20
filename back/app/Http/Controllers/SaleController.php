@@ -16,6 +16,8 @@ class SaleController extends Controller{
         $sale->total = 0;
         $sale->tipo = $request->tipo;
         $sale->user_id = $user_id;
+        $sale->observacion = $request->observacion;
+        $sale->pago = $request->pago;
         $sale->save();
         $products = $request->products;
         foreach ($products as $product){
