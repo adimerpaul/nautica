@@ -239,6 +239,11 @@ export default {
         this.$alert.error('No hay productos en el carrito')
         return false
       }
+      // verificamso si tenemos los productos
+      if (this.$store.orders.some(item => item.stock < item.quantity)) {
+        this.$alert.error('No hay stock suficiente '+this.$store.orders.find(item => item.stock < item.quantity).name)
+        return false
+      }
       this.saleDialog = true
       this.client = ''
       this.tipo = ''
