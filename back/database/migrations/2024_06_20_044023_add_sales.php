@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::table('sales', function (Blueprint $table) {
             $table->string('observacion')->nullable();
             $table->string('pago')->comment('TRANSFERENCIA, EFECTIVO')->nullable();
+            $table->text('description')->nullable();
         });
     }
 
@@ -25,6 +26,7 @@ return new class extends Migration
         Schema::table('sales', function (Blueprint $table) {
             $table->dropColumn('observacion');
             $table->dropColumn('pago');
+            $table->dropColumn('description');
         });
     }
 };

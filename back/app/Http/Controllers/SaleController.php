@@ -35,14 +35,8 @@ class SaleController extends Controller{
         $user_id = $request->user()->id;
 
         $sale = $this->saleInsert($request, $user_id);
-        if ($sale->tipo == 'CREDITO' && $request->monto > 0){
-            $payment = new Payment();
-            $payment->sale_id = $sale->id;
-            $payment->user_id = $user_id;
-            $payment->amount = $request->monto;
-            $payment->date = date('Y-m-d H:i:s');
-            $payment->save();
-        }
+        $this->creditoInsert($sale, $request, $user_id);
+        $description= '';
         $products = $request->products;
         foreach ($products as $product){
             $details = new Detail();
@@ -60,7 +54,12 @@ class SaleController extends Controller{
             $productFind = Product::find($product['id']);
             $productFind->stock -= $product['quantity'];
             $productFind->save();
+
+            // Description
+            $description .= $product['quantity'] .' '.$product['name'].', ';
         }
+        $description = substr($description, 0, -2);
+        $sale->description = $description;
         $sale->save();
         return Sale::with('client', 'user', 'details')->where('id', $sale->id)->first();
     }
@@ -82,5 +81,23 @@ class SaleController extends Controller{
         $sale->save();
 
         return $sale;
+    }
+
+    /**
+     * @param Sale|array $sale
+     * @param Request $request
+     * @param $user_id
+     * @return void
+     */
+    public function creditoInsert(Sale|array $sale, Request $request, $user_id): void
+    {
+        if ($sale->tipo == 'CREDITO' && $request->monto > 0) {
+            $payment = new Payment();
+            $payment->sale_id = $sale->id;
+            $payment->user_id = $user_id;
+            $payment->amount = $request->monto;
+            $payment->date = date('Y-m-d H:i:s');
+            $payment->save();
+        }
     }
 }
