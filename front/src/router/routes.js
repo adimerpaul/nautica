@@ -4,7 +4,7 @@ const routes = [
     path: '/',
     component: () => import('layouts/MainLayout.vue'),
     children: [
-      { path: '', component: () => import('pages/IndexPage.vue'), meta: { requiresAuth: true } },
+      { path: '', component: () => import('pages/index/IndexPage.vue'), meta: { requiresAuth: true } },
       { path: 'users', component: () => import('pages/users/UsersIndex.vue'), meta: { requiresAuth: true } },
       { path: 'companies', component: () => import('pages/companies/CompaniesIndex.vue'), meta: { requiresAuth: true } },
       { path: 'boats', component: () => import('pages/boats/BoatsIndex.vue'), meta: { requiresAuth: true } },

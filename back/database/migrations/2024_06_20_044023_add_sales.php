@@ -15,6 +15,7 @@ return new class extends Migration
             $table->string('observacion')->nullable();
             $table->string('pago')->comment('TRANSFERENCIA, EFECTIVO')->nullable();
             $table->text('description')->nullable();
+            $table->string('tipo_venta')->default('INGRESO')->comment('INGRESO, EGRESO');
         });
     }
 
@@ -27,6 +28,7 @@ return new class extends Migration
             $table->dropColumn('observacion');
             $table->dropColumn('pago');
             $table->dropColumn('description');
+            $table->dropColumn('tipo_venta');
         });
     }
 };

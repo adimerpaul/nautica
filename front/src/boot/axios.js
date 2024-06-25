@@ -2,7 +2,7 @@ import { boot } from 'quasar/wrappers'
 import axios from 'axios'
 import {Alert} from "src/addons/Alert";
 import {useCounterStore} from "stores/example-store";
-
+import moment from 'moment'
 // Be careful when using SSR for cross-request state pollution
 // due to creating a Singleton instance here;
 // If any client changes this (global) instance, it might be a
@@ -30,6 +30,13 @@ export default boot(({ app, router }) => {
       const meses = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic']
       const date = value.split('-')
       return `${date[2]} ${meses[date[1] - 1]} ${date[0]}`
+    },
+    dateDmYHis (value) {
+      const meses = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Set', 'Nov', 'Dic']
+      const mes = meses[moment(String(value)).format('MM') - 1]
+      if (!value) return ''
+      const date = moment(String(value)).format('DD') + '-' + mes + '-' + moment(String(value)).format('YYYY') + '|' + moment(String(value)).format('HH:mm')
+      return date
     },
     formatdMYHID: function (value) {
       if (!value) return ''

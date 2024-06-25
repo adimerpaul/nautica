@@ -53,6 +53,7 @@ Route::group(['middleware' => 'auth:sanctum'], function(){
     Route::post('/productAdd', [\App\Http\Controllers\ViajeController::class, 'productAdd']);
     Route::put('/productAnular/{id}', [\App\Http\Controllers\ViajeController::class, 'productAnular']);
 
+    Route::get('/sales', [\App\Http\Controllers\SaleController::class, 'index']);
     Route::post('/sales', [\App\Http\Controllers\SaleController::class, 'store']);
     Route::get('/debtors', [\App\Http\Controllers\SaleController::class, 'debtors']);
 

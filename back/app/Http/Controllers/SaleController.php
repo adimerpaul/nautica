@@ -9,6 +9,17 @@ use App\Models\Sale;
 use Illuminate\Http\Request;
 
 class SaleController extends Controller{
+    public function index(Request $request){
+        $fechaInicioSemana = $request->fechaInicioSemana.' 00:00:00';
+        $fechaFinSemana = $request->fechaFinSemana.' 23:59:59';
+        $concepto = $request->concepto;
+        $sales = Sale::whereBetween('date', [$fechaInicioSemana, $fechaFinSemana])
+            ->where('description', 'LIKE', "%$concepto%")
+            ->with(['user', 'client', 'details'])
+            ->orderBy('id', 'desc')
+            ->get();
+        return response()->json($sales);
+    }
     function debtors(Request $request){
         $search = $request->search;
         $debtors = Sale::with('client', 'user', 'details', 'payments.user')
