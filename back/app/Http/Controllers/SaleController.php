@@ -115,16 +115,6 @@ class SaleController extends Controller{
         if ($request->concepto == '' || $request->concepto == null || isset($request->concepto) == false) {
             $request->merge(['concepto' => 'GASTO' . date('Y-m-d H:i:s')] );
         }
-//        protected $fillable = [
-//            'date',
-//            'client_id',
-//            'total',
-//            'tipo',
-//            'user_id',
-//            'observacion',
-//            'pago',
-//            'description'
-//        ];
         $sale = new Sale();
 //        $sale->client_id = $request->client_id;
 //        $sale->user_id = $request->user()->id; // Auth::user()->id
@@ -141,9 +131,10 @@ class SaleController extends Controller{
         $sale->date = date('Y-m-d H:i:s');
         $sale->client_id = $request->client_id;
         $sale->total = $request->monto;
-        $sale->tipo = 'EGRESO';
+        $sale->tipo = 'CONTADO';
+        $sale->tipo_venta = 'EGRESO';
         $sale->user_id = $request->user()->id;
-        $sale->observacion = $request->concepto;
+        $sale->observacion = '';
         $sale->pago = $request->metodo;
         $sale->description = $request->concepto;
         $sale->save();
