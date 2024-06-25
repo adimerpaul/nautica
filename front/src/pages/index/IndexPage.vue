@@ -35,6 +35,7 @@
       <div class="col-12">
         <q-table :columns="columns" :rows="sales" dense :rows-per-page-options="[0]" :filter="filter" :loading="loading" wrap-cells
                  no-data-label="No hay ventas" no-results-label="No hay ventas"
+                 title="Historial de ventas"
         >
           <template v-slot:top-right>
             <q-input outlined v-model="filter" debounce="300" placeholder="Buscar" dense>
@@ -42,6 +43,19 @@
                 <q-btn flat round dense icon="search" />
               </template>
             </q-input>
+          </template>
+          <template v-slot:header="props">
+            <q-tr :props="props" class="bg-primary text-white">
+              <q-th key="opcion" :props="props" auto-width>Opcion</q-th>
+              <q-th key="proveedorcliente" :props="props">Proveedor / cliente</q-th>
+              <q-th key="montoTotal" :props="props">Monto total</q-th>
+              <q-th key="fechayhora" :props="props">Fecha y hora</q-th>
+              <q-th key="concepto" :props="props">Concepto</q-th>
+              <q-th key="comentario" :props="props">Comentario</q-th>
+              <q-th key="egresoingreso" :props="props">Egreso / ingreso</q-th>
+              <q-th key="user" :props="props">Usuario</q-th>
+              <q-th key="lugar" :props="props">Lugar</q-th>
+            </q-tr>
           </template>
           <template v-slot:body="props">
             <q-tr :props="props">
@@ -118,7 +132,7 @@
             </q-tr>
           </template>
         </q-table>
-                <pre>{{sales}}</pre>
+<!--                <pre>{{sales}}</pre>-->
       </div>
     </div>
   </q-page>
