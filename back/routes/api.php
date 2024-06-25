@@ -36,7 +36,6 @@ Route::group(['middleware' => 'auth:sanctum'], function(){
     Route::post('/clients', [\App\Http\Controllers\ClientController::class, 'store']);
     Route::put('/clients/{id}', [\App\Http\Controllers\ClientController::class, 'update']);
     Route::delete('/clients/{id}', [\App\Http\Controllers\ClientController::class, 'destroy']);
-//provedores
     Route::get('/proveedores', [\App\Http\Controllers\ClientController::class, 'proveedores']);
 
     Route::get('/products', [\App\Http\Controllers\ProductController::class, 'index']);
@@ -58,6 +57,8 @@ Route::group(['middleware' => 'auth:sanctum'], function(){
     Route::get('/sales', [\App\Http\Controllers\SaleController::class, 'index']);
     Route::post('/sales', [\App\Http\Controllers\SaleController::class, 'store']);
     Route::get('/debtors', [\App\Http\Controllers\SaleController::class, 'debtors']);
+    Route::post('registrarGasto', [\App\Http\Controllers\SaleController::class, 'registrarGasto']);
+
 
 //    Route::get('/payments', [\App\Http\Controllers\PaymentController::class, 'index']);
     Route::post('/payments', [\App\Http\Controllers\PaymentController::class, 'store']);

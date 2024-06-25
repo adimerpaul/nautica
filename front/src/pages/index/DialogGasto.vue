@@ -21,11 +21,12 @@
           </div>
           <div class="col-12">
             <q-select outlined dense hint="" v-model="gasto.client_id" :options="provider" label="Proveedor" emit-value map-options
-                      option-value="id" option-label="nombre" use-input
+                      option-value="id" option-label="name" use-input
+                      :rules="[val => !!val || 'Campo requerido']"
             >
-              <template v-slot:after>
-                <q-btn flat dense icon="add_circle_outline" @click="proveedorCreateSimple" color="green"/>
-              </template>
+<!--              <template v-slot:after>-->
+<!--                <q-btn flat dense icon="add_circle_outline" @click="proveedorCreateSimple" color="green"/>-->
+<!--              </template>-->
             </q-select>
           </div>
           <div class="col-12">

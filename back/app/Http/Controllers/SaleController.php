@@ -111,4 +111,43 @@ class SaleController extends Controller{
             $payment->save();
         }
     }
+    public function registrarGasto(Request $request){
+        if ($request->concepto == '' || $request->concepto == null || isset($request->concepto) == false) {
+            $request->merge(['concepto' => 'GASTO' . date('Y-m-d H:i:s')] );
+        }
+//        protected $fillable = [
+//            'date',
+//            'client_id',
+//            'total',
+//            'tipo',
+//            'user_id',
+//            'observacion',
+//            'pago',
+//            'description'
+//        ];
+        $sale = new Sale();
+//        $sale->client_id = $request->client_id;
+//        $sale->user_id = $request->user()->id; // Auth::user()->id
+//        $sale->tipo_venta = 'EGRESO'; // 'INGRESO' 'EGRESO' 'ANULADO' 'COTIZACION
+//        $sale->concepto = $request->concepto;
+//        $sale->descuento = 0;
+//        $sale->subtotal = $request->monto;
+//        $sale->total = $request->monto;
+//        $sale->precio = 'CONTADO';
+//        $sale->metodo = $request->metodo;
+//        $sale->precio_colocado = '';
+//        $sale->estado = 'ACTIVO';
+//        $sale->fecha_emision = date('Y-m-d H:i:s');
+        $sale->date = date('Y-m-d H:i:s');
+        $sale->client_id = $request->client_id;
+        $sale->total = $request->monto;
+        $sale->tipo = 'EGRESO';
+        $sale->user_id = $request->user()->id;
+        $sale->observacion = $request->concepto;
+        $sale->pago = $request->metodo;
+        $sale->description = $request->concepto;
+        $sale->save();
+        return $sale->with(['user', 'client'])->find($sale->id);
+
+    }
 }
