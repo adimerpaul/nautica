@@ -35,7 +35,7 @@ class SaleController extends Controller{
         $user_id = $request->user()->id;
 
         $sale = $this->saleInsert($request, $user_id);
-        if ($sale->tipo == 'CREDITO'){
+        if ($sale->tipo == 'CREDITO' && $request->monto > 0){
             $payment = new Payment();
             $payment->sale_id = $sale->id;
             $payment->user_id = $user_id;

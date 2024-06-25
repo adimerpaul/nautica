@@ -124,7 +124,7 @@
             Pago
           </div>
           <q-space />
-          <q-icon name="o_payment" />
+          <q-btn flat dense icon="cancel" @click="saleDialog = false" />
         </q-card-section>
         <q-card-section>
           <q-form @submit="saleInsert">
