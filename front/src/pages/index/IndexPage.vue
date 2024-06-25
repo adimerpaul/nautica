@@ -23,13 +23,13 @@
         <q-btn label="Nuevo Venta" color="green"  icon="add_circle_outline" no-caps rounded to="/sale"/>
         <q-btn label="Nuevo Gasto" color="red"  icon="add_circle_outline" no-caps rounded @click="gastoDialog = true"/>
       </div>
-      <div class="col-12 col-md-4 q-pa-xs" v-if="$store.user.type=='ADMINISTRADOR'">
+      <div class="col-12 col-md-4 q-pa-xs">
         <CardComponent :monto="balance" color="grey" title="Balance" icono="o_trending_up" />
       </div>
-      <div class="col-12 col-md-4 q-pa-xs" v-if="$store.user.type=='ADMINISTRADOR'">
+      <div class="col-12 col-md-4 q-pa-xs">
         <CardComponent :monto="ingreso" color="green" title="Ventas" icono="o_trending_up" />
       </div>
-      <div class="col-12 col-md-4 q-pa-xs" v-if="$store.user.type=='ADMINISTRADOR'">
+      <div class="col-12 col-md-4 q-pa-xs">
         <CardComponent :monto="gasto" color="red" title="Gastos" icono="o_trending_down" />
       </div>
       <div class="col-12">
@@ -79,8 +79,9 @@
                 </div>
               </q-td>
               <q-td key="proveedorcliente" :props="props">
-                <div class="text-grey" v-if="props.row.client">{{ props.row.name==null?(props.row.client.id==28?'SN':props.row.client.nombre):props.row.name }}</div>
-                <!--                <pre>{{ props.row }}</pre>-->
+                <div class="text-grey" v-if="props.row.client">
+                  {{ props.row.client?.name}} {{ props.row.client?.lastname}}
+                </div>
               </q-td>
               <q-td key="montoTotal" :props="props">
                 <span class="text-grey">{{ props.row.total }} Bs</span>
@@ -95,12 +96,12 @@
                          :class="`bg-${props.row.tipo_venta=='INGRESO'?'green':'red'}-2`" dense flat
                          style="padding: 0px; margin: 0px; border-radius: 0px;position: absolute;top: 5px;left: 0px;"/>
                   <div style="padding-left: 15px">
-                    <div class=" q-ml-xs" style="width: 300px; white-space: normal; overflow-wrap: break-word;line-height: 0.9;">{{ props.row.concepto }}</div>
+                    <div class=" q-ml-xs" style="width: 300px; white-space: normal; overflow-wrap: break-word;line-height: 0.9;">{{ props.row.description }}</div>
                   </div>
                 </div>
               </q-td>
               <q-td key="comentario" :props="props">
-                <div class="" style="width: 300px; white-space: normal; overflow-wrap: break-word;line-height: 0.9;">{{ props.row.comentario }}</div>
+                <div class="" style="width: 300px; white-space: normal; overflow-wrap: break-word;line-height: 0.9;">{{ props.row.observacion }}</div>
               </q-td>
               <q-td key="egresoingreso" :props="props">
                 <q-chip :color="`${props.row.tipo_venta=='INGRESO'?'green':'red'}-5`" text-color="white" dense flat :label="props.row.tipo_venta"/>
@@ -114,7 +115,7 @@
             </q-tr>
           </template>
         </q-table>
-        <!--        <pre>{{sales}}</pre>-->
+                <pre>{{sales}}</pre>
       </div>
     </div>
   </q-page>
@@ -150,7 +151,7 @@ export default {
         // { name: 'metodoPago', label: 'Metodo de pago', align: 'left', field: 'metodoPago', sortable: true },
         { name: 'egresoingreso', label: 'Egreso / ingreso', align: 'left', field: 'egreso / ingreso', sortable: true },
         { name: 'user', label: 'Usuario', align: 'left', field: (row) => row.user.name, sortable: true },
-        { name: 'lugar', label: 'lugar', align: 'left', field: (row) => row.user.lugar, sortable: true }
+        // { name: 'lugar', label: 'lugar', align: 'left', field: (row) => row.user.lugar, sortable: true }
       ],
       sales: [],
       loading: false,
@@ -162,68 +163,59 @@ export default {
   },
   methods: {
     exportar () {
-      // {
-      //   "id": 428,
-      //   "client_id": 28,
-      //   "user_id": 1,
-      //   "tipo_venta": "INGRESO",
-      //   "concepto": "1 Gypsum 238,1 Transversal 0,60,",
-      //   "descuento": 0,
-      //   "subtotal": null,
-      //   "total": 12,
-      //   "precio": null,
-      //   "metodo": "0",
-      //   "precio_colocado": null,
-      //   "estado": "ACTIVO",
-      //   "almacen": "Todo",
-      //   "date": "2024-06-19 05:21:35",
-      //   "lugar": "ORURO",
-      //   "comentario": "",
-      //   "name": "AJATA",
-      //   "user": {
-      //   "id": 1,
-      //     "name": "Administrator",
-      //     "email": "admin@test.com",
-      //     "username": "admin",
-      //     "email_verified_at": null,
-      //     "lugar": "ORURO",
-      //     "type": "ADMINISTRADOR"
-      // },
-      //   "client": {
-      //   "id": 28,
-      //     "nombre": "AJATA",
-      //     "compania": null,
-      //     "nit": "0",
-      //     "email": null,
-      //     "telefono": null,
-      //     "direccion": null,
-      //     "tipo": "CLIENTE"
-      // },
-      //   "details": [
-      //   {
-      //     "id": 915,
-      //     "sale_id": 428,
-      //     "product_id": 1,
-      //     "cantidad": 1,
-      //     "precio": 9,
-      //     "descuento": null,
-      //     "subtotal": null,
-      //     "total": 9,
-      //     "producto": "Gypsum 238"
-      //   },
-      //   {
-      //     "id": 916,
-      //     "sale_id": 428,
-      //     "product_id": 7,
-      //     "cantidad": 1,
-      //     "precio": 3,
-      //     "descuento": null,
-      //     "subtotal": null,
-      //     "total": 3,
-      //     "producto": "Transversal 0,60"
-      //   }
-      // ]
-      // },
+        // [
+        // {
+        //   "id": 2,
+        //   "date": "2024-06-25 03:52:01",
+        //   "client_id": 4,
+        //   "total": 3.5,
+        //   "tipo": "CREDITO",
+        //   "user_id": 1,
+        //   "status": "ACTIVO",
+        //   "observacion": null,
+        //   "pago": "TRANSFERENCIA",
+        //   "description": "1 Pescado Caite, 1 Pescado Rojo",
+        //   "tipo_venta": "INGRESO",
+        //   "user": {
+        //     "id": 1,
+        //     "name": "Administrador",
+        //     "role": "SUPERADMIN",
+        //     "username": "admin",
+        //     "email": "admin@test.com",
+        //     "email_verified_at": null
+        //   },
+        //   "client": {
+        //     "id": 4,
+        //     "name": "ADALID",
+        //     "lastname": "CHAMBI",
+        //     "company": "CHAMBI",
+        //     "nit": "12345678",
+        //     "phone": "1234567"
+        //   },
+        //   "details": [
+        //     {
+        //       "id": 6,
+        //       "sale_id": 2,
+        //       "product_id": 9,
+        //       "user_id": 1,
+        //       "product_name": "Pescado Caite",
+        //       "quantity": 1,
+        //       "price": 1,
+        //       "total": 1
+        //     },
+        //     {
+        //       "id": 7,
+        //       "sale_id": 2,
+        //       "product_id": 8,
+        //       "user_id": 1,
+        //       "product_name": "Pescado Rojo",
+        //       "quantity": 1,
+        //       "price": 2.5,
+        //       "total": 2.5
+        //     }
+        //   ]
+        // }
+        // ]
       const data = [
         {
           sheet: 'Adults',

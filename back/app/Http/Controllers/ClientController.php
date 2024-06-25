@@ -6,6 +6,9 @@ use App\Models\Client;
 use Illuminate\Http\Request;
 
 class ClientController extends Controller{
+    public function proveedores(){
+        return Client::where('tipo','PROVEEDOR')->get();
+    }
     public function index(){
         return Client::orderBy('id', 'desc')->get();
     }
@@ -17,6 +20,7 @@ class ClientController extends Controller{
         $client->company = $request->company;
         $client->nit = $request->nit;
         $client->phone = $request->phone;
+        $client->tipo = $request->tipo;
         $client->save();
         return response()->json($client);
     }
@@ -28,6 +32,7 @@ class ClientController extends Controller{
         $client->company = $request->company;
         $client->nit = $request->nit;
         $client->phone = $request->phone;
+        $client->tipo = $request->tipo;
         $client->save();
         return response()->json($client);
     }

@@ -18,6 +18,7 @@ export default boot(({ app, router }) => {
   app.config.globalProperties.$url = import.meta.env.VITE_API_BACK
   app.config.globalProperties.$alert = Alert
   app.config.globalProperties.$store = useCounterStore()
+  app.config.globalProperties.$metodos = ['EFECTIVO', 'TRANSFERENCIA']
   app.config.globalProperties.$filters = {
     currency: function (value) {
       return new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR' }).format(value)

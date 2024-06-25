@@ -11,6 +11,12 @@
             </q-btn>
           </q-td>
       </template>
+      <template v-slot:body-cell-tipo="props">
+        <q-td auto-width>
+          <q-chip text-color="white" label="Cliente" color="green" v-if="props.row.tipo === 'CLIENTE'" />
+          <q-chip text-color="white" label="Proveedor" color="indigo" v-else />
+        </q-td>
+      </template>
       <template v-slot:top-right>
         <q-btn outline dense icon="add_circle" @click="clientAdd" label="Agregar" no-caps :loading="loading">
           <q-tooltip>Agregar</q-tooltip>
@@ -48,6 +54,13 @@
             <div class="col-12">
               <q-input v-model="client.phone" label="Teléfono" outlined dense :rules="[val => !!val || 'Campo requerido']" />
             </div>
+            <div class="col-12">
+              <q-select v-model="client.tipo" label="Tipo" outlined dense
+                        :options="[{label: 'Cliente', value: 'CLIENTE'}, {label: 'Proveedor', value: 'PROVEEDOR'}]"
+                        :rules="[val => !!val || 'Campo requerido']"
+                        emit-value map-options
+              />
+            </div>
           </div>
         </q-card-section>
         <q-card-actions align="right">
@@ -72,7 +85,8 @@ export default {
         { name: 'lastname', label: 'Apellido', align: 'left', field: row => row.lastname },
         { name: 'company', label: 'Empresa', align: 'left', field: row => row.company },
         { name: 'nit', label: 'NIT', align: 'left', field: row => row.nit },
-        { name: 'phone', label: 'Teléfono', align: 'left', field: row => row.phone }
+        { name: 'phone', label: 'Teléfono', align: 'left', field: row => row.phone },
+        { name: 'tipo', label: 'Tipo', align: 'left', field: row => row.tipo }
       ],
       loading: false,
       clients: [],
