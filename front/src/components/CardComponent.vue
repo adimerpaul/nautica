@@ -1,6 +1,6 @@
 <template>
   <q-card :class="'bg-' + color + ' q-ma-xs cursor-pointer'" @click="$router.push(to)" >
-    <q-card-section class="q-pa-md">
+    <q-card-section class="q-pa-xs">
       <div class="row">
         <div class="col-12">
           <q-btn flat dense :label="title" color="white" :icon="icon" :to="to" no-caps />

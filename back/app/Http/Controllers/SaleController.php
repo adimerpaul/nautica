@@ -7,8 +7,29 @@ use App\Models\Payment;
 use App\Models\Product;
 use App\Models\Sale;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class SaleController extends Controller{
+    function saleAnular(Request $request){
+        try {
+            DB::beginTransaction();
+            $sale = Sale::find($request->id);
+            $sale->status = 'ANULADO';
+            $sale->save();
+
+            $details = Detail::where('sale_id', $sale->id)->get();
+            foreach ($details as $detail){
+                $product = Product::find($detail->product_id);
+                $product->stock += $detail->quantity;
+                $product->save();
+            }
+            DB::commit();
+            return $sale;
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json($e->getMessage(), 500);
+        }
+    }
     public function index(Request $request){
         $fechaInicioSemana = $request->fechaInicioSemana.' 00:00:00';
         $fechaFinSemana = $request->fechaFinSemana.' 23:59:59';

@@ -24,13 +24,13 @@
         <q-btn label="Nuevo Gasto" color="red"  icon="add_circle_outline" no-caps rounded @click="gastoDialog = true"/>
       </div>
       <div class="col-12 col-md-4 q-pa-xs">
-        <CardComponent :monto="balance" color="grey" title="Balance" icono="o_trending_up" />
+        <CardComponent :amount="balance" color="grey" title="Balance" icon="account_balance" />
       </div>
       <div class="col-12 col-md-4 q-pa-xs">
-        <CardComponent :monto="ingreso" color="green" title="Ventas" icono="o_trending_up" />
+        <CardComponent :amount="ingreso" color="green" title="Ventas" icon="o_trending_up" />
       </div>
       <div class="col-12 col-md-4 q-pa-xs">
-        <CardComponent :monto="gasto" color="red" title="Gastos" icono="o_trending_down" />
+        <CardComponent :amount="gasto" color="red" title="Gastos" icon="o_trending_down" />
       </div>
       <div class="col-12">
         <q-table :columns="columns" :rows="sales" dense :rows-per-page-options="[0]" :filter="filter" :loading="loading" wrap-cells
@@ -75,16 +75,19 @@
                   <!--                  </q-item>-->
                 </q-btn-dropdown>
                 <div v-else>
-                  <q-btn dense label="Anulado" color="grey-4" size="10px" no-caps no-wrap icon="o_highlight_off" />
+<!--                  <q-btn dense label="Anulado" color="grey-4" size="10px" no-caps no-wrap icon="o_highlight_off" />-->
+                  <q-chip label="Anulado" color="grey-4" text-color="white" dense flat />
                 </div>
               </q-td>
               <q-td key="proveedorcliente" :props="props">
-                <div class="text-grey" v-if="props.row.client">
+                <div class="text-grey-8" v-if="props.row.client">
                   {{ props.row.client?.name}} {{ props.row.client?.lastname}}
                 </div>
               </q-td>
               <q-td key="montoTotal" :props="props">
-                <span class="text-grey">{{ props.row.total }} Bs</span>
+                <span :class="`text-${props.row.tipo_venta=='INGRESO'?'green':'red'}-7 text-bold` ">
+                  {{ props.row.total }} Bs
+                </span>
               </q-td>
               <q-td key="fechayhora" :props="props" style="min-width: 150px">
                 {{ $filters.dateDmYHis(props.row.date) }}
@@ -220,14 +223,14 @@ export default {
         {
           sheet: 'Adults',
           columns: [
-            { label: 'Proveedor / cliente', value: 'name' },
+            { label: 'Proveedor / cliente', value: row => row.client?.name + ' ' + row.client?.lastname },
             { label: 'Monto total', value: 'total' },
             { label: 'Fecha y hora', value: 'date' },
-            { label: 'Concepto', value: 'concepto' },
-            { label: 'Comentario', value: 'comentario' },
+            { label: 'Concepto', value: 'description' },
+            { label: 'Comentario', value: 'observacion' },
             { label: 'Egreso / ingreso', value: 'tipo_venta' },
             { label: 'Usuario', value: 'user.name' },
-            { label: 'Lugar', value: 'lugar' }
+            // { label: 'Lugar', value: 'lugar' }
           ],
           content: this.sales
         }
