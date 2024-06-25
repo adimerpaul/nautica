@@ -19,7 +19,7 @@ return new class extends Migration
             $table->double('price', 8, 2)->nullable();
             $table->double('costo', 8, 2)->nullable();
             $table->string('status')->nullable();
-            $table->integer('stock')->nullable();
+            $table->integer('stock')->nullable()->default(0);
             $table->unsignedBigInteger('category_id')->nullable();
             $table->foreign('category_id')->references('id')->on('categories');
             $table->unsignedBigInteger('user_id')->nullable();
