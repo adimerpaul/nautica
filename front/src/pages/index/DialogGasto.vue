@@ -20,6 +20,9 @@
             <q-select outlined dense hint="" v-model="gasto.metodo" :options="$metodos" label="Método de pago" />
           </div>
           <div class="col-12">
+            <q-input outlined dense hint="" v-model="gasto.date" label="Fecha" type="datetime-local" />
+          </div>
+          <div class="col-12">
             <q-select outlined dense hint="" v-model="gasto.client_id" :options="provider" label="Proveedor" emit-value map-options
                       option-value="id" option-label="name" use-input
                       :rules="[val => !!val || 'Campo requerido']"
@@ -40,6 +43,8 @@
   </q-card>
 </template>
 <script>
+import moment from "moment";
+
 export default {
   data () {
     return {
@@ -48,7 +53,8 @@ export default {
         monto: '',
         concepto: '',
         metodo: 'EFECTIVO',
-        client_id: ''
+        client_id: '',
+        date: moment().format('YYYY-MM-DD HH:mm')
       },
       loading: false
     }

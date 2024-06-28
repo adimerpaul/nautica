@@ -137,19 +137,7 @@ class SaleController extends Controller{
             $request->merge(['concepto' => 'GASTO' . date('Y-m-d H:i:s')] );
         }
         $sale = new Sale();
-//        $sale->client_id = $request->client_id;
-//        $sale->user_id = $request->user()->id; // Auth::user()->id
-//        $sale->tipo_venta = 'EGRESO'; // 'INGRESO' 'EGRESO' 'ANULADO' 'COTIZACION
-//        $sale->concepto = $request->concepto;
-//        $sale->descuento = 0;
-//        $sale->subtotal = $request->monto;
-//        $sale->total = $request->monto;
-//        $sale->precio = 'CONTADO';
-//        $sale->metodo = $request->metodo;
-//        $sale->precio_colocado = '';
-//        $sale->estado = 'ACTIVO';
-//        $sale->fecha_emision = date('Y-m-d H:i:s');
-        $sale->date = date('Y-m-d H:i:s');
+        $sale->date = $request->date;
         $sale->client_id = $request->client_id;
         $sale->total = $request->monto;
         $sale->tipo = 'CONTADO';
