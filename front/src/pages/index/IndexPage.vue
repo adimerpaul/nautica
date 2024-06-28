@@ -23,13 +23,16 @@
         <q-btn label="Nuevo Venta" color="green"  icon="add_circle_outline" no-caps rounded to="/sales"/>
         <q-btn label="Nuevo Gasto" color="red"  icon="add_circle_outline" no-caps rounded @click="gastoDialog = true"/>
       </div>
-      <div class="col-12 col-md-4 q-pa-xs">
+      <div class="col-12 col-md-3 q-pa-xs">
         <CardComponent :amount="balance" color="grey" title="Balance" icon="account_balance" />
       </div>
-      <div class="col-12 col-md-4 q-pa-xs">
+      <div class="col-12 col-md-3 q-pa-xs">
+        <CardComponent :amount="ingresoTransferencia" color="blue" title="Transferencias" icon="o_trending_up" />
+      </div>
+      <div class="col-12 col-md-3 q-pa-xs">
         <CardComponent :amount="ingreso" color="green" title="Ventas" icon="o_trending_up" />
       </div>
-      <div class="col-12 col-md-4 q-pa-xs">
+      <div class="col-12 col-md-3 q-pa-xs">
         <CardComponent :amount="gasto" color="red" title="Gastos" icon="o_trending_down" />
       </div>
       <div class="col-12">
@@ -184,59 +187,6 @@ export default {
   },
   methods: {
     exportar () {
-        // [
-        // {
-        //   "id": 2,
-        //   "date": "2024-06-25 03:52:01",
-        //   "client_id": 4,
-        //   "total": 3.5,
-        //   "tipo": "CREDITO",
-        //   "user_id": 1,
-        //   "status": "ACTIVO",
-        //   "observacion": null,
-        //   "pago": "TRANSFERENCIA",
-        //   "description": "1 Pescado Caite, 1 Pescado Rojo",
-        //   "tipo_venta": "INGRESO",
-        //   "user": {
-        //     "id": 1,
-        //     "name": "Administrador",
-        //     "role": "SUPERADMIN",
-        //     "username": "admin",
-        //     "email": "admin@test.com",
-        //     "email_verified_at": null
-        //   },
-        //   "client": {
-        //     "id": 4,
-        //     "name": "ADALID",
-        //     "lastname": "CHAMBI",
-        //     "company": "CHAMBI",
-        //     "nit": "12345678",
-        //     "phone": "1234567"
-        //   },
-        //   "details": [
-        //     {
-        //       "id": 6,
-        //       "sale_id": 2,
-        //       "product_id": 9,
-        //       "user_id": 1,
-        //       "product_name": "Pescado Caite",
-        //       "quantity": 1,
-        //       "price": 1,
-        //       "total": 1
-        //     },
-        //     {
-        //       "id": 7,
-        //       "sale_id": 2,
-        //       "product_id": 8,
-        //       "user_id": 1,
-        //       "product_name": "Pescado Rojo",
-        //       "quantity": 1,
-        //       "price": 2.5,
-        //       "total": 2.5
-        //     }
-        //   ]
-        // }
-        // ]
       const data = [
         {
           sheet: 'Adults',
@@ -317,7 +267,6 @@ export default {
     balance () {
       const total = this.sales.reduce((acc, sale) => {
         // y que no se anulado
-        // return sale.tipo_venta === 'INGRESO' ? acc + sale.total : acc - sale.total
         return sale.status !== 'ANULADO' ? sale.tipo_venta === 'INGRESO' ? acc + sale.total : acc - sale.total : acc
       }, 0)
       return Math.round(total * 100) / 100
@@ -325,13 +274,25 @@ export default {
     ingreso () {
       const total = this.sales.reduce((acc, sale) => {
         // y que no sea anulado
-        return sale.tipo_venta === 'INGRESO' && sale.status !== 'ANULADO' ? acc + sale.total : acc
+        //y que el pago sea en efectivo
+        return sale.tipo_venta === 'INGRESO' && sale.status !== 'ANULADO'
+          && sale.pago === 'EFECTIVO'
+          ? acc + sale.total : acc
+      }, 0)
+      return Math.round(total * 100) / 100
+    },
+    ingresoTransferencia () {
+      const total = this.sales.reduce((acc, sale) => {
+        // y que no sea anulado
+        //y que el pago sea en efectivo
+        return sale.tipo_venta === 'INGRESO' && sale.status !== 'ANULADO'
+        && sale.pago === 'TRANSFERENCIA'
+          ? acc + sale.total : acc
       }, 0)
       return Math.round(total * 100) / 100
     },
     gasto () {
       const total = this.sales.reduce((acc, sale) => {
-        // return sale.tipo_venta === 'EGRESO' ? acc + sale.total : acc
         // y que su estado no se anulado
         return sale.tipo_venta === 'EGRESO' && sale.status !== 'ANULADO' ? acc + sale.total : acc
       }, 0)
