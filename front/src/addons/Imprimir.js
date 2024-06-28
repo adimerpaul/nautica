@@ -118,11 +118,19 @@ Tel. ${env.telefono}<br>
 </tr><tr><td class='titder'>NIT/CI/CEX:</td><td class='contenido'>${factura.client ? factura.client.nit : ''}</td></tr>
 <tr><td class='titder'>FECHA DE EMISIÓN:</td><td class='contenido'>${factura.date}</td></tr>
 </table><hr><div class='titulo'>DETALLE</div>`
-        factura.details.forEach(r => {
-          cadena += `<div style='font-size: 14px'><b>${r.product_name} </b></div>`
-          cadena += `<div>${r.quantity} ${parseFloat(r.price).toFixed(2)}
+
+        if (factura.tipo_venta === 'EGRESO') {
+            cadena += `<div style='font-size: 14px'><b>${factura.description} </b></div>`
+            // cadena += `<div>1 ${parseFloat(factura.total).toFixed(2)}
+            //         <span style='float:right'>${parseFloat(factura.total).toFixed(2)}</span></div>`
+        }else{
+          factura.details.forEach(r => {
+            cadena += `<div style='font-size: 14px'><b>${r.product_name} </b></div>`
+            cadena += `<div>${r.quantity} ${parseFloat(r.price).toFixed(2)}
                     <span style='float:right'>${parseFloat(r.total).toFixed(2)}</span></div>`
-        })
+          })
+        }
+
         cadena += `<hr>
       <table style='font-size: 8px;'>
       <tr><td class='titder' style='width: 60%'>SUBTOTAL Bs</td><td class='conte2'>${parseFloat(factura.total).toFixed(2)}</td></tr>
