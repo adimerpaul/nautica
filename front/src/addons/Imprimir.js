@@ -105,24 +105,23 @@ Oruro</div>
         let cadena = `${this.head()}
   <div style='padding-left: 0.5cm;padding-right: 0.5cm'>
   <img src="logo.png" alt="logo" style="width: 100px; height: 100px; display: block; margin-left: auto; margin-right: auto;">
-      <div class='titulo'>${factura.tipoVenta === 'Egreso' ? 'NOTA DE EGRESO' : 'NOTA DE VENTA'}</div>
+      <div class='titulo'>${factura.tipo_venta === 'EGRESO' ? 'NOTA DE EGRESO' : 'NOTA DE VENTA'}</div>
       <div class='titulo2'>${env.razon} <br>
       Casa Matriz<br>
       No. Punto de Venta 0<br>
 ${env.direccion}<br>
 Tel. ${env.telefono}<br>
-Oruro</div>
+</div>
 <hr>
 <table>
-<tr><td class='titder'>NOMBRE/RAZÓN SOCIAL:</td><td class='contenido'>${factura.client ? factura.client.nombreRazonSocial : ''}</td>
-</tr><tr><td class='titder'>NIT/CI/CEX:</td><td class='contenido'>${factura.client ? factura.client.numeroDocumento : ''}</td></tr>
-<tr><td class='titder'>FECHA DE EMISIÓN:</td><td class='contenido'>${factura.fechaEmision}</td></tr>
+<tr><td class='titder'>NOMBRE/RAZÓN SOCIAL:</td><td class='contenido'>${factura.client ? factura.client.name+' '+factura.client.lastname : ''}</td>
+</tr><tr><td class='titder'>NIT/CI/CEX:</td><td class='contenido'>${factura.client ? factura.client.nit : ''}</td></tr>
+<tr><td class='titder'>FECHA DE EMISIÓN:</td><td class='contenido'>${factura.date}</td></tr>
 </table><hr><div class='titulo'>DETALLE</div>`
         factura.details.forEach(r => {
-          cadena += `<div style='font-size: 12px'><b>${r.product_id} ${r.descripcion} </b></div>`
-          cadena += `<div>${r.cantidad} ${parseFloat(r.precioUnitario).toFixed(2)}
-                    <span style="color: grey;font-size: 7px">${parseFloat(r?.product?.precio).toFixed(2)}</span>
-                    <span style='float:right'>${parseFloat(r.subTotal).toFixed(2)}</span></div>`
+          cadena += `<div style='font-size: 14px'><b>${r.product_name} </b></div>`
+          cadena += `<div>${r.quantity} ${parseFloat(r.price).toFixed(2)}
+                    <span style='float:right'>${parseFloat(r.total).toFixed(2)}</span></div>`
         })
         cadena += `<hr>
       <table style='font-size: 8px;'>
@@ -324,7 +323,7 @@ Oruro</div>
     return `<html>
 <style>
       .titulo{
-      font-size: 12px;
+      font-size: 14px;
       text-align: center;
       font-weight: bold;
       }
