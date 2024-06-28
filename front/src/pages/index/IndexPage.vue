@@ -52,6 +52,7 @@
               <q-th key="fechayhora" :props="props">Fecha y hora</q-th>
               <q-th key="concepto" :props="props">Concepto</q-th>
               <q-th key="comentario" :props="props">Comentario</q-th>
+              <q-th key="pago" :props="props">Pago</q-th>
               <q-th key="egresoingreso" :props="props">Egreso / ingreso</q-th>
               <q-th key="user" :props="props">Usuario</q-th>
               <q-th key="lugar" :props="props">Lugar</q-th>
@@ -98,9 +99,9 @@
                   {{ props.row.client?.name}} {{ props.row.client?.lastname}}
                 </div>
               </q-td>
-              <q-td key="montoTotal" :props="props">
+              <q-td key="montoTotal" :props="props" class="text-right">
                 <span :class="`text-${props.row.tipo_venta=='INGRESO'?'green':'red'}-7 text-bold` ">
-                  {{ props.row.total }} Bs
+                  {{ props.row.total }} $
                 </span>
               </q-td>
               <q-td key="fechayhora" :props="props" style="min-width: 150px">
@@ -119,6 +120,9 @@
               </q-td>
               <q-td key="comentario" :props="props">
                 <div class="" style="width: 300px; white-space: normal; overflow-wrap: break-word;line-height: 0.9;">{{ props.row.observacion }}</div>
+              </q-td>
+              <q-td key="pago" :props="props">
+                <q-chip :color="`${props.row.pago=='EFECTIVO'?'blue':'green'}-5`" text-color="white" dense flat :label="props.row.pago"/>
               </q-td>
               <q-td key="egresoingreso" :props="props">
                 <q-chip :color="`${props.row.tipo_venta=='INGRESO'?'green':'red'}-5`" text-color="white" dense flat :label="props.row.tipo_venta"/>
@@ -164,9 +168,9 @@ export default {
         { name: 'fechayhora', label: 'Fecha y hora', align: 'left', field: 'fechayhora', sortable: true },
         { name: 'concepto', label: 'Concepto', align: 'left', field: 'concepto', sortable: true },
         { name: 'comentario', label: 'Comentario', align: 'left', field: 'comentario', sortable: true },
-        // { name: 'agencia', label: 'Agencia', align: 'left', field: 'agencia', sortable: true },
+        { name: 'pago', label: 'Pago', align: 'left', field: 'pago', sortable: true },
         // { name: 'metodoPago', label: 'Metodo de pago', align: 'left', field: 'metodoPago', sortable: true },
-        { name: 'egresoingreso', label: 'Egreso / ingreso', align: 'left', field: 'egreso / ingreso', sortable: true },
+        // { name: 'egresoingreso', label: 'Egreso / ingreso', align: 'left', field: 'egreso / ingreso', sortable: true },
         { name: 'user', label: 'Usuario', align: 'left', field: (row) => row.user.name, sortable: true },
         // { name: 'lugar', label: 'lugar', align: 'left', field: (row) => row.user.lugar, sortable: true }
       ],
