@@ -6,6 +6,11 @@ export const useCounterStore = defineStore('counter', {
     user: {},
     isLogged: !!localStorage.getItem('tokenPrestamos'),
     orders: [],
+    env: {
+      razon: 'Mariscos Tevez',
+      direccion: 'Calle 1, No. 2',
+      telefono: '809-123-4567',
+    }
   }),
   getters: {
     doubleCount: (state) => state.counter * 2,
