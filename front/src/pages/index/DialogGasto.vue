@@ -86,6 +86,7 @@
 </template>
 <script>
 import moment from "moment";
+import {Imprimir} from "src/addons/Imprimir";
 
 export default {
   data () {
@@ -147,6 +148,7 @@ export default {
         this.$emit('gastoCreated', res.data)
         this.$alert.success('Gasto registrado')
         // this.$emit('close')
+        Imprimir.nota(res.data)
       }).catch(err => {
         this.$alert.error(err.response.data.message)
       }).finally(() => {

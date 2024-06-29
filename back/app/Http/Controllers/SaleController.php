@@ -147,7 +147,12 @@ class SaleController extends Controller{
         $sale->pago = $request->metodo;
         $sale->description = $request->concepto;
         $sale->save();
-        return $sale->with(['user', 'client'])->find($sale->id);
+//        $sales = Sale::whereBetween('date', [$fechaInicioSemana, $fechaFinSemana])
+//            ->where('description', 'LIKE', "%$concepto%")
+//            ->with(['user', 'client', 'details'])
+//            ->orderBy('id', 'desc')
+//            ->get();
+        return Sale::with('client', 'user', 'details')->where('id', $sale->id)->first();
 
     }
 }
