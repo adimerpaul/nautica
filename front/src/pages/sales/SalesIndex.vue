@@ -176,9 +176,12 @@
         </q-card-section>
       </q-card>
     </q-dialog>
+    <div id="myElement" class="hidden"></div>
   </q-page>
 </template>
 <script>
+
+import {Imprimir} from "src/addons/Imprimir";
 
 export default {
   name: 'ProductsIndex',
@@ -222,6 +225,7 @@ export default {
         this.saleDialog = false
         this.cartClear()
         this.productsGet()
+        Imprimir.nota(response.data)
       }).catch(error => {
         this.$alert.error('Error al realizar la venta')
       }).finally(() => {
@@ -229,7 +233,7 @@ export default {
       })
     },
     clientGet () {
-      this.$axios.get('clients').then(response => {
+      this.$axios.get('clientsCliente').then(response => {
         this.clients = response.data
         this.clientsAll = response.data
       })

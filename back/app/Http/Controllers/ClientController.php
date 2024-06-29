@@ -12,6 +12,9 @@ class ClientController extends Controller{
     public function index(){
         return Client::orderBy('id', 'desc')->get();
     }
+    function clientsCliente(){
+        return Client::where('tipo','CLIENTE')->get();
+    }
 
     public function store(Request $request){
         $client = new Client();

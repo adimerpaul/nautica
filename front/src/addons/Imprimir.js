@@ -108,7 +108,7 @@ Oruro</div>
       <div class='titulo'>${factura.tipo_venta === 'EGRESO' ? 'NOTA DE EGRESO' : 'NOTA DE VENTA'}</div>
       <div class='titulo2'>${env.razon} <br>
       Casa Matriz<br>
-      No. Punto de Venta 0<br>
+      <span style="font-weight: bold">No.  ${factura.id}</span><br>
 ${env.direccion}<br>
 Tel. ${env.telefono}<br>
 </div>
