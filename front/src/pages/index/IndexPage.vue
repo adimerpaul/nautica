@@ -30,7 +30,7 @@
         <CardComponent :amount="ingresoTransferencia" color="blue" title="Transferencias" icon="o_trending_up" />
       </div>
       <div class="col-12 col-md-3 q-pa-xs">
-        <CardComponent :amount="ingreso" color="green" title="Ventas" icon="o_trending_up" />
+        <CardComponent :amount="ingreso" color="green" title="Efectivo" icon="o_trending_up" />
       </div>
       <div class="col-12 col-md-3 q-pa-xs">
         <CardComponent :amount="gasto" color="red" title="Gastos" icon="o_trending_down" />
