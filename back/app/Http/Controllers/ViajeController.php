@@ -55,7 +55,7 @@ class ViajeController extends Controller{
     }
     public function show($id){
         $viaje= Viaje::with(['boat'])->find($id);
-        $productoViaje = ProductoViaje::where('viaje_id', $id)->with(['product', 'user'])->orderBy('id', 'desc')->get();
+        $productoViaje = ProductoViaje::where('viaje_id', $id)->with(['product','descargas', 'user'])->orderBy('id', 'desc')->get();
         if (!$viaje) {
             return response()->json(['error' => 'Viaje no encontrado'], 404);
         }

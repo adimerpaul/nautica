@@ -40,7 +40,7 @@
         </div>
         <div class="col-12">
           <label class="text-bold">Observaciones</label>
-          <q-editor v-model="viaje.observaciones" @update:model-value="debouncedUpdateObservaciones" height="100px" />
+          <q-editor min-height="5rem" v-model="viaje.observaciones" @update:model-value="debouncedUpdateObservaciones"  />
         </div>
         <div class="col-12 text-right q-pa-xs">
           <q-btn
@@ -176,7 +176,7 @@ export default {
   mounted() {
     this.id = this.$route.params.id
     this.getViaje()
-    this.debouncedUpdateObservaciones = debounce(this.updateObservaciones, 2000);
+    this.debouncedUpdateObservaciones = debounce(this.updateObservaciones, 1000);
     this.productsGet()
   },
   methods: {
@@ -246,7 +246,7 @@ export default {
     updateObservaciones(value) {
       this.$axios.put(`updateObservaciones/${this.id}`, { observaciones: value })
         .then(response => {
-          this.viaje = response.data
+          // this.viaje = response.data
         })
         .catch(error => {
           console.log(error)
