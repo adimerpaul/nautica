@@ -146,6 +146,7 @@ class SaleController extends Controller{
         $sale->observacion = '';
         $sale->pago = $request->metodo;
         $sale->description = $request->concepto;
+        $sale->numeroFactura = $request->numeroFactura;
         $sale->save();
 //        $sales = Sale::whereBetween('date', [$fechaInicioSemana, $fechaFinSemana])
 //            ->where('description', 'LIKE', "%$concepto%")

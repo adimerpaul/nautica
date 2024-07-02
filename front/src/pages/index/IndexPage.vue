@@ -54,9 +54,9 @@
               <q-th key="montoTotal" :props="props">Monto total</q-th>
               <q-th key="fechayhora" :props="props">Fecha y hora</q-th>
               <q-th key="concepto" :props="props">Concepto</q-th>
-              <q-th key="comentario" :props="props">Comentario</q-th>
+              <q-th key="observacion" :props="props">Comentario</q-th>
               <q-th key="pago" :props="props">Pago</q-th>
-              <q-th key="egresoingreso" :props="props">Egreso / ingreso</q-th>
+              <q-th key="numeroFactura" :props="props">Num. Fac</q-th>
               <q-th key="user" :props="props">Usuario</q-th>
               <q-th key="lugar" :props="props">Lugar</q-th>
             </q-tr>
@@ -117,18 +117,20 @@
                          :class="`bg-${props.row.tipo_venta=='INGRESO'?'green':'red'}-2`" dense flat
                          style="padding: 0px; margin: 0px; border-radius: 0px;position: absolute;top: 5px;left: 0px;"/>
                   <div style="padding-left: 15px">
-                    <div class=" q-ml-xs" style="width: 300px; white-space: normal; overflow-wrap: break-word;line-height: 0.9;">{{ props.row.description }}</div>
+                    <div class=" q-ml-xs" style="width: 180px; white-space: normal; overflow-wrap: break-word;line-height: 0.9;">{{ props.row.description }}</div>
                   </div>
                 </div>
               </q-td>
-              <q-td key="comentario" :props="props">
-                <div class="" style="width: 300px; white-space: normal; overflow-wrap: break-word;line-height: 0.9;">{{ props.row.observacion }}</div>
+              <q-td key="observacion" :props="props">
+                <div class="" style="width: 100px; white-space: normal; overflow-wrap: break-word;line-height: 0.9;">
+                  {{ props.row.observacion }}
+                </div>
               </q-td>
               <q-td key="pago" :props="props">
                 <q-chip :color="`${props.row.pago=='EFECTIVO'?'blue':'green'}-5`" text-color="white" dense flat :label="props.row.pago"/>
               </q-td>
-              <q-td key="egresoingreso" :props="props">
-                <q-chip :color="`${props.row.tipo_venta=='INGRESO'?'green':'red'}-5`" text-color="white" dense flat :label="props.row.tipo_venta"/>
+              <q-td key="numeroFactura" :props="props">
+                <p class="text-right text-red text-bold">{{ props.row.numeroFactura }}</p>
               </q-td>
               <q-td key="user" :props="props">
                 <p>{{ props.row.user?.name }}</p>
@@ -170,9 +172,9 @@ export default {
         { name: 'montoTotal', label: 'Monto total', align: 'left', field: 'montoTotal', sortable: true },
         { name: 'fechayhora', label: 'Fecha y hora', align: 'left', field: 'fechayhora', sortable: true },
         { name: 'concepto', label: 'Concepto', align: 'left', field: 'concepto', sortable: true },
-        { name: 'comentario', label: 'Comentario', align: 'left', field: 'comentario', sortable: true },
+        { name: 'observacion', label: 'Comentario', align: 'left', field: 'observacion', sortable: true },
         { name: 'pago', label: 'Pago', align: 'left', field: 'pago', sortable: true },
-        // { name: 'metodoPago', label: 'Metodo de pago', align: 'left', field: 'metodoPago', sortable: true },
+        { name: 'numeroFactura', label: 'Numero de factura', align: 'left', field: 'numero de factura', sortable: true },
         // { name: 'egresoingreso', label: 'Egreso / ingreso', align: 'left', field: 'egreso / ingreso', sortable: true },
         { name: 'user', label: 'Usuario', align: 'left', field: (row) => row.user.name, sortable: true },
         // { name: 'lugar', label: 'lugar', align: 'left', field: (row) => row.user.lugar, sortable: true }

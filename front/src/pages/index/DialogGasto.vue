@@ -23,6 +23,9 @@
             <q-input outlined dense hint="" v-model="gasto.date" label="Fecha" type="datetime-local" />
           </div>
           <div class="col-12">
+            <q-input outlined dense hint="" v-model="gasto.numeroFactura" label="Número de factura" :rules="[val => !!val || 'Campo requerido']" />
+          </div>
+          <div class="col-12">
             <q-select outlined dense hint="" v-model="gasto.client_id" :options="provider" label="Proveedor" emit-value map-options
                       option-value="id" option-label="name" use-input
                       :rules="[val => !!val || 'Campo requerido']"
