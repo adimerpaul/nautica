@@ -19,6 +19,10 @@ class CrewController extends Controller{
         $crew->name = $request->name;
         $crew->role = $request->role;
         $crew->boat_id = $request->boat_id;
+        $crew->nacionalidad = $request->nacionalidad;
+        $crew->tipoDocumento = $request->tipoDocumento;
+        $crew->numeroIdentificacion = $request->numeroIdentificacion;
+        $crew->telefono = $request->telefono;
         $crew->save();
         return Crew::where('id', $crew->id)->with('boat')->first();
     }
@@ -27,6 +31,10 @@ class CrewController extends Controller{
         $crew->name = $request->name;
         $crew->role = $request->role;
         $crew->boat_id = $request->boat_id;
+        $crew->nacionalidad = $request->nacionalidad;
+        $crew->tipoDocumento = $request->tipoDocumento;
+        $crew->numeroIdentificacion = $request->numeroIdentificacion;
+        $crew->telefono = $request->telefono;
         $crew->save();
         return Crew::where('id', $crew->id)->with('boat')->first();
     }
