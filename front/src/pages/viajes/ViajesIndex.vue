@@ -65,7 +65,7 @@
     </q-table>
 <!--    <pre>{{viajes}}</pre>-->
     <q-dialog v-model="viajeDialog" persistent>
-      <q-card style="width: 250px;max-width: 90vw;">
+      <q-card style="width: 350px;max-width: 95vw;">
         <q-card-section class="row items-center q-pb-none">
           <div class="text-h6">{{ viaje.id ? 'Editar' : 'Agregar' }} Viaje</div>
           <q-space />
@@ -74,13 +74,43 @@
         <q-form @submit="viajeSave">
           <q-card-section>
             <div class="row">
-              <div class="col-12">
+              <div class="col-12 col-md-6">
                 <q-input v-model="viaje.fechaInicio" label="Fecha Inicio" type="date" outlined dense
+                         :rules="[val => !!val || 'Campo requerido']" @update:modelValue="caculoDias" />
+              </div>
+              <div class="col-12 col-md-6">
+                <q-input v-model="viaje.fechaFin" label="Fecha Fin" type="date" outlined dense
+                         :rules="[val => !!val || 'Campo requerido', val => moment(val).isSameOrAfter(viaje.fechaInicio) || 'La fecha debe ser mayor o igual a la fecha de inicio']"
+                          @update:modelValue="caculoDias"
+                />
+              </div>
+              <div class="col-12 col-md-6">
+                <q-input v-model="viaje.hora" label="Hora" outlined dense type="time"
+                         :rules="[val => !!val || 'Campo requerido']" />
+              </div>
+              <div class="col-12 col-md-6">
+                <q-input v-model="viaje.dias" label="Días" outlined dense type="number"
                          :rules="[val => !!val || 'Campo requerido']" />
               </div>
               <div class="col-12">
-                <q-input v-model="viaje.fechaFin" label="Fecha Fin" type="date" outlined dense
-                         :rules="[val => !!val || 'Campo requerido', val => moment(val).isSameOrAfter(viaje.fechaInicio) || 'La fecha debe ser mayor o igual a la fecha de inicio']" />
+                <q-input v-model="viaje.zarpe" label="Zarpe" outlined dense
+                         :rules="[val => !!val || 'Campo requerido']" />
+              </div>
+              <div class="col-12">
+                <q-input v-model="viaje.puertoSalida" label="Puerto de Salida" outlined dense
+                         :rules="[val => !!val || 'Campo requerido']" />
+              </div>
+              <div class="col-12">
+                <q-input v-model="viaje.puertoLlegada" label="Puerto de Llegada" outlined dense
+                         :rules="[val => !!val || 'Campo requerido']" />
+              </div>
+              <div class="col-12">
+                <q-input v-model="viaje.bandera" label="Bandera" outlined dense
+                         :rules="[val => !!val || 'Campo requerido']" />
+              </div>
+              <div class="col-12">
+                <q-input v-model="viaje.propietario" label="Propietario" outlined dense
+                         :rules="[val => !!val || 'Campo requerido']" />
               </div>
               <div class="col-12">
                 <q-select v-model="viaje.boat_id" :options="boats" label="Barco" outlined dense
@@ -135,6 +165,12 @@ export default {
     this.boatsGet()
   },
   methods: {
+    caculoDias () {
+      if (this.viaje.fechaInicio && this.viaje.fechaFin) {
+        const dias = moment(this.viaje.fechaFin).diff(moment(this.viaje.fechaInicio), 'days')
+        this.viaje.dias = dias
+      }
+    },
     boatsGet () {
       this.loading = true
       this.$axios.get('boats').then(response => {
@@ -193,9 +229,18 @@ export default {
       this.viajeDialog = true
       this.viaje = {
         fechaInicio: moment().format('YYYY-MM-DD'),
-        fechaFin: moment().add(1, 'week').format('YYYY-MM-DD'),
-        boat_id: ''
+        fechaFin: moment().add(1, 'month').format('YYYY-MM-DD'),
+        boat_id: '',
+        observaciones: '',
+        hora: moment().format('HH:00'),
+        dias: '',
+        zarpe: '',
+        puertoSalida: 'MUELLE DE PESCA, PUERTO EL TRIUNFO',
+        puertoLlegada: 'MUELLE DE PESCA, PUERTO EL TRIUNFO',
+        bandera: 'SALVADOREÑA ESA-00283 (ARB 90.74 TM)',
+        propietario: 'LA REYNAGA MORENO, S.A. DE C.V.'
       }
+      this.caculoDias()
     },
     viajeGet () {
       this.loading = true

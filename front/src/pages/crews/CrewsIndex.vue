@@ -19,7 +19,8 @@
       <template v-slot:body-cell-role="props">
         <q-td :props="props">
           <q-chip label="Capitan" text-color="white" v-if="props.row.role === 'CAPITAN'"  dense icon="person" color="primary" />
-          <q-chip label="Tripulante" text-color="white" v-else dense icon="person" color="indigo" />
+          <q-chip label="Tripulante" text-color="white" v-if="props.row.role === 'MARINERO'"  dense icon="person" color="green" />
+          <q-chip label="Maquinista" text-color="white" v-if="props.row.role === 'MAQUINISTA'"  dense icon="person" color="accent" />
         </q-td>
       </template>
       <template v-slot:top-right>
@@ -48,11 +49,23 @@
               <q-input v-model="crew.name" label="Nombre" outlined dense :rules="[val => !!val || 'Campo requerido']" />
             </div>
             <div class="col-12">
-              <q-select v-model="crew.role" :options="[{label: 'Capitán', value: 'CAPITAN'}, {label: 'Marinero', value: 'MARINERO'}]" label="Rol" outlined dense
+              <q-select v-model="crew.role" :options="[{label: 'Capitán', value: 'CAPITAN'}, {label: 'Marinero', value: 'MARINERO'}, {label: 'Maquinista', value: 'MAQUINISTA'}]" label="Rol" outlined dense
                         :rules="[val => !!val || 'Campo requerido']"
                         value-field="value" label-field="label"
                         map-options emit-value
               ></q-select>
+            </div>
+            <div class="col-12">
+              <q-input v-model="crew.nacionalidad" label="Nacionalidad" outlined dense :rules="[val => !!val || 'Campo requerido']" />
+            </div>
+            <div class="col-12">
+              <q-input v-model="crew.tipoDocumento" label="Tipo de Documento" outlined dense :rules="[val => !!val || 'Campo requerido']" />
+            </div>
+            <div class="col-12">
+              <q-input v-model="crew.numeroIdentificacion" label="Número de Identificación" outlined dense :rules="[val => !!val || 'Campo requerido']" />
+            </div>
+            <div class="col-12">
+              <q-input v-model="crew.telefono" label="Teléfono" outlined dense :rules="[val => !!val || 'Campo requerido']" />
             </div>
             <div class="col-12">
               <q-select v-model="crew.boat_id" :options="boats" label="Barco" outlined dense
@@ -79,9 +92,13 @@ export default {
     return {
       columns: [
         { name: 'option', label: 'Opciones', align: 'left', field: row => row.option },
-        { name: 'id', label: 'ID', align: 'left', field: row => row.id },
         { name: 'name', label: 'Nombre', align: 'left', field: row => row.name },
         { name: 'role', label: 'Rol', align: 'left', field: row => row.role },
+        { name: 'nacionalidad', label: 'Nacionalidad', align: 'left', field: row => row.nacionalidad },
+        { name: 'tipoDocumento', label: 'Tipo de Documento', align: 'left', field: row => row.tipoDocumento },
+        { name: 'numeroIdentificacion', label: 'Número de Identificación', align: 'left', field: row => row.numeroIdentificacion },
+        { name: 'telefono', label: 'Teléfono', align: 'left', field: row => row.telefono },
+        { name: 'id', label: 'ID', align: 'left', field: row => row.id },
         { name: 'boat', label: 'Barco', align: 'left', field: row => row.boat?.name },
       ],
       loading: false,

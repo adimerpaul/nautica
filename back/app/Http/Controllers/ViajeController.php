@@ -68,6 +68,13 @@ class ViajeController extends Controller{
         $viaje->fechaInicio = $request->input('fechaInicio');
         $viaje->fechaFin = $request->input('fechaFin');
         $viaje->boat_id = $request->input('boat_id');
+        $viaje->hora = $request->input('hora');
+        $viaje->dias = $request->input('dias');
+        $viaje->zarpe = $request->input('zarpe');
+        $viaje->puertoSalida = $request->input('puertoSalida');
+        $viaje->puertoLlegada = $request->input('puertoLlegada');
+        $viaje->bandera = $request->input('bandera');
+        $viaje->propietario = $request->input('propietario');
 //        $viaje->observaciones = $request->input('observaciones');
         $viaje->save();
         return Viaje::with('boat')->find($viaje->id);
@@ -77,6 +84,13 @@ class ViajeController extends Controller{
         $viaje->fechaInicio = $request->input('fechaInicio');
         $viaje->fechaFin = $request->input('fechaFin');
         $viaje->boat_id = $request->input('boat_id');
+        $viaje->hora = $request->input('hora');
+        $viaje->dias = $request->input('dias');
+        $viaje->zarpe = $request->input('zarpe');
+        $viaje->puertoSalida = $request->input('puertoSalida');
+        $viaje->puertoLlegada = $request->input('puertoLlegada');
+        $viaje->bandera = $request->input('bandera');
+        $viaje->propietario = $request->input('propietario');
 //        $viaje->observaciones = $request->input('observaciones');
         $viaje->save();
         return Viaje::with('boat')->find($viaje->id);
