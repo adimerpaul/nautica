@@ -40,6 +40,12 @@
                 </q-item-section>
                 <q-item-section>Agregar productos</q-item-section>
               </q-item>
+              <q-item clickable v-ripple @click="listaTripulantes(props.row)">
+                <q-item-section avatar>
+                  <q-icon name="print" />
+                </q-item-section>
+                <q-item-section>Lista Tripulantes</q-item-section>
+              </q-item>
             </q-list>
           </q-btn-dropdown>
 <!--          <q-btn flat dense icon="edit" @click="viajeEdit(props.row)" >-->
@@ -145,6 +151,8 @@ export default {
         { name: 'id', label: 'ID', align: 'left', field: row => row.id },
         { name: 'name', label: 'Empresa', align: 'left', field: row => row?.boat?.company?.name },
         { name: 'boat', label: 'Barco', align: 'left', field: row => row?.boat?.name },
+        { name: 'zarpe', label: 'Zarpe', align: 'left', field: row => row.zarpe },
+        { name: 'dias', label: 'Días', align: 'left', field: row => row.dias },
         { name: 'fechaInicio', label: 'Fecha Inicio', align: 'left', field: row => this.$filters.formatdMY(row.fechaInicio) },
         { name: 'fechaFin', label: 'Fecha Fin', align: 'left', field: row => this.$filters.formatdMY(row.fechaFin) },
         { name: 'status', label: 'Estado', align: 'left', field: row => row.status },
@@ -203,6 +211,25 @@ export default {
           this.loading = false
         })
       }
+    },
+    listaTripulantes (viaje) {
+      this.loading = true
+      this.$axios.get(`listaTripulantes/${viaje.id}`, {
+        responseType: 'blob'
+      }).then(response => {
+        const url = window.URL.createObjectURL(new Blob([response.data], { type: 'application/pdf' }));
+        const link = window.document.createElement('a'); // Usa window.document para evitar conflictos
+        link.href = url;
+        link.setAttribute('download', `listaTripulantes-${viaje.id}.pdf`);
+        window.document.body.appendChild(link);
+        link.click();
+        link.remove(); // Elimina el elemento del DOM
+        window.URL.revokeObjectURL(url); // Libera el URL del blob
+      }).catch(error => {
+        this.$alert.error(error.response.data.message)
+      }).finally(() => {
+        this.loading = false
+      })
     },
     addProducts (viaje) {
       this.$router.push('/viajesShow/' + viaje.id)

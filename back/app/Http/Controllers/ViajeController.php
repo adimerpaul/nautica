@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Models\ProductoViaje;
 use App\Models\Viaje;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 
 class ViajeController extends Controller{
     public function productAnular(Request $request, $id){
@@ -105,5 +107,17 @@ class ViajeController extends Controller{
         $viaje = Viaje::find($id);
         $viaje->delete();
         return $viaje;
+    }
+    public function listaTripulantes($id){
+        $viaje = Viaje::find($id);
+        $tripulantes = $viaje->boat->crews;
+        $data = [
+            'viaje' => $viaje,
+            'tripulantes' => $tripulantes
+        ];
+//        $pdf = App::make('dompdf.wrapper');
+//        $pdf->loadView('pdf.tripulantes', $data);
+        $pdf = Pdf::loadView('pdf.tripulantes', $data);
+        return $pdf->stream();
     }
 }
