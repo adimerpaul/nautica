@@ -57,13 +57,13 @@
         <div class="col-12">
           <q-markup-table dense>
             <thead class="bg-primary text-white">
-<!--            protected $fillable = ['product_id', 'viaje_id', 'cantidad', 'fecha', 'status', 'user_id'];-->
+<!--            protected $fillable = ['product', 'viaje_id', 'cantidad', 'fecha', 'status', 'user_id'];-->
               <tr>
                 <th>Acciones</th>
                 <th>Fecha</th>
                 <th>Estado</th>
                 <th>Producto</th>
-                <th>Cantidad</th>
+<!--                <th>Libras</th>-->
                 <th>Usuario</th>
               </tr>
             </thead>
@@ -87,19 +87,24 @@
                   <q-chip label="Anulado" text-color="white" dense v-if="item.status === 'INACTIVO'" color="red" />
 <!--                  <q-chip :label="item.status" text-color="white"  dense v-if="item.status === 'En curso'" color="blue" />-->
                 </td>
-                <td class="text-bold">{{item.product?.name}}</td>
-                <td class="text-right">{{item.cantidad}}</td>
+                <td class="">
+                  <div class="" style="width: 350px; white-space: normal; overflow-wrap: break-word;line-height: 0.9;">
+                    {{item.details}}
+                  </div>
+                </td>
+<!--                <td class="text-right">{{item.cantidad}}</td>-->
                 <td class="text-right">{{item.user?.name}}</td>
               </tr>
             </tbody>
           </q-markup-table>
+          <pre>{{productViaje}}</pre>
         </div>
       </div>
     </q-card>
     <q-dialog v-model="dialogAgregarProducto">
-      <q-card style="witdh: 300px;max-width: 300px;">
+      <q-card style="width: 750px;max-width: 95vh;">
         <q-card-section class="row items-center q-pb-none">
-          <div class="text-h6">Agregar Producto</div>
+          <div class="text-subtitle2 text-bold">Descarga {{viaje.boat?.name}}</div>
           <q-space/>
           <q-btn
             flat
@@ -111,39 +116,102 @@
         </q-card-section>
         <q-form @submit="productAdd">
           <q-card-section>
-            <q-select
-              v-model="product_id"
-              :options="products"
-              label="Producto"
-              emit-value
-              map-options
-              use-input
-              fill-input
-              clearable
-              outlined
-              option-value="id"
-              option-label="name"
-              @filter="filterFn"
-              :rules="[val => !!val || 'Seleccione un producto']"
-            />
-            <q-input
-              v-model="cantidad"
-              label="Cantidad"
-              type="number"
-              clearable
-              outlined
-              step="0.01"
-              :rules="[val => !!val || 'Ingrese una cantidad']"
-            />
-            <q-btn
-              color="green"
-              label="Agregar"
-              type="submit"
-              no-caps
-              class="text-bold full-width"
-              icon="add_circle_outline"
-              :loading="loading"
-            />
+            <div class="row">
+              <div class="col-12 col-md-4">
+                <label for="Nro Descarga">Nro Descarga</label><br>
+                # <q-chip :label="descargar.descarga" text-color="white"  dense color="primary" />
+              </div>
+              <div class="col-12 col-md-4">
+                <label for="Dia">Dia</label><br>
+                <q-chip :label="descargar.dia" text-color="white"  dense color="primary" /> Dia
+              </div>
+              <div class="col-12 col-md-4">
+                <label for="Dia">Fecha</label><br>
+                <q-input v-model="descargar.fecha" outlined type="date" filled dense />
+              </div>
+              <div class="col-12 col-md-6">
+                <label for="Dia">Fecha</label><br>
+                <q-select
+                  v-model="product"
+                  :options="products"
+                  emit-value
+                  map-options
+                  use-input
+                  clearable
+                  outlined
+                  option-label="name"
+                  @filter="filterFn"
+                  dense
+                />
+<!--                <pre>{{product}}</pre>-->
+              </div>
+              <div class="col-12 col-md-3">
+                <label for="Cantidad">Libras</label><br>
+                <q-input
+                  v-model="cantidad"
+                  placeholder="Libras"
+                  clearable
+                  outlined
+                  dense
+                />
+              </div>
+              <div class="col-12 col-md-3 text-center q-mt-md">
+                <q-btn
+                  color="primary"
+                  label="Agregar"
+                  @click="agregarProducto"
+                  no-caps
+                  class="text-bold"
+                  icon="add_circle_outline"
+                  :loading="loading"
+                />
+              </div>
+              <div class="col-12 q-mt-md">
+                <q-markup-table dense >
+                  <thead class="bg-primary text-white">
+                    <tr>
+                      <th>Producto</th>
+                      <th>Stock</th>
+                      <th>Opcion</th>
+                    </tr>
+                  </thead>
+                  <tbody v-if="productBuy.length > 0">
+                    <tr v-for="item in productBuy" :key="item.id">
+                      <td>{{item.name}}</td>
+                      <td class="text-right">{{item.stock}}</td>
+                      <td class="text-right">
+                        <q-btn
+                          color="negative"
+                          label="Eliminar"
+                          no-caps
+                          dense
+                          size="10px"
+                          icon="delete"
+                          @click="() => { productBuy = productBuy.filter(v => v.id !== item.id) }"
+                        />
+                      </td>
+                    </tr>
+                  </tbody>
+                  <tbody v-else>
+                    <tr>
+                      <td colspan="2" class="text-center">No hay productos</td>
+                    </tr>
+                  </tbody>
+                </q-markup-table>
+<!--                <pre>{{productBuy}}</pre>-->
+              </div>
+              <div class="col-12 text-right">
+                <q-btn
+                  color="green"
+                  label="Guardar"
+                  @click="productAdd"
+                  no-caps
+                  class="text-bold"
+                  icon="save"
+                  :loading="loading"
+                />
+              </div>
+            </div>
           </q-card-section>
         </q-form>
       </q-card>
@@ -154,6 +222,7 @@
 
 <script>
 import { debounce } from 'lodash';
+import moment from "moment";
 
 export default {
   name: 'ViajesShow',
@@ -167,10 +236,17 @@ export default {
       dialogAgregarProducto: false,
       products: [],
       productsAll: [],
-      product_id: '',
+      product: '',
       cantidad: '',
       loading: false,
-      productViaje: []
+      productViaje: [],
+      productBuy: [],
+      descargar: {
+        viaje_id: '',
+        descarga: '',
+        dia: '',
+        fecha: '',
+      }
     }
   },
   mounted() {
@@ -180,6 +256,29 @@ export default {
     this.productsGet()
   },
   methods: {
+    agregarProducto() {
+      if (this.product === '') {
+        this.$alert.error('Seleccione un producto')
+        return false
+      }
+      if (this.cantidad === '') {
+        this.$alert.error('Ingrese una cantidad')
+        return false
+      }
+      //verificar si ya eite el producto
+      const exist = this.productBuy.find(v => v.id === this.product.id)
+      if (exist) {
+        this.$alert.error('El producto ya fue agregado')
+        return false
+      }
+      this.productBuy.push({
+        id: this.product.id,
+        name: this.product.name,
+        stock: this.cantidad
+      })
+      this.product = ''
+      this.cantidad = ''
+    },
     anular(item) {
       this.$alert.confirm('¿Está seguro de anular este producto?').onOk(() => {
         this.loading = true
@@ -202,16 +301,16 @@ export default {
     productAdd() {
       this.loading = true
       this.$axios.post('productAdd', {
-        product_id: this.product_id,
-        cantidad: this.cantidad,
-        viaje_id: this.id
+        products: this.productBuy,
+        descarga: this.descargar
       })
         .then(response => {
-          this.productViaje.unshift(response.data)
+          // this.productViaje.unshift(response.data)
           this.dialogAgregarProducto = false
+          this.$alert.success('Producto agregado')
         })
         .catch(error => {
-          console.log(error)
+          this.$alert.error(error.response.data.message)
         }).finally(() => {
           this.loading = false
         })
@@ -239,9 +338,21 @@ export default {
         })
     },
     dialogAgregarProductoClick() {
+
+      const fechaInicio = moment(this.viaje?.fechaInicio)
+      const fechaActual = moment()
+      const dias = fechaActual.diff(fechaInicio, 'days')
+
       this.dialogAgregarProducto = true
-      this.product_id = ''
+      this.product = ''
       this.cantidad = ''
+      this.descargar = {
+        viaje_id: this.id,
+        descarga: this.productViaje.length + 1,
+        dia: dias + 1,
+        fecha: moment().format('YYYY-MM-DD')
+      }
+      this.productBuy = []
     },
     updateObservaciones(value) {
       this.$axios.put(`updateObservaciones/${this.id}`, { observaciones: value })

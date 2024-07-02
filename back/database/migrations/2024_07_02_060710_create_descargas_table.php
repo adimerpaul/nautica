@@ -18,6 +18,7 @@ return new class extends Migration
             $table->unsignedBigInteger('viaje_id');
             $table->foreign('viaje_id')->references('id')->on('viajes');
             $table->string('descarga');
+            $table->string('status')->default('ACTIVO');
             $table->string('dia');
             $table->date('fecha');
             $table->timestamps();
