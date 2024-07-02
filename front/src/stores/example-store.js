@@ -7,9 +7,9 @@ export const useCounterStore = defineStore('counter', {
     isLogged: !!localStorage.getItem('tokenPrestamos'),
     orders: [],
     env: {
-      razon: 'Mariscos Tevez',
-      direccion: 'Calle 1, No. 2',
-      telefono: '809-123-4567',
+      razon: 'Tévez Mariscos',
+      direccion: 'Calle Francisco, gavidia #19,Puerto El triunfo Usulutan',
+      telefono: '72790988',
     }
   }),
   getters: {
