@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Descarga;
 use App\Models\Product;
 use App\Models\ProductoViaje;
 use App\Models\Viaje;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\DB;
+use function Laravel\Prompts\error;
 
 class ViajeController extends Controller{
     public function productAnular(Request $request, $id){
@@ -21,27 +24,41 @@ class ViajeController extends Controller{
         return $productoViaje;
     }
     public function productAdd(Request $request){
-        $viaje_id = $request->viaje_id;
-        $product_id = $request->product_id;
-        $cantidad = $request->cantidad;
-        $user_id = $request->user()->id;
-//        $viaje = Viaje::find($viaje_id);
-//        if (!$viaje) {
-//            return response()->json(['error' => 'Viaje no encontrado'], 404);
-//        }
-//        $viaje->products()->attach($product_id, ['cantidad' => $cantidad, 'user_id' => $user_id, 'fecha' => now()]);
-        $productoViaje = new ProductoViaje();
-        $productoViaje->viaje_id = $viaje_id;
-        $productoViaje->product_id = $product_id;
-        $productoViaje->cantidad = $cantidad;
-        $productoViaje->user_id = $user_id;
-        $productoViaje->fecha = now();
-        $productoViaje->save();
-        //aumentar en producto la cantidad
-        $producto = Product::find($product_id);
-        $producto->stock = $producto->stock + $cantidad;
-        $producto->save();
-        return ProductoViaje::with(['product', 'user'])->where('id', $productoViaje->id)->first();
+        try {
+//            error(json_encode($request->all()));
+            DB::beginTransaction();
+            $user = $request->user();
+            $descarga=$request->descarga;
+            error(json_encode($descarga));
+            error($descarga['viaje_id']);
+            $products = $request->products;
+            $descargaNew = new Descarga();
+            $descargaNew->user_id = $user->id;
+            $descargaNew->viaje_id = $descarga['viaje_id'];
+            $descargaNew->descarga = $descarga['descarga'];
+            $descargaNew->dia = $descarga['dia'];
+            $descargaNew->fecha = $descarga['fecha'];
+            $descargaNew->save();
+            foreach ($products as $product){
+                $productoViaje = new ProductoViaje();
+                $productoViaje->viaje_id = $descarga['viaje_id'];
+                $productoViaje->product_id = $product['id'];
+                $productoViaje->cantidad = $product['stock'];
+                $productoViaje->user_id = $user->id;
+                $productoViaje->fecha = now();
+                $productoViaje->descarga_id = $descargaNew->id;
+                $productoViaje->save();
+                //aumentar en producto la cantidad
+                $producto = Product::find($product['id']);
+                $producto->stock = $producto->stock + $product['stock'];
+                $producto->save();
+            }
+            DB::commit();
+            return response()->json(['message' => 'Producto agregado correctamente'], 200);
+        }catch (\Exception $e){
+            DB::rollBack();
+            return response()->json(['message' => $e->getMessage()], 500);
+        }
     }
     public function index(Request $request){
         $fechaInicio = $request->input('fechaInicio');
@@ -55,7 +72,11 @@ class ViajeController extends Controller{
     }
     public function show($id){
         $viaje= Viaje::with(['boat'])->find($id);
-        $productoViaje = ProductoViaje::where('viaje_id', $id)->with(['product','descargas', 'user'])->orderBy('id', 'desc')->get();
+        $productoViaje = Descarga::where('viaje_id', $id)
+            ->with('user')
+            ->with('viaje')
+            ->with('productos')
+            ->get();
         if (!$viaje) {
             return response()->json(['error' => 'Viaje no encontrado'], 404);
         }

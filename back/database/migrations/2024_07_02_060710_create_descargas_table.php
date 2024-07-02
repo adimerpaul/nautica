@@ -19,7 +19,7 @@ return new class extends Migration
             $table->foreign('viaje_id')->references('id')->on('viajes');
             $table->string('descarga');
             $table->string('dia');
-            $table->dateTime('fecha');
+            $table->date('fecha');
             $table->timestamps();
         });
     }

@@ -19,7 +19,7 @@ class ProductoViaje extends Model
     function user(){
         return $this->belongsTo(User::class, 'user_id');
     }
-    public function descargas(){
-        return $this->hasMany(Descarga::class, 'producto_viaje_id');
+    function descarga(){
+        return $this->belongsTo(Descarga::class, 'descarga_id');
     }
 }
