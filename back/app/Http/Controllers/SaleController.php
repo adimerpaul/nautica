@@ -143,7 +143,7 @@ class SaleController extends Controller{
         $sale->tipo = 'CONTADO';
         $sale->tipo_venta = 'EGRESO';
         $sale->user_id = $request->user()->id;
-        $sale->observacion = '';
+        $sale->observacion = $request->concepto;
         $sale->pago = $request->metodo;
         $sale->description = $request->concepto;
         $sale->numeroFactura = $request->numeroFactura;

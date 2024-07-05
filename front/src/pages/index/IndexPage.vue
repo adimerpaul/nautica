@@ -17,11 +17,11 @@
         </q-input>
       </div>
       <div class="col-12 col-md-2 text-right">
-        <q-btn label="Exportar" color="primary"  icon="get_app" no-caps rounded @click="exportar"/>
+        <q-btn label="Exportar" color="primary"  icon="get_app" no-caps rounded @click="exportar" :loading="loading"/>
       </div>
       <div class="col-12 col-md-4 text-right">
-        <q-btn label="Nuevo Venta" color="green"  icon="add_circle_outline" no-caps rounded to="/sales"/>
-        <q-btn label="Nuevo Gasto" color="red"  icon="add_circle_outline" no-caps rounded @click="gastoDialog = true"/>
+        <q-btn :loading="loading" label="Nuevo Venta" color="green"  icon="add_circle_outline" no-caps rounded to="/sales"/>
+        <q-btn :loading="loading" label="Nuevo Gasto" color="red"  icon="add_circle_outline" no-caps rounded @click="gastoDialog = true"/>
       </div>
       <div class="col-12 col-md-3 q-pa-xs">
         <CardComponent :amount="balance" color="grey" title="Balance" icon="account_balance" />
@@ -208,6 +208,7 @@ export default {
       //
       // Excel.export(data, 'ventas')
       //descragar de exportSalesExcel desde api con axios
+      this.loading = true
       this.$axios.get('exportSalesExcel', {
         params: {
           fechaInicioSemana: this.fechaInicioSemana,
@@ -227,6 +228,8 @@ export default {
         })
         .catch(error => {
           console.log(error)
+        }).finally(() => {
+          this.loading = false
         })
     },
     reimprimirNota (sale) {

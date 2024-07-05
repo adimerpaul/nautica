@@ -16,17 +16,47 @@ class ExcelController extends Controller{
         $fechaInicioSemana = $request->fechaInicioSemana;
         $fechaFinSemana = $request->fechaFinSemana;
 //        $sales = Sale::whereBetween('date', [$fechaInicioSemana, $fechaFinSemana])->with('details')->get();
-        $details = Detail::whereHas('sale', function ($query) use ($fechaInicioSemana, $fechaFinSemana) {
-            $query->whereBetween('date', [$fechaInicioSemana, $fechaFinSemana]);
-        })->with('sale')->get();
+
+        $details = [];
+        $meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+
+        $sales = Sale::whereBetween('date', [$fechaInicioSemana, $fechaFinSemana])->get();
+        foreach ($sales as $sale) {
+            if ($sale->tipo_venta == 'INGRESO') {
+                $detail = Detail::where('sale_id', $sale->id)->first();
+                if ($detail) {
+                    foreach ($detail as $d) {
+                        $details[] = [
+                            'tipo_venta' => $sale->tipo_venta,
+                            'mes' => $meses[date('n', strtotime($sale->date)) - 1],
+                            'date' => $sale->date,
+                            'proveedor' => $sale->client->name,
+                            'numeroFactura' => $sale->numeroFactura,
+                        ];
+                    }
+                }
+            }else{
+                $details[] = [
+                    'tipo_venta' => $sale->tipo_venta,
+                    'mes' => $meses[date('n', strtotime($sale->date)) - 1],
+                    'date' => $sale->date,
+                    'proveedor' => $sale->client->name,
+                    'numeroFactura' => $sale->numeroFactura,
+                ];
+            }
+        }
 
         $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load('a.xlsx');
 
         $sheet = $spreadsheet->getActiveSheet();
-        $sheet->setCellValue('E2', 'Hello World !');
-
+//        $sheet->setCellValue('E2', 'Hello World !');
         foreach ($details as $key => $detail) {
-            $sheet->setCellValue('A' . ($key + 13), $detail->sale->tipo);
+//            Tipo	MES	Embarcacion	Fecha	Proveedor	Factura	Detalle	Resumen	 unidad 	 precio 	 Venta 	 Gastos 	 Totales
+            $sheet->setCellValue('A' . ($key + 13), $detail['tipo_venta']);
+            $sheet->setCellValue('B' . ($key + 13), $detail['mes']);
+            $sheet->setCellValue('D' . ($key + 13), $detail['date']);
+            $sheet->setCellValue('E' . ($key + 13), $detail['proveedor']);
+            $sheet->setCellValue('F' . ($key + 13), $detail['numeroFactura']);
         }
 
         $tempFile = tempnam(sys_get_temp_dir(), 'excel');
