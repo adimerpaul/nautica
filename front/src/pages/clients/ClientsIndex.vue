@@ -43,13 +43,13 @@
               <q-input v-model="client.name" label="Nombre" outlined dense :rules="[val => !!val || 'Campo requerido']" />
             </div>
             <div class="col-12">
-              <q-input v-model="client.lastname" label="Apellido" outlined dense :rules="[val => !!val || 'Campo requerido']" />
+<!--              <q-input v-model="client.lastname" label="Apellido" outlined dense :rules="[val => !!val || 'Campo requerido']" />-->
             </div>
             <div class="col-12">
               <q-input v-model="client.company" label="Empresa" outlined dense :rules="[val => !!val || 'Campo requerido']" />
             </div>
             <div class="col-12">
-              <q-input v-model="client.nit" label="NIT" outlined dense :rules="[val => !!val || 'Campo requerido']" />
+              <q-input v-model="client.nit" label="DUI" outlined dense :rules="[val => !!val || 'Campo requerido']" />
             </div>
             <div class="col-12">
               <q-input v-model="client.phone" label="Teléfono" outlined dense :rules="[val => !!val || 'Campo requerido']" />
@@ -82,9 +82,9 @@ export default {
         { name: 'option', label: 'Opciones', align: 'left', field: row => row.option },
         { name: 'id', label: 'ID', align: 'left', field: row => row.id },
         { name: 'name', label: 'Nombre', align: 'left', field: row => row.name },
-        { name: 'lastname', label: 'Apellido', align: 'left', field: row => row.lastname },
+        // { name: 'lastname', label: 'Apellido', align: 'left', field: row => row.lastname },
         { name: 'company', label: 'Empresa', align: 'left', field: row => row.company },
-        { name: 'nit', label: 'NIT', align: 'left', field: row => row.nit },
+        { name: 'nit', label: 'DUI', align: 'left', field: row => row.nit },
         { name: 'phone', label: 'Teléfono', align: 'left', field: row => row.phone },
         { name: 'tipo', label: 'Tipo', align: 'left', field: row => row.tipo }
       ],
