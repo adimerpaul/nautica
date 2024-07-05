@@ -23,15 +23,22 @@ class ExcelController extends Controller{
         $sales = Sale::whereBetween('date', [$fechaInicioSemana, $fechaFinSemana])->get();
         foreach ($sales as $sale) {
             if ($sale->tipo_venta == 'INGRESO') {
-                $detail = Detail::where('sale_id', $sale->id)->first();
-                if ($detail) {
-                    foreach ($detail as $d) {
+                $detailsGet = Detail::where('sale_id', $sale->id)->get();
+                error(json_encode($detailsGet));
+                if ($detailsGet) {
+                    foreach ($detailsGet as $d) {
                         $details[] = [
                             'tipo_venta' => $sale->tipo_venta,
                             'mes' => $meses[date('n', strtotime($sale->date)) - 1],
                             'date' => $sale->date,
                             'proveedor' => $sale->client->name,
                             'numeroFactura' => $sale->numeroFactura,
+                            'detalle' => $d->product_name,
+                            'unidad' => $d->quantity,
+                            'precio' => $d->price,
+                            'venta' => $d->total,
+                            'gasto' => 0,
+                            'total' => $d->total,
                         ];
                     }
                 }
@@ -42,14 +49,18 @@ class ExcelController extends Controller{
                     'date' => $sale->date,
                     'proveedor' => $sale->client->name,
                     'numeroFactura' => $sale->numeroFactura,
+                    'detalle' => $sale->observacion == null ? $sale->description : $sale->observacion,
+                    'unidad' => 1,
+                    'precio' => $sale->total,
+                    'venta' => 0,
+                    'gasto' => $sale->total,
+                    'total' => $sale->total,
                 ];
             }
         }
-
         $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load('a.xlsx');
 
         $sheet = $spreadsheet->getActiveSheet();
-//        $sheet->setCellValue('E2', 'Hello World !');
         foreach ($details as $key => $detail) {
 //            Tipo	MES	Embarcacion	Fecha	Proveedor	Factura	Detalle	Resumen	 unidad 	 precio 	 Venta 	 Gastos 	 Totales
             $sheet->setCellValue('A' . ($key + 13), $detail['tipo_venta']);
@@ -57,6 +68,12 @@ class ExcelController extends Controller{
             $sheet->setCellValue('D' . ($key + 13), $detail['date']);
             $sheet->setCellValue('E' . ($key + 13), $detail['proveedor']);
             $sheet->setCellValue('F' . ($key + 13), $detail['numeroFactura']);
+            $sheet->setCellValue('G' . ($key + 13), $detail['detalle']);
+            $sheet->setCellValue('I' . ($key + 13), $detail['unidad']);
+            $sheet->setCellValue('J' . ($key + 13), $detail['precio']);
+            $sheet->setCellValue('K' . ($key + 13), $detail['venta']);
+            $sheet->setCellValue('L' . ($key + 13), $detail['gasto']);
+            $sheet->setCellValue('M' . ($key + 13), $detail['total']);
         }
 
         $tempFile = tempnam(sys_get_temp_dir(), 'excel');
