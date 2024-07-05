@@ -150,7 +150,7 @@
                 <q-input v-model="descargar.fecha" outlined type="date" filled dense />
               </div>
               <div class="col-12 col-md-6 q-pa-xs">
-                <label for="Dia">Fecha</label><br>
+                <label for="Dia">Producto</label><br>
                 <q-select
                   v-model="product"
                   :options="products"
