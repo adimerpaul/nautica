@@ -69,6 +69,6 @@ Route::group(['middleware' => 'auth:sanctum'], function(){
     Route::get('/listaTripulantes/{id}', [\App\Http\Controllers\ViajeController::class, 'listaTripulantes']);
 
 });
-
+Route::get('/exportSales', [\App\Http\Controllers\ExcelController::class, 'exportSales']);
 Route::get('/compromiso/{loan_id}', [\App\Http\Controllers\ReportController::class, 'compromiso']);
 //listaTripulantes
