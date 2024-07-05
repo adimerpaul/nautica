@@ -67,8 +67,8 @@ Route::group(['middleware' => 'auth:sanctum'], function(){
     Route::post('/payments', [\App\Http\Controllers\PaymentController::class, 'store']);
     Route::post('/anularPago/{id}', [\App\Http\Controllers\PaymentController::class, 'anularPago']);
     Route::get('/listaTripulantes/{id}', [\App\Http\Controllers\ViajeController::class, 'listaTripulantes']);
+    Route::get('/exportSalesExcel', [\App\Http\Controllers\ExcelController::class, 'exportSalesExcel']);
 
 });
-Route::get('/exportSales', [\App\Http\Controllers\ExcelController::class, 'exportSales']);
 Route::get('/compromiso/{loan_id}', [\App\Http\Controllers\ReportController::class, 'compromiso']);
 //listaTripulantes

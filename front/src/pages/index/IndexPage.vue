@@ -189,24 +189,45 @@ export default {
   },
   methods: {
     exportar () {
-      const data = [
-        {
-          sheet: 'Adults',
-          columns: [
-            { label: 'Proveedor / cliente', value: row => row.client?.name + ' ' + row.client?.lastname },
-            { label: 'Monto total', value: 'total' },
-            { label: 'Fecha y hora', value: 'date' },
-            { label: 'Concepto', value: 'description' },
-            { label: 'Comentario', value: 'observacion' },
-            { label: 'Egreso / ingreso', value: 'tipo_venta' },
-            { label: 'Usuario', value: 'user.name' },
-            // { label: 'Lugar', value: 'lugar' }
-          ],
-          content: this.sales
-        }
-      ]
-
-      Excel.export(data, 'ventas')
+      // const data = [
+      //   {
+      //     sheet: 'Adults',
+      //     columns: [
+      //       { label: 'Proveedor / cliente', value: row => row.client?.name + ' ' + row.client?.lastname },
+      //       { label: 'Monto total', value: 'total' },
+      //       { label: 'Fecha y hora', value: 'date' },
+      //       { label: 'Concepto', value: 'description' },
+      //       { label: 'Comentario', value: 'observacion' },
+      //       { label: 'Egreso / ingreso', value: 'tipo_venta' },
+      //       { label: 'Usuario', value: 'user.name' },
+      //       // { label: 'Lugar', value: 'lugar' }
+      //     ],
+      //     content: this.sales
+      //   }
+      // ]
+      //
+      // Excel.export(data, 'ventas')
+      //descragar de exportSalesExcel desde api con axios
+      this.$axios.get('exportSalesExcel', {
+        params: {
+          fechaInicioSemana: this.fechaInicioSemana,
+          fechaFinSemana: this.fechaFinSemana,
+          concepto: this.concepto
+        },
+        responseType: 'blob'
+      })
+        .then(response => {
+          // console.log(response.data)
+          const url = window.URL.createObjectURL(new Blob([response.data]))
+          const link = document.createElement('a')
+          link.href = url
+          link.setAttribute('download', 'ventas.xlsx')
+          document.body.appendChild(link)
+          link.click()
+        })
+        .catch(error => {
+          console.log(error)
+        })
     },
     reimprimirNota (sale) {
       Imprimir.nota(sale).then(r => {
