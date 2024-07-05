@@ -17,7 +17,9 @@
         </q-input>
       </div>
       <div class="col-12 col-md-2 text-right">
-        <q-btn label="Exportar" color="primary"  icon="get_app" no-caps rounded @click="exportar" :loading="loading"/>
+        <q-btn label="Excel" color="green" size="10px"  icon="fa-solid fa-file-excel" no-caps rounded @click="exportarExcel" :loading="loading"/>
+        <q-btn label="Pdf" color="red" size="10px"  icon="fa-solid fa-file-pdf" no-caps rounded @click="exportarPdf" :loading="loading"/>
+
       </div>
       <div class="col-12 col-md-4 text-right">
         <q-btn :loading="loading" label="Nuevo Venta" color="green"  icon="add_circle_outline" no-caps rounded to="/sales"/>
@@ -141,7 +143,7 @@
             </q-tr>
           </template>
         </q-table>
-<!--                <pre>{{sales}}</pre>-->
+<!--                <pre>{{sales.blade.php}}</pre>-->
       </div>
     </div>
   </q-page>
@@ -188,7 +190,7 @@ export default {
     this.salesGet()
   },
   methods: {
-    exportar () {
+    exportarExcel () {
       // const data = [
       //   {
       //     sheet: 'Adults',
@@ -202,7 +204,7 @@ export default {
       //       { label: 'Usuario', value: 'user.name' },
       //       // { label: 'Lugar', value: 'lugar' }
       //     ],
-      //     content: this.sales
+      //     content: this.sales.blade.php
       //   }
       // ]
       //
@@ -223,6 +225,31 @@ export default {
           const link = document.createElement('a')
           link.href = url
           link.setAttribute('download', 'ventas.xlsx')
+          document.body.appendChild(link)
+          link.click()
+        })
+        .catch(error => {
+          console.log(error)
+        }).finally(() => {
+          this.loading = false
+        })
+    },
+    exportarPdf () {
+      this.loading = true
+      this.$axios.get('exportSalesPdf', {
+        params: {
+          fechaInicioSemana: this.fechaInicioSemana,
+          fechaFinSemana: this.fechaFinSemana,
+          concepto: this.concepto
+        },
+        responseType: 'blob'
+      })
+        .then(response => {
+          // console.log(response.data)
+          const url = window.URL.createObjectURL(new Blob([response.data]))
+          const link = document.createElement('a')
+          link.href = url
+          link.setAttribute('download', 'ventas.pdf')
           document.body.appendChild(link)
           link.click()
         })
@@ -263,7 +290,7 @@ export default {
       })
     },
     gastoCreated (gasto) {
-      // this.sales.push(gasto)
+      // this.sales.blade.php.push(gasto)
       // colocar al principio
       this.sales.unshift(gasto)
       this.gastoDialog = false

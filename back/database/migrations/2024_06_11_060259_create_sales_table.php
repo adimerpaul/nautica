@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('sales', function (Blueprint $table) {
+        Schema::create('sales.blade.php', function (Blueprint $table) {
             $table->id();
             $table->dateTime('date');
             $table->unsignedBigInteger('client_id');
@@ -30,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('sales');
+        Schema::dropIfExists('sales.blade.php');
     }
 };
