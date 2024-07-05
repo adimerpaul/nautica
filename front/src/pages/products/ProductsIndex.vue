@@ -8,6 +8,16 @@
           </div>
           <div class="col-12 col-md-2">
             <q-btn
+              color="primary"
+              label="Actualizar"
+              class="text-bold"
+              @click="productsGet"
+              no-caps
+              icon="refresh"
+              rounded
+              :loading="loading"
+            ></q-btn>
+            <q-btn
               color="grey-8"
               label="Descargar"
               class="text-bold"
@@ -306,8 +316,11 @@ export default {
       this.product = {...product}
     },
     productsGet () {
+      this.loading = true
       this.$axios.get('products').then(response => {
         this.products = response.data
+      }).finally(() => {
+        this.loading = false
       })
     },
     categoriesGet () {

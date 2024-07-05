@@ -79,6 +79,7 @@
                     icon="delete"
                     @click="anular(item)"
                     v-if="item.status === 'ACTIVO'"
+                    :loading="loading"
                   />
                 </td>
                 <td>{{$filters.formatdMYHID(item.fecha)}}</td>
@@ -294,7 +295,7 @@ export default {
             })
           })
           .catch(error => {
-            console.log(error)
+            this.$alert.error(error.response.data.message)
           }).finally(() => {
             this.loading = false
           })

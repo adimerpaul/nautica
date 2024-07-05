@@ -14,14 +14,26 @@ use function Laravel\Prompts\error;
 
 class ViajeController extends Controller{
     public function productAnular(Request $request, $id){
-        $productoViaje = ProductoViaje::find($id);
-        $productoViaje->status = 'INACTIVO';
-        $productoViaje->save();
-        //disminuir en producto la cantidad
-        $producto = Product::find($productoViaje->product_id);
-        $producto->stock = $producto->stock - $productoViaje->cantidad;
-        $producto->save();
-        return $productoViaje;
+//        $productoViaje = ProductoViaje::find($id);
+//        $productoViaje->status = 'INACTIVO';
+//        $productoViaje->save();
+//        //disminuir en producto la cantidad
+//        $producto = Product::find($productoViaje->product_id);
+//        $producto->stock = $producto->stock - $productoViaje->cantidad;
+//        $producto->save();
+//        return $productoViaje;
+        $descarga = Descarga::find($id);
+        $descarga->status = 'INACTIVO';
+        $descarga->save();
+        $productos = ProductoViaje::where('descarga_id', $id)->get();
+
+        foreach ($productos as $producto){
+            $productoUpdate = Product::find($producto->product_id);
+            $productoUpdate->stock = $productoUpdate->stock - $producto->cantidad;
+            $productoUpdate->save();
+//            error(json_encode($producto));
+        }
+        return $descarga;
     }
     public function productAdd(Request $request){
         try {
@@ -29,8 +41,8 @@ class ViajeController extends Controller{
             DB::beginTransaction();
             $user = $request->user();
             $descarga=$request->descarga;
-            error(json_encode($descarga));
-            error($descarga['viaje_id']);
+//            error(json_encode($descarga));
+//            error($descarga['viaje_id']);
             $products = $request->products;
             $descargaNew = new Descarga();
             $descargaNew->user_id = $user->id;
