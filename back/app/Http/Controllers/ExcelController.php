@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Descarga;
 use App\Models\Detail;
 use App\Models\Sale;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -12,6 +13,16 @@ use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use function Laravel\Prompts\error;
 
 class ExcelController extends Controller{
+    function exportDescargarPdf($id){
+        $descargar = Descarga::find($id);
+        $productos = $descargar->productos;
+        $data = [
+            'descargar' => $descargar,
+            'productos' => $productos
+        ];
+        $pdf = Pdf::loadView('pdf.descargar', $data);
+        return $pdf->stream();
+    }
     public function exportSalesExcel(Request $request)
     {
         $fechaInicioSemana = $request->fechaInicioSemana;

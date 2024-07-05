@@ -70,6 +70,8 @@ Route::group(['middleware' => 'auth:sanctum'], function(){
     Route::get('/exportSalesExcel', [\App\Http\Controllers\ExcelController::class, 'exportSalesExcel']);
     Route::get('/exportSalesPdf', [\App\Http\Controllers\ExcelController::class, 'exportSalesPdf']);
 
+//    exportDescargarPdf
+    Route::get('/exportDescargarPdf/{id}', [\App\Http\Controllers\ExcelController::class, 'exportDescargarPdf']);
 });
 Route::get('/compromiso/{loan_id}', [\App\Http\Controllers\ReportController::class, 'compromiso']);
 //listaTripulantes

@@ -81,6 +81,23 @@
                     v-if="item.status === 'ACTIVO'"
                     :loading="loading"
                   />
+                  <q-chip
+                    label="Anulado"
+                    text-color="white"
+                    dense
+                    v-if="item.status === 'INACTIVO'"
+                    color="red"
+                  />
+                  <q-btn
+                    color="primary"
+                    label="Imprimir"
+                    no-caps
+                    dense
+                    size="10px"
+                    icon="print"
+                    v-if="item.status === 'ACTIVO'"
+                    @click="imprimirPdf(item)"
+                    :loading="loading"></q-btn>
                 </td>
                 <td>{{$filters.formatdMYHID(item.fecha)}}</td>
                 <td>
@@ -113,7 +130,7 @@
             dense
             icon="close"
             @click="() => { dialogAgregarProducto = false }"
-          />
+          />¡
         </q-card-section>
         <q-form @submit="productAdd">
           <q-card-section>
@@ -281,6 +298,26 @@ export default {
       })
       this.product = ''
       this.cantidad = ''
+    },
+    imprimirPdf(item) {
+      this.loading = true
+      this.$axios.get('exportDescargarPdf/' + item.id, {
+        responseType: 'blob'
+      })
+        .then(response => {
+          // console.log(response.data)
+          const url = window.URL.createObjectURL(new Blob([response.data]))
+          const link = document.createElement('a')
+          link.href = url
+          link.setAttribute('download', 'descarga.pdf')
+          document.body.appendChild(link)
+          link.click()
+        })
+        .catch(error => {
+          console.log(error)
+        }).finally(() => {
+        this.loading = false
+      })
     },
     anular(item) {
       this.$alert.confirm('¿Está seguro de anular este producto?').onOk(() => {
