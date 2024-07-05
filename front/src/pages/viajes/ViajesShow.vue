@@ -117,19 +117,21 @@
         <q-form @submit="productAdd">
           <q-card-section>
             <div class="row">
-              <div class="col-12 col-md-4">
+              <div class="col-12 col-md-4 q-pa-xs">
                 <label for="Nro Descarga">Nro Descarga</label><br>
-                # <q-chip :label="descargar.descarga" text-color="white"  dense color="primary" />
+<!--                # <q-chip :label="descargar.descarga" text-color="white"  dense color="primary" />-->
+                <q-input v-model="descargar.descarga" outlined filled dense />
               </div>
-              <div class="col-12 col-md-4">
+              <div class="col-12 col-md-4 q-pa-xs">
                 <label for="Dia">Dia</label><br>
-                <q-chip :label="descargar.dia" text-color="white"  dense color="primary" /> Dia
+<!--                <q-chip :label="descargar.dia" text-color="white"  dense color="primary" /> Dia-->
+                <q-input v-model="descargar.dia" outlined filled dense />
               </div>
-              <div class="col-12 col-md-4">
+              <div class="col-12 col-md-4 q-pa-xs">
                 <label for="Dia">Fecha</label><br>
                 <q-input v-model="descargar.fecha" outlined type="date" filled dense />
               </div>
-              <div class="col-12 col-md-6">
+              <div class="col-12 col-md-6 q-pa-xs">
                 <label for="Dia">Fecha</label><br>
                 <q-select
                   v-model="product"
@@ -145,7 +147,7 @@
                 />
 <!--                <pre>{{product}}</pre>-->
               </div>
-              <div class="col-12 col-md-3">
+              <div class="col-12 col-md-3 q-pa-xs">
                 <label for="Cantidad">Libras</label><br>
                 <q-input
                   v-model="cantidad"
@@ -155,7 +157,7 @@
                   dense
                 />
               </div>
-              <div class="col-12 col-md-3 text-center q-mt-md">
+              <div class="col-12 col-md-3 text-center q-mt-md q-pa-xs">
                 <q-btn
                   color="primary"
                   label="Agregar"
@@ -308,6 +310,7 @@ export default {
           // this.productViaje.unshift(response.data)
           this.dialogAgregarProducto = false
           this.$alert.success('Producto agregado')
+          this.getViaje()
         })
         .catch(error => {
           this.$alert.error(error.response.data.message)
