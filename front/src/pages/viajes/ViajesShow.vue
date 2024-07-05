@@ -98,7 +98,7 @@
               </tr>
             </tbody>
           </q-markup-table>
-          <pre>{{productViaje}}</pre>
+<!--          <pre>{{productViaje}}</pre>-->
         </div>
       </div>
     </q-card>
