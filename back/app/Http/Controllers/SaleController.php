@@ -67,7 +67,7 @@ class SaleController extends Controller{
     function upsertClient(Request $request){
         $nit = $request->nit;
         $name = $request->name;
-        $phone = $request->phone;
+        $phone = isset($request->phone) ? $request->phone : '';
         $search = Client::where('nit', $nit)->first();
         if ($search == null){
             $client = new Client();
