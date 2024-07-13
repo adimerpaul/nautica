@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Client;
 use App\Models\Detail;
 use App\Models\Payment;
 use App\Models\Product;
@@ -63,10 +64,31 @@ class SaleController extends Controller{
         }
         return $debtors;
     }
+    function upsertClient(Request $request){
+        $nit = $request->nit;
+        $name = $request->name;
+        $phone = $request->phone;
+        $search = Client::where('nit', $nit)->first();
+        if ($search == null){
+            $client = new Client();
+            $client->nit = $nit;
+            $client->name = $name;
+            $client->phone = $phone;
+            $client->save();
+        }else{
+            $client = $search;
+            $client->name = $name;
+            $client->phone = $phone;
+            $client->save();
+        }
+        return $client;
+    }
     public function store(Request $request){
         $user_id = $request->user()->id;
 
-        $sale = $this->saleInsert($request, $user_id);
+        $client = $this->upsertClient($request);
+
+        $sale = $this->saleInsert($request, $user_id,$client);
         $this->creditoInsert($sale, $request, $user_id);
         $description= '';
         $products = $request->products;
@@ -101,10 +123,10 @@ class SaleController extends Controller{
      * @param $user_id
      * @return array
      */
-    public function saleInsert(Request $request, $user_id){
+    public function saleInsert(Request $request, $user_id,$client){
         $sale = new Sale();
         $sale->date = date('Y-m-d H:i:s');
-        $sale->client_id = $request->client_id;
+        $sale->client_id = $client->id;
         $sale->total = 0;
         $sale->tipo = $request->tipo;
         $sale->user_id = $user_id;

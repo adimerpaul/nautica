@@ -33,7 +33,8 @@ Route::group(['middleware' => 'auth:sanctum'], function(){
     Route::delete('/crews/{id}', [\App\Http\Controllers\CrewController::class, 'destroy']);
 
     Route::get('/clients', [\App\Http\Controllers\ClientController::class, 'index']);
-//    clientsCliente
+//    searchClient
+    Route::get('/searchClient/{nit}', [\App\Http\Controllers\ClientController::class, 'searchClient']);
     Route::get('/clientsCliente', [\App\Http\Controllers\ClientController::class, 'clientsCliente']);
     Route::post('/clients', [\App\Http\Controllers\ClientController::class, 'store']);
     Route::put('/clients/{id}', [\App\Http\Controllers\ClientController::class, 'update']);

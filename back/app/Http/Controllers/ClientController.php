@@ -6,6 +6,9 @@ use App\Models\Client;
 use Illuminate\Http\Request;
 
 class ClientController extends Controller{
+    function searchClient($nit){
+        return Client::where('nit',$nit)->first();
+    }
     public function proveedores(){
         return Client::where('tipo','PROVEEDOR')->get();
     }
