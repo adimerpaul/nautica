@@ -130,8 +130,13 @@
           <q-form @submit="saleInsert">
             <div class="row">
               <div class="col-12 col-md-4">
-                <q-select v-model="client" :options="clients" label="Cliente" outlined dense @filter="fnFilter" use-input
-                          option-value="id" option-label="name" :rules="[val => !!val || 'Seleccione un cliente']" />
+                <q-input v-model="nit" label="dui" outlined dense  @update:modelValue="searchClient" debounce="300"  />
+              </div>
+              <div class="col-12 col-md-4">
+                <q-input v-model="name" label="Nombre" outlined dense :rules="[val => !!val || 'Ingrese un nombre']" />
+              </div>
+              <div class="col-12 col-md-4">
+                <q-input v-model="phone" label="Telefono" outlined dense />
               </div>
               <div class="col-6 col-md-2 text-bold text-red text-h6 text-center">
                 <div style="line-height: 1">
@@ -202,7 +207,10 @@ export default {
       tipos:['CREDITO','CONTADO'],
       monto: '',
       observacion: '',
-      pago: ''
+      pago: '',
+      nit: '',
+      name: '',
+      phone: '',
     }
   },
   mounted() {
@@ -211,15 +219,34 @@ export default {
     this.categoriesGet()
   },
   methods: {
+    searchClient () {
+      if (this.nit.length === 0) {
+        this.name = 'SN'
+        this.phone = ''
+        return
+      }
+      this.$axios.get('searchClient/'+this.nit).then(response => {
+        if (!response.data?.name) {
+          this.name = 'SN'
+          this.phone = ''
+          return
+        }
+        this.name = response.data.name
+        this.phone = response.data.phone
+      })
+    },
     saleInsert () {
       this.loading = true
       this.$axios.post('sales', {
-        client_id: this.client.id,
+        // client_id: this.client.id,
         tipo: this.tipo,
         monto: this.monto,
         products: this.$store.orders,
         observacion: this.observacion,
-        pago: this.pago
+        pago: this.pago,
+        nit: this.nit,
+        name: this.name,
+        phone: this.phone
       }).then(response => {
         this.$alert.success('Venta realizada con éxito')
         this.saleDialog = false
@@ -249,6 +276,9 @@ export default {
         return false
       }
       this.saleDialog = true
+      this.nit=0
+      this.name = 'SN'
+      this.phone = ''
       this.client = ''
       this.tipo = ''
       this.monto = ''
