@@ -121,16 +121,16 @@ export default {
     return {
       leftDrawerOpen: false,
       essentialLinks: [
-        { title: 'Inicio', icon: 'home', to: '/' },
-        { title: 'Usuarios', icon: 'people', to: '/users' },
-        { title: 'Empresas', icon: 'business', to: '/companies' },
-        { title: 'Botes', icon: 'directions_boat', to: '/boats' },
-        { title: 'Tripulantes', icon: 'group', to: '/crews' },
-        { title: 'Clientes', icon: 'person', to: '/clients' },
-        { title: 'Productos', icon: 'shopping_cart', to: '/products' },
-        { title: 'Viajes', icon: 'flight_takeoff', to: '/viajes' },
+        { title: 'Inicio', icon: 'home', to: '/', can: 'ver inicio' },
+        { title: 'Usuarios', icon: 'people', to: '/users', can: 'ver usuarios' },
+        { title: 'Empresas', icon: 'business', to: '/companies', can: 'ver empresas' },
+        { title: 'Botes', icon: 'directions_boat', to: '/boats' , can: 'ver botes'},
+        { title: 'Tripulantes', icon: 'group', to: '/crews' , can: 'ver tripulantes'},
+        { title: 'Clientes', icon: 'person', to: '/clients' , can: 'ver clientes'},
+        { title: 'Productos', icon: 'shopping_cart', to: '/products' , can: 'ver productos'},
+        { title: 'Viajes', icon: 'flight_takeoff', to: '/viajes' , can: 'ver viajes'},
         { title: 'Venta', icon: 'shopping_cart', to: '/sales' , can: 'ver ventas'},
-        { title: 'Deudores', icon: 'credit_score', to: '/debtors' },
+        { title: 'Deudores', icon: 'credit_score', to: '/debtors' , can: 'ver deudores'}
       ],
       permisos : JSON.parse(localStorage.getItem('permisos'))
     };

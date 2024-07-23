@@ -66,7 +66,12 @@ export default {
         localStorage.setItem('tokenPrestamos', response.data.token)
         localStorage.setItem('permisos', JSON.stringify(response.data.user.permisosName))
         this.$axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.token}`
-        this.$router.push('/')
+        const permisosName = response.data.user.permisosName
+        if (permisosName.includes('ver inicio')) {
+          this.$router.push('/')
+        } else {
+          this.$router.push('/sales')
+        }
       }).catch(error => {
         this.$alert.error(error.response.data.message)
       }).finally(() => {
