@@ -22,13 +22,13 @@
         <q-td auto-width>
           <q-btn-dropdown label="Opciones" color="primary" auto-close no-caps size="10px" v-if="props.row.status !== 'Finalizado'">
             <q-list>
-              <q-item clickable v-ripple @click="viajeEdit(props.row)" v-if="props.row.estado !== 'Activo'">
+              <q-item clickable v-ripple @click="viajeEdit(props.row)" v-if="props.row.estado === 'Activo'">
                 <q-item-section avatar>
                   <q-icon name="edit" />
                 </q-item-section>
                 <q-item-section>Editar</q-item-section>
               </q-item>
-              <q-item clickable v-ripple @click="viajeDelete(props.row)" v-if="props.row.estado !== 'Activo'">
+              <q-item clickable v-ripple @click="viajeDelete(props.row)" v-if="props.row.estado === 'Activo'">
                 <q-item-section avatar>
                   <q-icon name="delete" />
                 </q-item-section>

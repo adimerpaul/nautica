@@ -44,6 +44,7 @@
         </div>
         <div class="col-12 text-right q-pa-xs">
           <q-btn
+            v-if="viaje.estado === 'Activo'"
             color="green"
             label="Agregar Producto"
             @click="dialogAgregarProductoClick"
@@ -78,7 +79,7 @@
                     size="10px"
                     icon="delete"
                     @click="anular(item)"
-                    v-if="item.status === 'ACTIVO'"
+                    v-if="item.status === 'ACTIVO' && viaje.estado === 'Activo'"
                     :loading="loading"
                   />
                   <q-chip
