@@ -16,6 +16,7 @@ class SaleController extends Controller{
             DB::beginTransaction();
             $sale = Sale::find($request->id);
             $sale->status = 'ANULADO';
+            $sale->motivo_anulacion = $request->motivo;
             $sale->save();
 
             $details = Detail::where('sale_id', $sale->id)->get();

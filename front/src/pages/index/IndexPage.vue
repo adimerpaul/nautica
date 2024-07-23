@@ -94,9 +94,12 @@
                   <!--                    </q-btn>-->
                   <!--                  </q-item>-->
                 </q-btn-dropdown>
-                <div v-else>
-<!--                  <q-btn dense label="Anulado" color="grey-4" size="10px" no-caps no-wrap icon="o_highlight_off" />-->
+                <div v-else style="width: 95px">
                   <q-chip label="Anulado" color="grey-4" text-color="white" dense flat />
+                  <q-btn dense color="red-4" size="10px" no-caps no-wrap icon="visibility"
+                         v-if="props.row.motivo_anulacion" @click="$alert.dialogShow(props.row.motivo_anulacion)">
+                    <q-tooltip>Motivo de anulación</q-tooltip>
+                  </q-btn>
                 </div>
               </q-td>
               <q-td key="proveedorcliente" :props="props">
@@ -269,6 +272,12 @@ export default {
         title: 'Anular venta',
         message: '¿Está seguro de anular la venta?',
         persistent: true,
+        prompt: {
+          model: '',
+          type: 'text',
+          label: 'Motivo de anulación',
+          required: true
+        },
         ok: {
           label: 'Si',
           color: 'negative',
@@ -279,8 +288,11 @@ export default {
           color: 'primary',
           push: true
         }
-      }).onOk(() => {
-        this.$axios.post('saleAnular', { id })
+      }).onOk((data) => {
+        this.$axios.post('saleAnular', {
+          id: id,
+          motivo: data
+        })
           .then(response => {
             this.salesGet()
           })

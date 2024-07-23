@@ -28,6 +28,18 @@ export class Alert {
       },
     })
   }
+  static dialogShow (message) {
+    return Dialog.create({
+      title: 'Aviso',
+      message,
+      // position: 'top',
+      color: 'positive',
+      ok: {
+        label: 'Aceptar',
+        color: 'positive'
+      },
+    })
+  }
 
   static confirm (message) {
     return Dialog.create({
