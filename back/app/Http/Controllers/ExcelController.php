@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Descarga;
 use App\Models\Detail;
 use App\Models\Sale;
+use App\Models\Viaje;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use PhpOffice\PhpSpreadsheet\IOFactory;
@@ -13,6 +14,28 @@ use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use function Laravel\Prompts\error;
 
 class ExcelController extends Controller{
+    function exportDescargarPdfTotal($viaje_id){
+        $viaje= Viaje::find($viaje_id);
+        $productos = $viaje->productos;
+        $productoRes= [];
+        foreach ($productos as $producto) {
+            if(isset($productoRes[$producto->product_id])){
+                $productoRes[$producto->product_id]['cantidad'] += $producto->cantidad;
+            }else{
+                $productoRes[$producto->product_id] = [
+                    'cantidad' => $producto->cantidad,
+                    'product' => $producto->product
+                ];
+            }
+        }
+        $data = [
+            'viaje' => $viaje,
+            'productos' => $productoRes
+        ];
+        error(json_encode($data));
+        $pdf = Pdf::loadView('pdf.descargarTotal', $data);
+        return $pdf->stream();
+    }
     function exportDescargarPdf($id){
         $descargar = Descarga::find($id);
         $productos = $descargar->productos;

@@ -44,6 +44,15 @@
         </div>
         <div class="col-12 text-right q-pa-xs">
           <q-btn
+            color="primary"
+            label="Exportar PDF"
+            @click="imprimirPdfTotal"
+            no-caps
+            icon="picture_as_pdf"
+            size="sm"
+            :loading="loading"></q-btn>
+
+          <q-btn
             v-if="viaje.estado === 'Activo'"
             color="green"
             label="Agregar Producto"
@@ -299,6 +308,26 @@ export default {
       })
       this.product = ''
       this.cantidad = ''
+    },
+    imprimirPdfTotal() {
+      this.loading = true
+      this.$axios.get('exportDescargarPdfTotal/' + this.id, {
+        responseType: 'blob'
+      })
+        .then(response => {
+          // console.log(response.data)
+          const url = window.URL.createObjectURL(new Blob([response.data]))
+          const link = document.createElement('a')
+          link.href = url
+          link.setAttribute('download', 'descarga.pdf')
+          document.body.appendChild(link)
+          link.click()
+        })
+        .catch(error => {
+          console.log(error)
+        }).finally(() => {
+        this.loading = false
+      })
     },
     imprimirPdf(item) {
       this.loading = true

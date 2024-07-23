@@ -27,4 +27,7 @@ class Viaje extends Model
             return 'En curso';
         }
     }
+    function productos(){
+        return $this->hasMany(ProductoViaje::class);
+    }
 }

@@ -42,9 +42,12 @@
 </head>
 <body>
 {{--protected $fillable = ['user_id', 'viaje_id', 'descarga', 'dia', 'fecha', 'status'];--}}
-<div class="text-center text-h5">N:{{$descargar->descarga}} - Dia: {{$descargar->dia}} - {{$descargar->fecha}} - {{$descargar->status}}</div>
+<div class="text-center text-h5">Viaje: {{$viaje->fechaInicio}} - {{$viaje->fechaFin}} - {{$viaje->estado}}</div>
 <div class="text-bold">
-    Barco: {{$descargar->viaje->boat->name}}
+    Barco: {{$viaje->boat->name}}
+</div>
+<div class="">
+    Observacion: {{$viaje->observaciones}}
 </div>
 <table class="table">
     <tr>
