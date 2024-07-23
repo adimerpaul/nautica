@@ -141,6 +141,12 @@ class ViajeController extends Controller{
         $viaje->delete();
         return $viaje;
     }
+    public function close($id){
+        $viaje = Viaje::find($id);
+        $viaje->estado = 'Cerrado';
+        $viaje->save();
+        return Viaje::with('boat')->find($viaje->id);
+    }
     public function listaTripulantes($id){
         $viaje = Viaje::find($id);
         $tripulantes = $viaje->boat->crews;

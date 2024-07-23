@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Viaje extends Model
 {
     use HasFactory;
-    protected $fillable = ['fechaInicio', 'fechaFin', 'boat_id', 'observaciones', 'hora', 'dias', 'zarpe', 'puertoSalida', 'puertoLlegada', 'bandera', 'propietario'];
+    protected $fillable = ['fechaInicio', 'fechaFin', 'boat_id', 'observaciones', 'hora', 'dias', 'zarpe', 'puertoSalida', 'puertoLlegada', 'bandera', 'propietario', 'estado'];
     protected $hidden = ['created_at', 'updated_at'];
     function boat(){
         return $this->belongsTo(Boat::class, 'boat_id')->with('company');

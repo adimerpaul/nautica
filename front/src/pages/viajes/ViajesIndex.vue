@@ -22,13 +22,13 @@
         <q-td auto-width>
           <q-btn-dropdown label="Opciones" color="primary" auto-close no-caps size="10px" v-if="props.row.status !== 'Finalizado'">
             <q-list>
-              <q-item clickable v-ripple @click="viajeEdit(props.row)">
+              <q-item clickable v-ripple @click="viajeEdit(props.row)" v-if="props.row.estado !== 'Activo'">
                 <q-item-section avatar>
                   <q-icon name="edit" />
                 </q-item-section>
                 <q-item-section>Editar</q-item-section>
               </q-item>
-              <q-item clickable v-ripple @click="viajeDelete(props.row)">
+              <q-item clickable v-ripple @click="viajeDelete(props.row)" v-if="props.row.estado !== 'Activo'">
                 <q-item-section avatar>
                   <q-icon name="delete" />
                 </q-item-section>
@@ -45,6 +45,12 @@
                   <q-icon name="print" />
                 </q-item-section>
                 <q-item-section>Lista Tripulantes</q-item-section>
+              </q-item>
+              <q-item clickable v-ripple @click="viajeClose(props.row)" v-if="props.row.estado === 'Activo'">
+                <q-item-section avatar>
+                  <q-icon name="close" />
+                </q-item-section>
+                <q-item-section>Cerrar Viaje</q-item-section>
               </q-item>
             </q-list>
           </q-btn-dropdown>
@@ -63,9 +69,8 @@
       </template>
       <template v-slot:body-cell-status="props">
         <q-td :props="props">
-          <q-chip :label="props.row?.status" text-color="white"  dense v-if="props.row?.status === 'Finalizado'" color="green" />
-          <q-chip :label="props.row?.status" text-color="white"  dense v-if="props.row?.status === 'Pendiente'" color="orange" />
-          <q-chip :label="props.row?.status" text-color="white"  dense v-if="props.row?.status === 'En curso'" color="blue" />
+          <q-chip :label="props.row?.estado" text-color="white"  dense v-if="props.row?.estado === 'Activo'" color="green" />
+          <q-chip :label="props.row?.estado" text-color="white"  dense v-else color="red" />
         </q-td>
       </template>
     </q-table>
@@ -211,6 +216,19 @@ export default {
           this.loading = false
         })
       }
+    },
+    viajeClose (viaje) {
+      this.$alert.confirm('¿Está seguro de cerrar este viaje?').onOk(() => {
+        this.loading = true
+        this.$axios.put(`viajes/${viaje.id}/close`).then(response => {
+          const index = this.viajes.findIndex(viaje => viaje.id === response.data.id)
+          this.viajes.splice(index, 1, response.data)
+        }).catch(error => {
+          this.$alert.error(error.response.data.message)
+        }).finally(() => {
+          this.loading = false
+        })
+      })
     },
     listaTripulantes (viaje) {
       this.loading = true
