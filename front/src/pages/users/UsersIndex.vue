@@ -22,7 +22,7 @@
                 </q-item-section>
                 <q-item-section>Cambiar Contraseña</q-item-section>
               </q-item>
-              <q-item clickable v-ripple @click="userChangePassword(props.row)">
+              <q-item clickable v-ripple @click="permisosUpdate(props.row)">
                 <q-item-section avatar>
                   <q-icon name="verified_user" />
                 </q-item-section>
@@ -49,7 +49,7 @@
         </q-input>
       </template>
     </q-table>
-    <pre>{{users}}</pre>
+<!--    <pre>{{users}}</pre>-->
     <q-dialog v-model="userDialog" persistent>
       <q-card style="width: 250px;max-width: 90vw;">
         <q-card-section class="row items-center q-pb-none">
@@ -94,6 +94,26 @@
         </q-form>
       </q-card>
     </q-dialog>
+    <q-dialog v-model="dialogPermisos">
+      <q-card style="width: 450px;max-width: 90vw;">
+        <q-card-section class="row items-center q-pb-none">
+          <div class="text-h6">Permisos de {{ user.name }}</div>
+          <q-space />
+          <q-btn flat dense icon="close" @click="dialogPermisos = false" />
+        </q-card-section>
+        <q-form @submit="userPermisos">
+          <q-card-section>
+            <q-option-group v-model="permisosSelected" :options="permisos" dense  type="checkbox" />
+<!--            <pre>{{permisos}}</pre>-->
+<!--            <pre>{{permisosSelected}}</pre>-->
+          </q-card-section>
+          <q-card-actions align="right">
+            <q-btn flat label="Cancelar" v-close-popup :loading="loading" />
+            <q-btn color="primary" label="Guardar" type="submit" :loading="loading" />
+          </q-card-actions>
+        </q-form>
+      </q-card>
+    </q-dialog>
   </q-page>
 </template>
 <script>
@@ -115,7 +135,9 @@ export default {
       clienDialogHistory: false,
       filter: '',
       passwordShow: false,
-      permisos: []
+      permisos: [],
+      permisosSelected: [],
+      dialogPermisos: false
     }
   },
   mounted() {
@@ -123,8 +145,29 @@ export default {
     this.userGet()
   },
   methods: {
+    userPermisos () {
+      this.loading = true
+      this.$axios.put(`permissions/${this.user.id}`, {permissions: this.permisosSelected}).then(response => {
+        this.dialogPermisos = false
+        const index = this.users.findIndex(user => user.id === response.data.id)
+        this.users.splice(index, 1, response.data)
+      }).catch(error => {
+        this.$alert.error(error.response.data.message)
+      }).finally(() => {
+        this.loading = false
+      })
+    },
+    permisosUpdate (user) {
+      this.user = user
+      this.permisosSelected = user.permissions.map(p => p.id)
+      this.dialogPermisos = true
+    },
     permissionGet () {
       this.$axios.get('permissions').then(response => {
+        response.data.forEach(p => {
+          p.label = p.name
+          p.value = p.id
+        })
         this.permisos = response.data
       }).catch(error => {
         this.$alert.error(error.response.data.message)

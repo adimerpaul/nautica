@@ -12,11 +12,12 @@ Route::group(['middleware' => 'auth:sanctum'], function(){
     Route::post('/logout', [\App\Http\Controllers\UserController::class, 'logout']);
 
     Route::get('/users', [\App\Http\Controllers\UserController::class, 'index']);
-    Route::get('/permissions', [\App\Http\Controllers\UserController::class, 'permissions']);
     Route::post('/users', [\App\Http\Controllers\UserController::class, 'store']);
     Route::put('/users/{id}', [\App\Http\Controllers\UserController::class, 'update']);
     Route::delete('/users/{id}', [\App\Http\Controllers\UserController::class, 'delete']);
     Route::put('/passwordUpdate/{id}', [\App\Http\Controllers\UserController::class, 'passwordUpdate']);
+    Route::get('/permissions', [\App\Http\Controllers\UserController::class, 'permissions']);
+    Route::put('/permissions/{id}', [\App\Http\Controllers\UserController::class, 'updatePermissions']);
 
     Route::get('/companies', [\App\Http\Controllers\CompanyController::class, 'index']);
     Route::post('/companies', [\App\Http\Controllers\CompanyController::class, 'store']);

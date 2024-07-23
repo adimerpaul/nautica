@@ -29,6 +29,11 @@ class UserController extends Controller{
         $user = User::with('permissions')->find($request->user()->id);
         return $user;
     }
+    public function updatePermissions(Request $request, $id){
+        $user = User::find($id);
+        $user->syncPermissions($request->permissions);
+        return User::with('permissions')->find($id);
+    }
     public function logout(Request $request){
         $request->user()->currentAccessToken()->delete();
         return response()->json([
@@ -41,14 +46,14 @@ class UserController extends Controller{
     }
     public function index(){
         $users= User::orderBy('id', 'desc')->with('permissions')->get();
-        $permisosId = [];
-        foreach($users as $user){
-            $permisosId = [];
-            foreach($user->permissions as $permiso){
-                $permisosId[] = $permiso->id;
-            }
-            $user->permisosId = $permisosId;
-        }
+//        $permisosId = [];
+//        foreach($users as $user){
+//            $permisosId = [];
+//            foreach($user->permissions as $permiso){
+//                $permisosId[] = $permiso->id;
+//            }
+//            $user->permisosId = $permisosId;
+//        }
         return $users;
     }
     public function store(Request $request){
