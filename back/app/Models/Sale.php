@@ -16,7 +16,8 @@ class Sale extends Model{
         'observacion',
         'pago',
         'description',
-        'numeroFactura'
+        'numeroFactura',
+        'motivo_anulacion'
     ];
     protected $hidden = ['created_at', 'updated_at'];
     public function client(){
