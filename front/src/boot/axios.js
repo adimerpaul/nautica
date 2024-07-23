@@ -18,6 +18,10 @@ export default boot(({ app, router }) => {
   app.config.globalProperties.$url = import.meta.env.VITE_API_BACK
   app.config.globalProperties.$alert = Alert
   app.config.globalProperties.$store = useCounterStore()
+  app.config.globalProperties.$can = function (permiso) {
+    if (!useCounterStore().isLogged) return false
+    return useCounterStore().user.permissions.includes(permiso)
+  }
   app.config.globalProperties.$metodos = ['EFECTIVO', 'TRANSFERENCIA']
   app.config.globalProperties.$filters = {
     currency: function (value) {
@@ -58,6 +62,7 @@ export default boot(({ app, router }) => {
     app.config.globalProperties.$axios.get('me').then(response => {
       useCounterStore().isLogged = true
       useCounterStore().user = response.data
+      localStorage.setItem('permisos', JSON.stringify(response.data.permisosName))
     }).catch(error => {
       console.log(error)
       localStorage.removeItem('tokenPrestamos')

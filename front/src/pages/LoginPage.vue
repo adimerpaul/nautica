@@ -64,6 +64,7 @@ export default {
         this.$store.user = response.data.user
         this.$store.isLogged = true
         localStorage.setItem('tokenPrestamos', response.data.token)
+        localStorage.setItem('permisos', JSON.stringify(response.data.user.permisosName))
         this.$axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.token}`
         this.$router.push('/')
       }).catch(error => {

@@ -81,14 +81,18 @@
               </q-item>
             </q-item-label>
             <q-separator dark />
-            <q-item clickable dense v-ripple v-for="link in essentialLinks" :key="link.title" :to="link.to" exact :class="`text-white ${rutaActual==link.to?'bg-secondary':''}`">
-              <q-item-section avatar>
-                <q-avatar  text-color="white" :icon="`${rutaActual==link.to?link.icon:'o_'+link.icon}`" :size="`${rutaActual==link.to?'45px':'38px'}`" />
-              </q-item-section>
-              <q-item-section>
-                <q-item-label :class="`text-white ${rutaActual==link.to?'text-bold':''}`">{{ link.title }}</q-item-label>
-              </q-item-section>
-            </q-item>
+            <template v-for="link in essentialLinks" :key="link.title">
+              <q-item clickable dense v-ripple  :to="link.to" exact :class="`text-white ${rutaActual==link.to?'bg-secondary':''}`"
+              v-if="link.can ? permisos.includes(link.can) : true"
+              >
+                <q-item-section avatar>
+                  <q-avatar  text-color="white" :icon="`${rutaActual==link.to?link.icon:'o_'+link.icon}`" :size="`${rutaActual==link.to?'45px':'38px'}`" />
+                </q-item-section>
+                <q-item-section>
+                  <q-item-label :class="`text-white ${rutaActual==link.to?'text-bold':''}`">{{ link.title }}</q-item-label>
+                </q-item-section>
+              </q-item>
+            </template>
 
           </q-list>
         </q-header>
@@ -125,9 +129,10 @@ export default {
         { title: 'Clientes', icon: 'person', to: '/clients' },
         { title: 'Productos', icon: 'shopping_cart', to: '/products' },
         { title: 'Viajes', icon: 'flight_takeoff', to: '/viajes' },
-        { title: 'Venta', icon: 'shopping_cart', to: '/sales' },
+        { title: 'Venta', icon: 'shopping_cart', to: '/sales' , can: 'ver ventas'},
         { title: 'Deudores', icon: 'credit_score', to: '/debtors' },
       ],
+      permisos : JSON.parse(localStorage.getItem('permisos'))
     };
   },
   methods: {

@@ -12,7 +12,12 @@ use Spatie\Permission\Models\Permission;
 class UserController extends Controller{
     public function login(Request $request){
         $credentials = $request->only('username', 'password');
-        $user = User::where('username', $credentials['username'])->first();
+        $user = User::where('username', $credentials['username'])->with('permissions')->first();
+        $permisosName = [];
+        foreach($user->permissions as $permiso){
+            $permisosName[] = $permiso->name;
+        }
+        $user->permisosName = $permisosName;
         if(!$user || !password_verify($credentials['password'], $user->password)){
             return response()->json([
                 'message' => 'Usuario o password es incorrecto',
@@ -27,6 +32,11 @@ class UserController extends Controller{
     }
     public function me(Request $request){
         $user = User::with('permissions')->find($request->user()->id);
+        $permisosName = [];
+        foreach($user->permissions as $permiso){
+            $permisosName[] = $permiso->name;
+        }
+        $user->permisosName = $permisosName;
         return $user;
     }
     public function updatePermissions(Request $request, $id){
