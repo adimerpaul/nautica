@@ -67,7 +67,7 @@ export class Alert {
       message,
       prompt: {
         model: '',
-        type: 'password',
+        // type: 'password',
         placeholder: 'Escribe algo',
       },
       color: 'positive',

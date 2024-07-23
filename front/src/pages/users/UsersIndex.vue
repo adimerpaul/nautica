@@ -3,19 +3,32 @@
     <q-table :rows="users" :columns="columns" title="Usuarios" :rows-per-page-options="[0]" row-key="id" dense :filter="filter" :loading="loading">
       <template v-slot:body-cell-option="props">
           <q-td auto-width>
-            <q-btn flat dense icon="edit" @click="userEdit(props.row)" >
-              <q-tooltip>Editar</q-tooltip>
-            </q-btn>
-            <q-btn flat dense icon="delete" @click="userDelete(props.row)" >
-              <q-tooltip>Eliminar</q-tooltip>
-            </q-btn>
-            <q-btn flat dense icon="vpn_key" @click="userChangePassword(props.row)" >
-              <q-tooltip>Cambiar Contraseña</q-tooltip>
-            </q-btn>
-
-<!--            <q-btn flat dense icon="history" @click="userHistory(props.row)" >-->
-<!--              <q-tooltip>Historial</q-tooltip>-->
-<!--            </q-btn>-->
+            <q-btn-dropdown flat dense dropdown-icon="more_vert" auto-close>
+              <q-item clickable v-ripple @click="userEdit(props.row)">
+                <q-item-section avatar>
+                  <q-icon name="edit" />
+                </q-item-section>
+                <q-item-section>Editar</q-item-section>
+              </q-item>
+              <q-item clickable v-ripple @click="userDelete(props.row)">
+                <q-item-section avatar>
+                  <q-icon name="delete" />
+                </q-item-section>
+                <q-item-section>Eliminar</q-item-section>
+              </q-item>
+              <q-item clickable v-ripple @click="userChangePassword(props.row)">
+                <q-item-section avatar>
+                  <q-icon name="vpn_key" />
+                </q-item-section>
+                <q-item-section>Cambiar Contraseña</q-item-section>
+              </q-item>
+              <q-item clickable v-ripple @click="userChangePassword(props.row)">
+                <q-item-section avatar>
+                  <q-icon name="verified_user" />
+                </q-item-section>
+                <q-item-section>Permisos</q-item-section>
+              </q-item>
+            </q-btn-dropdown>
           </q-td>
       </template>
       <template v-slot:body-cell-role="props">
@@ -36,7 +49,7 @@
         </q-input>
       </template>
     </q-table>
-<!--    <pre>{{users}}</pre>-->
+    <pre>{{users}}</pre>
     <q-dialog v-model="userDialog" persistent>
       <q-card style="width: 250px;max-width: 90vw;">
         <q-card-section class="row items-center q-pb-none">
@@ -101,13 +114,22 @@ export default {
       userDialog: false,
       clienDialogHistory: false,
       filter: '',
-      passwordShow: false
+      passwordShow: false,
+      permisos: []
     }
   },
   mounted() {
+    this.permissionGet()
     this.userGet()
   },
   methods: {
+    permissionGet () {
+      this.$axios.get('permissions').then(response => {
+        this.permisos = response.data
+      }).catch(error => {
+        this.$alert.error(error.response.data.message)
+      })
+    },
     userSave () {
       this.loading = true
       if (this.user.id) {

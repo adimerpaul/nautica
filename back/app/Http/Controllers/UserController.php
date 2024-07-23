@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Permission;
 
 class UserController extends Controller{
     public function login(Request $request){
@@ -25,7 +26,8 @@ class UserController extends Controller{
         }
     }
     public function me(Request $request){
-        return response()->json($request->user());
+        $user = User::with('permissions')->find($request->user()->id);
+        return $user;
     }
     public function logout(Request $request){
         $request->user()->currentAccessToken()->delete();
@@ -33,8 +35,21 @@ class UserController extends Controller{
             'message' => 'Token eliminado',
         ]);
     }
+    function permissions(){
+        $permissions = Permission::all();
+        return $permissions;
+    }
     public function index(){
-        return User::orderBy('id', 'desc')->get();
+        $users= User::orderBy('id', 'desc')->with('permissions')->get();
+        $permisosId = [];
+        foreach($users as $user){
+            $permisosId = [];
+            foreach($user->permissions as $permiso){
+                $permisosId[] = $permiso->id;
+            }
+            $user->permisosId = $permisosId;
+        }
+        return $users;
     }
     public function store(Request $request){
         $validatedData = $request->validate([

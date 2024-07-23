@@ -12,6 +12,7 @@ Route::group(['middleware' => 'auth:sanctum'], function(){
     Route::post('/logout', [\App\Http\Controllers\UserController::class, 'logout']);
 
     Route::get('/users', [\App\Http\Controllers\UserController::class, 'index']);
+    Route::get('/permissions', [\App\Http\Controllers\UserController::class, 'permissions']);
     Route::post('/users', [\App\Http\Controllers\UserController::class, 'store']);
     Route::put('/users/{id}', [\App\Http\Controllers\UserController::class, 'update']);
     Route::delete('/users/{id}', [\App\Http\Controllers\UserController::class, 'delete']);
@@ -33,7 +34,6 @@ Route::group(['middleware' => 'auth:sanctum'], function(){
     Route::delete('/crews/{id}', [\App\Http\Controllers\CrewController::class, 'destroy']);
 
     Route::get('/clients', [\App\Http\Controllers\ClientController::class, 'index']);
-//    searchClient
     Route::get('/searchClient/{nit}', [\App\Http\Controllers\ClientController::class, 'searchClient']);
     Route::get('/clientsCliente', [\App\Http\Controllers\ClientController::class, 'clientsCliente']);
     Route::post('/clients', [\App\Http\Controllers\ClientController::class, 'store']);
@@ -64,15 +64,12 @@ Route::group(['middleware' => 'auth:sanctum'], function(){
     Route::post('saleAnular', [\App\Http\Controllers\SaleController::class, 'saleAnular']);
 
 
-//    Route::get('/payments', [\App\Http\Controllers\PaymentController::class, 'index']);
     Route::post('/payments', [\App\Http\Controllers\PaymentController::class, 'store']);
     Route::post('/anularPago/{id}', [\App\Http\Controllers\PaymentController::class, 'anularPago']);
     Route::get('/listaTripulantes/{id}', [\App\Http\Controllers\ViajeController::class, 'listaTripulantes']);
     Route::get('/exportSalesExcel', [\App\Http\Controllers\ExcelController::class, 'exportSalesExcel']);
     Route::get('/exportSalesPdf', [\App\Http\Controllers\ExcelController::class, 'exportSalesPdf']);
 
-//    exportDescargarPdf
     Route::get('/exportDescargarPdf/{id}', [\App\Http\Controllers\ExcelController::class, 'exportDescargarPdf']);
 });
 Route::get('/compromiso/{loan_id}', [\App\Http\Controllers\ReportController::class, 'compromiso']);
-//listaTripulantes
