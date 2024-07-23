@@ -14,6 +14,7 @@
                           @update:modelValue="filterProducts" />
               </div>
               <div class="col-12 col-md-5 text-right">
+                <q-btn :loading="loading" label="Nuevo Gasto" color="red"  icon="add_circle_outline" no-caps rounded @click="gastoDialog = true"/>
               </div>
               <div class="col-12">
                 <div class="row">
@@ -117,6 +118,9 @@
         </div>
       </q-card-section>
     </q-card>
+    <q-dialog v-model="gastoDialog" position="right" maximized>
+      <DialogGasto @gastoCreated="gastoCreated"/>
+    </q-dialog>
     <q-dialog v-model="saleDialog" persistent>
       <q-card style="width: 700px;max-width: 90vw;">
         <q-card-section class="q-pb-none row items-center">
@@ -187,9 +191,11 @@
 <script>
 
 import {Imprimir} from "src/addons/Imprimir";
+import DialogGasto from "pages/index/DialogGasto.vue";
 
 export default {
   name: 'ProductsIndex',
+  components: {DialogGasto},
   data () {
     return {
       products: [],
@@ -211,6 +217,7 @@ export default {
       nit: '',
       name: '',
       phone: '',
+      gastoDialog: false,
     }
   },
   mounted() {
@@ -219,6 +226,11 @@ export default {
     this.categoriesGet()
   },
   methods: {
+    gastoCreated (gasto) {
+      // this.sales.unshift(gasto)
+      // this.$alert.success('Gasto creado con éxito')
+      this.gastoDialog = false
+    },
     searchClient () {
       if (this.nit.length === 0) {
         this.name = 'SN'

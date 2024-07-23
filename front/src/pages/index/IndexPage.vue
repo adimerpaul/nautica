@@ -302,8 +302,6 @@ export default {
       })
     },
     gastoCreated (gasto) {
-      // this.sales.blade.php.push(gasto)
-      // colocar al principio
       this.sales.unshift(gasto)
       this.gastoDialog = false
     },
