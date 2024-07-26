@@ -21,7 +21,7 @@
           <q-chip :label="viaje?.status" text-color="white"  dense v-if="viaje?.status === 'En curso'" color="blue" />
         </div>
         <div class="col-6 col-md-2 q-pa-xs">
-          <label class="text-bold">Fecha Inicio</label>
+          <label class="text-bold">Fechas</label>
           <div>{{$filters.formatdMY(viaje.fechaInicio)}} {{$filters.formatdMY(viaje.fechaFin)}}</div>
         </div>
         <div class="col-6 col-md-2 q-pa-xs">

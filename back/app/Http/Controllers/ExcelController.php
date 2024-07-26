@@ -30,7 +30,8 @@ class ExcelController extends Controller{
         }
         $data = [
             'viaje' => $viaje,
-            'productos' => $productoRes
+            'productos' => $productoRes,
+            'cantidadViajes' => count($viaje->descargas)
         ];
         error(json_encode($data));
         $pdf = Pdf::loadView('pdf.descargarTotal', $data);

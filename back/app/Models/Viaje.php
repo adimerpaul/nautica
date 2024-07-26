@@ -30,4 +30,7 @@ class Viaje extends Model
     function productos(){
         return $this->hasMany(ProductoViaje::class);
     }
+    function descargas(){
+        return $this->hasMany(Descarga::class);
+    }
 }

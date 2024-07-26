@@ -44,6 +44,9 @@
 {{--protected $fillable = ['user_id', 'viaje_id', 'descarga', 'dia', 'fecha', 'status'];--}}
 <div class="text-center text-h5">Viaje: {{$viaje->fechaInicio}} - {{$viaje->fechaFin}} - {{$viaje->estado}}</div>
 <div class="text-bold">
+    Viajes: {{$cantidadViajes}}
+</div>
+<div class="text-bold">
     Barco: {{$viaje->boat->name}}
 </div>
 <div class="">
