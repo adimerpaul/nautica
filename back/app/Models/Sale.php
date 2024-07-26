@@ -17,7 +17,9 @@ class Sale extends Model{
         'pago',
         'description',
         'numeroFactura',
-        'motivo_anulacion'
+        'motivo_anulacion',
+        'viaje_id',
+        'boat_id',
     ];
     protected $hidden = ['created_at', 'updated_at'];
     public function client(){

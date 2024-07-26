@@ -7,6 +7,7 @@ use App\Models\Detail;
 use App\Models\Payment;
 use App\Models\Product;
 use App\Models\Sale;
+use App\Models\Viaje;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -159,6 +160,14 @@ class SaleController extends Controller{
         if ($request->concepto == '' || $request->concepto == null || isset($request->concepto) == false) {
             $request->merge(['concepto' => 'GASTO' . date('Y-m-d H:i:s')] );
         }
+        $viaje = Viaje::find($request->viaje_id);
+        if ($viaje){
+            $viaje_id = $viaje->id;
+            $boat_id = $viaje->boat_id;
+        }else{
+            $viaje_id = null;
+            $boat_id = null;
+        }
         $sale = new Sale();
         $sale->date = $request->date;
         $sale->client_id = $request->client_id;
@@ -170,6 +179,8 @@ class SaleController extends Controller{
         $sale->pago = $request->metodo;
         $sale->description = $request->concepto;
         $sale->numeroFactura = $request->numeroFactura;
+        $sale->viaje_id = $viaje_id;
+        $sale->boat_id = $boat_id;
         $sale->save();
 //        $sales.blade.php = Sale::whereBetween('date', [$fechaInicioSemana, $fechaFinSemana])
 //            ->where('description', 'LIKE', "%$concepto%")

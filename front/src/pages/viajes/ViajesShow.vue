@@ -22,11 +22,7 @@
         </div>
         <div class="col-6 col-md-2 q-pa-xs">
           <label class="text-bold">Fecha Inicio</label>
-          <div>{{$filters.formatdMY(viaje.fechaInicio)}}</div>
-        </div>
-        <div class="col-6 col-md-2 q-pa-xs">
-          <label class="text-bold">Fecha Fin</label>
-          <div>{{$filters.formatdMY(viaje.fechaFin)}}</div>
+          <div>{{$filters.formatdMY(viaje.fechaInicio)}} {{$filters.formatdMY(viaje.fechaFin)}}</div>
         </div>
         <div class="col-6 col-md-2 q-pa-xs">
           <label class="text-bold">Barco</label>
@@ -36,7 +32,9 @@
           <label class="text-bold">Empresa</label>
           <br>
           <q-chip size="12px" :label="viaje?.boat?.company?.name" text-color="white" :style="{backgroundColor: viaje?.boat?.company?.color}" icon="business" />
-
+        </div>
+        <div class="col-6 col-md-2 q-pa-xs q-mt-md">
+          <q-btn :loading="loading" label="Nuevo Gasto" color="red"  icon="add_circle_outline" no-caps rounded @click="gastoDialog = true"/>
         </div>
         <div class="col-12">
           <label class="text-bold">Observaciones</label>
@@ -246,6 +244,10 @@
         </q-form>
       </q-card>
     </q-dialog>
+    <q-dialog v-model="gastoDialog" position="right" maximized >
+      <DialogGasto @gastoCreated="gastoCreated" :viaje_id="id"/>
+    </q-dialog>
+    <div id="myElement" class="hidden"></div>
 <!--    <pre>{{productViaje}}</pre>-->
   </q-page>
 </template>
@@ -253,15 +255,18 @@
 <script>
 import { debounce } from 'lodash';
 import moment from "moment";
+import DialogGasto from "pages/index/DialogGasto.vue";
 
 export default {
   name: 'ViajesShow',
+  components: {DialogGasto},
   data () {
     return {
       id: '',
       viaje: {
         observaciones: ''
       },
+      gastoDialog: false,
       debouncedUpdateObservaciones: null,
       dialogAgregarProducto: false,
       products: [],
@@ -286,6 +291,9 @@ export default {
     this.productsGet()
   },
   methods: {
+    gastoCreated (gasto) {
+      this.gastoDialog = false
+    },
     agregarProducto() {
       if (this.product === '') {
         this.$alert.error('Seleccione un producto')

@@ -165,17 +165,6 @@
               <div class="col-12 col-md-4">
                 <q-select v-model="pago" :options="$metodos" label="Pago" outlined dense :rules="[val => !!val || 'Seleccione un pago']" />
               </div>
-<!--              <div class="col-12 text-right" v-if="tipo === 'CREDITO'">-->
-<!--&lt;!&ndash;                <q-btn label="Agregar" color="green" no-caps class="text-bold" icon="add_circle_outline" dense size="10px" />&ndash;&gt;-->
-<!--                <q-markup-table dense wrap-cells>-->
-<!--                  <thead class="bg-primary text-white">-->
-<!--                  <tr>-->
-<!--                    <th>Opción</th>-->
-<!--                    <th class="text-right">Monto</th>-->
-<!--                  </tr>-->
-<!--                  </thead>-->
-<!--                </q-markup-table>-->
-<!--              </div>-->
             </div>
             <q-card-actions align="right">
               <q-btn label="Cancelar" color="red" no-caps class="text-bold" push icon="cancel" @click="saleDialog = false" :loading="loading" />

@@ -17,7 +17,9 @@
         </div>
       </div>
     </q-card>
-    <q-table :rows="viajes" :columns="columns" :rows-per-page-options="[0]" row-key="id" dense :filter="filter" :loading="loading">
+    <q-table :rows="viajes" :columns="columns" :rows-per-page-options="[0]" row-key="id" dense :filter="filter" :loading="loading"
+             @rowClick="viajeClick"
+    >
       <template v-slot:body-cell-option="props">
         <q-td auto-width>
           <q-btn-dropdown label="Opciones" color="primary" auto-close no-caps size="10px" v-if="props.row.status !== 'Finalizado'">
@@ -265,6 +267,9 @@ export default {
           this.loading = false
         })
       })
+    },
+    viajeClick (event, viaje) {
+      this.$router.push('/viajesShow/' + viaje.id)
     },
     viajeEdit (viaje) {
       this.viajeDialog = true

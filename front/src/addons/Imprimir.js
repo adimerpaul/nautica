@@ -104,7 +104,7 @@ Oruro</div>
       QRCode.toDataURL(`Fecha: ${factura.fechaEmision} Monto: ${parseFloat(factura.total).toFixed(2)}`, opts).then(url => {
         let cadena = `${this.head()}
   <div style='padding-left: 0.5cm;padding-right: 0.5cm'>
-  <img src="logo.png" alt="logo" style="width: 100px; display: block; margin-left: auto; margin-right: auto;">
+  <img src="/logo.png" alt="logo" style="width: 100px; display: block; margin-left: auto; margin-right: auto;">
       <div class='titulo'>${factura.tipo_venta === 'EGRESO' ? 'NOTA DE EGRESO' : 'NOTA DE VENTA'}</div>
       <div class='titulo2'>${env.razon} <br>
       Casa Matriz<br>
@@ -178,7 +178,7 @@ Tel. ${env.telefono}<br>
       QRCode.toDataURL(` Monto: ${parseFloat(montoTotal).toFixed(2)}`, opts).then(url => {
         let cadena = `${this.head()}
   <div style='padding-left: 0.5cm;padding-right: 0.5cm'>
-  <img src="logo.png" alt="logo" style="width: 100px; height: 100px; display: block; margin-left: auto; margin-right: auto;">
+  <img src="/logo.png" alt="logo" style="width: 100px; height: 100px; display: block; margin-left: auto; margin-right: auto;">
       <div class='titulo'>title</div>
       <div class='titulo2'>${env.razon} <br>
       Casa Matriz<br>
@@ -234,7 +234,7 @@ Oruro</div>
       QRCode.toDataURL(`Fecha: ${buy.date} Monto: ${parseFloat(buy.total).toFixed(2)}`, opts).then(url => {
         let cadena = `${this.head()}
     <div style='padding-left: 0.5cm;padding-right: 0.5cm'>
-    <img src="logo.png" alt="logo" style="width: 100px; height: 100px; display: block; margin-left: auto; margin-right: auto;">
+    <img src="/logo.png" alt="logo" style="width: 100px; height: 100px; display: block; margin-left: auto; margin-right: auto;">
       <div class='titulo'>RECIBO DE COMPRA</div>
       <div class='titulo2'>${env.razon} <br>
       Casa Matriz<br>
@@ -293,7 +293,7 @@ Oruro</div>
       QRCode.toDataURL(`de: ${de} A: ${ha}`, opts).then(url => {
         let cadena = `${this.head()}
     <div style='padding-left: 0.5cm;padding-right: 0.5cm'>
-    <img src="logo.png" alt="logo" style="width: 100px; height: 100px; display: block; margin-left: auto; margin-right: auto;">
+    <img src="/logo.png" alt="logo" style="width: 100px; height: 100px; display: block; margin-left: auto; margin-right: auto;">
       <div class='titulo'>RECIBO DE TRANSFERENCIA</div>
       <div class='titulo2'>${env.razon} <br>
       Casa Matriz<br>

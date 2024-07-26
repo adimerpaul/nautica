@@ -92,6 +92,12 @@ import moment from "moment";
 import {Imprimir} from "src/addons/Imprimir";
 
 export default {
+  // props: {
+  //   viaje_id: {
+  //     type: String,
+  //     default: null
+  //   }
+  // },
   data () {
     return {
       provider: [],
@@ -147,7 +153,10 @@ export default {
     },
     saveSale () {
       this.loading = true
-      this.$axios.post('registrarGasto', this.gasto).then(res => {
+      this.$axios.post('registrarGasto', {
+        ...this.gasto,
+        viaje_id: this.viaje_id
+      }).then(res => {
         this.$emit('gastoCreated', res.data)
         this.$alert.success('Gasto registrado')
         // this.$emit('close')

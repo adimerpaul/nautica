@@ -66,12 +66,6 @@
           <template v-slot:body="props">
             <q-tr :props="props">
               <q-td key="opcion" :props="props" auto-width>
-                <!--                <q-btn-group v-if="props.row.status=='ACTIVO'">-->
-                <!--                  <q-btn dense label="Anular" color="red-4" size="10px"-->
-                <!--                         no-caps no-wrap icon="o_highlight_off" @click="saleAnular(props.row.id)">-->
-                <!--                    <q-tooltip>Anular venta</q-tooltip>-->
-                <!--                  </q-btn>-->
-                <!--                </q-btn-group>-->
                 <q-btn-dropdown dense icon="more_vert" align="right" label="Opciones" no-caps
                                 :color="props.row.tipo_venta=='INGRESO'?'green-9':'red-9'"
                                 size="10px" v-if="props.row.status=='ACTIVO'">
@@ -87,12 +81,6 @@
                       <q-tooltip>Imprimir nota</q-tooltip>
                     </q-btn>
                   </q-item>
-                  <!--                  <q-item clickable v-close-popup class="text-center">-->
-                  <!--                    <q-btn dense label="Modificar" color="orange-4" size="10px" class="full-width"-->
-                  <!--                           no-caps no-wrap icon="o_edit" @click="modificarNota(props.row)">-->
-                  <!--                      <q-tooltip>Modificar nota</q-tooltip>-->
-                  <!--                    </q-btn>-->
-                  <!--                  </q-item>-->
                 </q-btn-dropdown>
                 <div v-else style="width: 95px">
                   <q-chip label="Anulado" color="grey-4" text-color="white" dense flat />
@@ -194,25 +182,6 @@ export default {
   },
   methods: {
     exportarExcel () {
-      // const data = [
-      //   {
-      //     sheet: 'Adults',
-      //     columns: [
-      //       { label: 'Proveedor / cliente', value: row => row.client?.name + ' ' + row.client?.lastname },
-      //       { label: 'Monto total', value: 'total' },
-      //       { label: 'Fecha y hora', value: 'date' },
-      //       { label: 'Concepto', value: 'description' },
-      //       { label: 'Comentario', value: 'observacion' },
-      //       { label: 'Egreso / ingreso', value: 'tipo_venta' },
-      //       { label: 'Usuario', value: 'user.name' },
-      //       // { label: 'Lugar', value: 'lugar' }
-      //     ],
-      //     content: this.sales.blade.php
-      //   }
-      // ]
-      //
-      // Excel.export(data, 'ventas')
-      //descragar de exportSalesExcel desde api con axios
       this.loading = true
       this.$axios.get('exportSalesExcel', {
         params: {
