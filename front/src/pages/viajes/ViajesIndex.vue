@@ -22,7 +22,7 @@
     >
       <template v-slot:body-cell-option="props">
         <q-td auto-width>
-          <q-btn-dropdown label="Opciones" color="primary" auto-close no-caps size="10px" v-if="props.row.status !== 'Finalizado'" @click="(event) => { event.stopPropagation() }">
+          <q-btn-dropdown label="Opciones" color="primary" auto-close no-caps size="10px" @click="(event) => { event.stopPropagation() }">
             <q-list>
               <q-item clickable v-ripple @click="viajeEdit(props.row)" v-if="props.row.estado === 'Activo'">
                 <q-item-section avatar>

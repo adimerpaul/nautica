@@ -27,6 +27,7 @@ Route::group(['middleware' => 'auth:sanctum'], function(){
     Route::get('/boats', [\App\Http\Controllers\BoatController::class, 'index']);
     Route::get('/boats/{id}', [\App\Http\Controllers\BoatController::class, 'show']);
     Route::post('/boats', [\App\Http\Controllers\BoatController::class, 'store']);
+    Route::post('/boatsFile/{boat}', [\App\Http\Controllers\BoatController::class, 'boatsFile']);
     Route::put('/boats/{id}', [\App\Http\Controllers\BoatController::class, 'update']);
     Route::delete('/boats/{id}', [\App\Http\Controllers\BoatController::class, 'destroy']);
 

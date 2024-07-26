@@ -1,14 +1,37 @@
 <template>
   <q-page class="bg-grey-3 q-pa-md">
-    <q-table :rows="boats" :columns="columns" title="Botes" :rows-per-page-options="[0]" row-key="id" dense :filter="filter" :loading="loading">
+    <q-table :rows="boats" :columns="columns" title="Botes" :rows-per-page-options="[0]" row-key="id" dense :filter="filter" :loading="loading"
+             @rowClick="boatShowClick">
+    >
       <template v-slot:body-cell-option="props">
           <q-td auto-width>
-            <q-btn flat dense icon="edit" @click="boatEdit(props.row)" >
-              <q-tooltip>Editar</q-tooltip>
-            </q-btn>
-            <q-btn flat dense icon="delete" @click="boatDelete(props.row)" >
-              <q-tooltip>Eliminar</q-tooltip>
-            </q-btn>
+            <q-btn-dropdown label="Opciones" color="primary" auto-close no-caps size="10px" @click="(event) => { event.stopPropagation() }">
+<!--              //ver -->
+              <q-item clickable v-ripple @click="boatShow(props.row)">
+                <q-item-section avatar>
+                  <q-icon name="visibility" />
+                </q-item-section>
+                <q-item-section>Ver</q-item-section>
+              </q-item>
+              <q-item clickable v-ripple @click="boatEdit(props.row)">
+                <q-item-section avatar>
+                  <q-icon name="edit" />
+                </q-item-section>
+                <q-item-section>Editar</q-item-section>
+              </q-item>
+              <q-item clickable v-ripple @click="boatDelete(props.row)">
+                <q-item-section avatar>
+                  <q-icon name="delete" />
+                </q-item-section>
+                <q-item-section>Eliminar</q-item-section>
+              </q-item>
+            </q-btn-dropdown>
+<!--            <q-btn flat dense icon="edit" @click="boatEdit(props.row)" >-->
+<!--              <q-tooltip>Editar</q-tooltip>-->
+<!--            </q-btn>-->
+<!--            <q-btn flat dense icon="delete" @click="boatDelete(props.row)" >-->
+<!--              <q-tooltip>Eliminar</q-tooltip>-->
+<!--            </q-btn>-->
           </q-td>
       </template>
       <template v-slot:body-cell-name="props">
@@ -90,6 +113,12 @@ export default {
     this.companiesGet()
   },
   methods: {
+    boatShowClick (event, row) {
+      this.$router.push('boatdetails/' + row.id)
+    },
+    boatShow (boat) {
+      this.$router.push('boatdetails/' + boat.id)
+    },
     companiesGet () {
       this.$axios.get('companies').then(response => {
         this.companies = response.data
