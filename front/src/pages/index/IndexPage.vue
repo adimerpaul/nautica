@@ -137,7 +137,7 @@
             </q-tr>
           </template>
         </q-table>
-        <pre>{{sales}}</pre>
+<!--        <pre>{{sales}}</pre>-->
       </div>
     </div>
   </q-page>
