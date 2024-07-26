@@ -39,7 +39,7 @@ class SaleController extends Controller{
         $concepto = $request->concepto;
         $sales = Sale::whereBetween('date', [$fechaInicioSemana, $fechaFinSemana])
             ->where('description', 'LIKE', "%$concepto%")
-            ->with(['user', 'client', 'details'])
+            ->with(['user', 'client', 'details','boat'])
             ->orderBy('id', 'desc')
             ->get();
         return response()->json($sales);

@@ -92,12 +92,12 @@ import moment from "moment";
 import {Imprimir} from "src/addons/Imprimir";
 
 export default {
-  // props: {
-  //   viaje_id: {
-  //     type: String,
-  //     default: null
-  //   }
-  // },
+  props: {
+    viaje_id: {
+      type: String,
+      default: null
+    }
+  },
   data () {
     return {
       provider: [],
@@ -121,6 +121,7 @@ export default {
     }
   },
   mounted () {
+    // console.log(this.viaje_id)
     this.proveedoresGet()
   },
   methods: {

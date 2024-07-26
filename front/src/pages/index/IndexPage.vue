@@ -110,7 +110,10 @@
                          :class="`bg-${props.row.tipo_venta=='INGRESO'?'green':'red'}-2`" dense flat
                          style="padding: 0px; margin: 0px; border-radius: 0px;position: absolute;top: 5px;left: 0px;"/>
                   <div style="padding-left: 15px">
-                    <div class=" q-ml-xs" style="width: 180px; white-space: normal; overflow-wrap: break-word;line-height: 0.9;">{{ props.row.description }}</div>
+                    <div class=" q-ml-xs" style="width: 180px; white-space: normal; overflow-wrap: break-word;line-height: 0.9;">
+                      {{ props.row.description }}
+                      {{ props.row?.boat?.name }}
+                    </div>
                   </div>
                 </div>
               </q-td>
@@ -134,7 +137,7 @@
             </q-tr>
           </template>
         </q-table>
-<!--                <pre>{{sales.blade.php}}</pre>-->
+        <pre>{{sales}}</pre>
       </div>
     </div>
   </q-page>

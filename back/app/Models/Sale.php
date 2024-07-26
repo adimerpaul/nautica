@@ -34,4 +34,10 @@ class Sale extends Model{
     public function payments(){
         return $this->hasMany(Payment::class);
     }
+    function viaje(){
+        return $this->belongsTo(Viaje::class);
+    }
+    function boat(){
+        return $this->belongsTo(Boat::class);
+    }
 }
