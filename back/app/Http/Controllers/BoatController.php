@@ -10,6 +10,9 @@ class BoatController extends Controller{
     public function index(){
         return Boat::orderBy('id', 'desc')->with('company')->get();
     }
+    public function show($id){
+        return Boat::where('id', $id)->with('company')->first();
+    }
     public function store(Request $request){
         $validatedData = $request->validate([
             'name' => 'required',

@@ -36,10 +36,13 @@
         <div class="col-6 col-md-2 q-pa-xs q-mt-md">
           <q-btn :loading="loading" label="Nuevo Gasto" color="red"  icon="add_circle_outline" no-caps rounded @click="gastoDialog = true"/>
         </div>
-        <div class="col-12">
+        <div class="col-12 col-md-12">
           <label class="text-bold">Observaciones</label>
           <q-editor min-height="5rem" v-model="viaje.observaciones" @update:model-value="debouncedUpdateObservaciones"  />
         </div>
+<!--        <div class="col-12 col-md-8">-->
+
+<!--        </div>-->
         <div class="col-12 text-right q-pa-xs">
           <q-btn
             color="primary"
