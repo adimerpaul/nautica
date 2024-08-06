@@ -78,7 +78,7 @@
     </q-table>
 <!--    <pre>{{viajes}}</pre>-->
     <q-dialog v-model="viajeDialog" persistent>
-      <q-card style="width: 350px;max-width: 95vw;">
+      <q-card style="width: 650px;max-width: 95vw;">
         <q-card-section class="row items-center q-pb-none">
           <div class="text-h6">{{ viaje.id ? 'Editar' : 'Agregar' }} Viaje</div>
           <q-space />
@@ -87,50 +87,50 @@
         <q-form @submit="viajeSave">
           <q-card-section>
             <div class="row">
-              <div class="col-12 col-md-6">
+              <div class="col-6 col-md-3">
                 <q-input v-model="viaje.fechaInicio" label="Fecha Inicio" type="date" outlined dense
                          :rules="[val => !!val || 'Campo requerido']" @update:modelValue="caculoDias" />
               </div>
-              <div class="col-12 col-md-6">
+              <div class="col-6 col-md-3">
                 <q-input v-model="viaje.fechaFin" label="Fecha Fin" type="date" outlined dense
                          :rules="[val => !!val || 'Campo requerido', val => moment(val).isSameOrAfter(viaje.fechaInicio) || 'La fecha debe ser mayor o igual a la fecha de inicio']"
                           @update:modelValue="caculoDias"
                 />
               </div>
-              <div class="col-12 col-md-6">
+              <div class="col-6 col-md-3">
                 <q-input v-model="viaje.hora" label="Hora" outlined dense type="time"
                          :rules="[val => !!val || 'Campo requerido']" />
               </div>
-              <div class="col-12 col-md-6">
+              <div class="col-6 col-md-3">
                 <q-input v-model="viaje.dias" label="Días" outlined dense type="number"
                          :rules="[val => !!val || 'Campo requerido']" />
               </div>
-              <div class="col-12">
+              <div class="col-12 col-md-6">
                 <q-input v-model="viaje.zarpe" label="Zarpe" outlined dense
                          :rules="[val => !!val || 'Campo requerido']" />
               </div>
-              <div class="col-12">
-                <q-input v-model="viaje.puertoSalida" label="Puerto de Salida" outlined dense
-                         :rules="[val => !!val || 'Campo requerido']" />
-              </div>
-              <div class="col-12">
-                <q-input v-model="viaje.puertoLlegada" label="Puerto de Llegada" outlined dense
-                         :rules="[val => !!val || 'Campo requerido']" />
-              </div>
-              <div class="col-12">
-                <q-input v-model="viaje.bandera" label="Bandera" outlined dense
-                         :rules="[val => !!val || 'Campo requerido']" />
-              </div>
-              <div class="col-12">
-                <q-input v-model="viaje.propietario" label="Propietario" outlined dense
-                         :rules="[val => !!val || 'Campo requerido']" />
-              </div>
-              <div class="col-12">
+              <div class="col-12 col-md-6">
                 <q-select v-model="viaje.boat_id" :options="boats" label="Barco" outlined dense
                           :rules="[val => !!val || 'Campo requerido']"
                           map-options emit-value
                           option-value="id" option-label="name"
                 />
+              </div>
+              <div class="col-12 col-md-6">
+                <q-input v-model="viaje.puertoSalida" label="Puerto de Salida" outlined dense
+                         :rules="[val => !!val || 'Campo requerido']" />
+              </div>
+              <div class="col-12 col-md-6">
+                <q-input v-model="viaje.puertoLlegada" label="Puerto de Llegada" outlined dense
+                         :rules="[val => !!val || 'Campo requerido']" />
+              </div>
+              <div class="col-12 col-md-6">
+                <q-input v-model="viaje.bandera" label="Bandera" outlined dense
+                         :rules="[val => !!val || 'Campo requerido']" />
+              </div>
+              <div class="col-12 col-md-6">
+                <q-input v-model="viaje.propietario" label="Propietario" outlined dense
+                         :rules="[val => !!val || 'Campo requerido']" />
               </div>
 <!--              <pre>{{viaje}}</pre>-->
             </div>
