@@ -40,7 +40,7 @@
                 <q-item-section avatar>
                   <q-icon name="add_shopping_cart" />
                 </q-item-section>
-                <q-item-section>Agregar productos</q-item-section>
+                <q-item-section>Agregar Carga</q-item-section>
               </q-item>
               <q-item clickable v-ripple @click="listaTripulantes(props.row)">
                 <q-item-section avatar>
