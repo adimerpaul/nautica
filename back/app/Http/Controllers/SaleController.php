@@ -37,11 +37,21 @@ class SaleController extends Controller{
         $fechaInicioSemana = $request->fechaInicioSemana.' 00:00:00';
         $fechaFinSemana = $request->fechaFinSemana.' 23:59:59';
         $concepto = $request->concepto;
-        $sales = Sale::whereBetween('date', [$fechaInicioSemana, $fechaFinSemana])
-            ->where('description', 'LIKE', "%$concepto%")
-            ->with(['user', 'client', 'details','boat'])
-            ->orderBy('id', 'desc')
-            ->get();
+        $user = $request->user();
+        if ($user->id == 1){
+            $sales = Sale::whereBetween('date', [$fechaInicioSemana, $fechaFinSemana])
+                ->where('description', 'LIKE', "%$concepto%")
+                ->with(['user', 'client', 'details','boat'])
+                ->orderBy('id', 'desc')
+                ->get();
+        }else{
+            $sales = Sale::whereBetween('date', [$fechaInicioSemana, $fechaFinSemana])
+                ->where('description', 'LIKE', "%$concepto%")
+                ->where('user_id', $user->id)
+                ->with(['user', 'client', 'details','boat'])
+                ->orderBy('id', 'desc')
+                ->get();
+        }
         return response()->json($sales);
     }
     function debtors(Request $request){

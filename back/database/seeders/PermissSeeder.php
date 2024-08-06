@@ -13,15 +13,15 @@ class PermissSeeder extends Seeder
      * Run the database seeds.
      */
     public function run(): void{
-        Permission::create(['name' => 'ver inicio', 'group' => 'ventas']);
-        Permission::create(['name' => 'ver usuarios', 'group' => 'usuarios']);
-        Permission::create(['name' => 'ver empresas', 'group' => 'empresas']);
-        Permission::create(['name' => 'ver botes', 'group' => 'botes']);
-        Permission::create(['name' => 'ver tripulantes', 'group' => 'tripulantes']);
-        Permission::create(['name' => 'ver clientes', 'group' => 'clientes']);
-        Permission::create(['name' => 'ver viajes', 'group' => 'viajes']);
-        Permission::create(['name' => 'ver ventas', 'group' => 'ventas']);
-        Permission::create(['name' => 'ver deudores', 'group' => 'deudores']);
+//        Permission::create(['name' => 'ver inicio', 'group' => 'ventas']);
+//        Permission::create(['name' => 'ver usuarios', 'group' => 'usuarios']);
+//        Permission::create(['name' => 'ver empresas', 'group' => 'empresas']);
+//        Permission::create(['name' => 'ver botes', 'group' => 'botes']);
+//        Permission::create(['name' => 'ver tripulantes', 'group' => 'tripulantes']);
+//        Permission::create(['name' => 'ver clientes', 'group' => 'clientes']);
+//        Permission::create(['name' => 'ver viajes', 'group' => 'viajes']);
+//        Permission::create(['name' => 'ver ventas', 'group' => 'ventas']);
+//        Permission::create(['name' => 'ver deudores', 'group' => 'deudores']);
 
 //        $user = User::find(1);
 //

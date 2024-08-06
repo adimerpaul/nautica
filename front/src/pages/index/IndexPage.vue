@@ -1,6 +1,6 @@
 <template>
   <q-page class="q-pa-xs bg-grey-3">
-    <div class="row">
+    <div class="row" v-if="$store.user.id == 1">
       <div class="col-6 col-md-2 q-pa-xs">
         <q-input v-model="fechaInicioSemana" label="Fecha inicio" dense outlined type="date" class="bg-white" @update:model-value="salesGet"/>
       </div>
@@ -37,6 +37,8 @@
       <div class="col-12 col-md-3 q-pa-xs">
         <CardComponent :amount="gasto" color="red" title="Gastos" icon="o_trending_down" />
       </div>
+    </div>
+    <div class="row">
       <div class="col-12">
         <q-table :columns="columns" :rows="sales" dense :rows-per-page-options="[0]" :filter="filter" :loading="loading" wrap-cells
                  no-data-label="No hay ventas" no-results-label="No hay ventas"
