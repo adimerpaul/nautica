@@ -77,7 +77,7 @@ class ViajeController extends Controller{
         $fechaFin = $request->input('fechaFin');
         $viajes = Viaje::where('fechaInicio', '>=', $fechaInicio)
             ->where('fechaInicio', '<=', $fechaFin)
-            ->with('boat')
+            ->with(['boat','crews'])
             ->orderBy('id', 'desc')
             ->get();
         return $viajes;
@@ -112,6 +112,10 @@ class ViajeController extends Controller{
         $viaje->propietario = $request->input('propietario');
 //        $viaje->observaciones = $request->input('observaciones');
         $viaje->save();
+        $crews = $request->input('crews');
+        foreach ($crews as $crew){
+            $viaje->crews()->attach($crew['crew_id'], ['role' => $crew['cargo']]);
+        }
         return Viaje::with('boat')->find($viaje->id);
     }
     public function update(Request $request, $id){
@@ -128,7 +132,12 @@ class ViajeController extends Controller{
         $viaje->propietario = $request->input('propietario');
 //        $viaje->observaciones = $request->input('observaciones');
         $viaje->save();
-        return Viaje::with('boat')->find($viaje->id);
+        $crews = $request->input('crews');
+        $viaje->crews()->detach();
+        foreach ($crews as $crew){
+            $viaje->crews()->attach($crew['crew_id'], ['role' => $crew['cargo']]);
+        }
+        return Viaje::with(['boat','crews'])->find($viaje->id);
     }
     public function updateObservaciones(Request $request, $id){
         $viaje = Viaje::find($id);

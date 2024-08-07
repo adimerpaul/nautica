@@ -33,4 +33,8 @@ class Viaje extends Model
     function descargas(){
         return $this->hasMany(Descarga::class);
     }
+    function crews(){
+        return $this->belongsToMany(Crew::class, 'crew_viajes', 'viaje_id', 'crew_id')
+            ->withPivot('role');
+    }
 }
