@@ -158,11 +158,12 @@ class ViajeController extends Controller{
     }
     public function listaTripulantes($id){
         $viaje = Viaje::find($id);
-        $tripulantes = $viaje->boat->crews;
+//        $tripulantes = $viaje->boat->crews;
         $data = [
             'viaje' => $viaje,
-            'tripulantes' => $tripulantes
+            'tripulantes' => $viaje->crews
         ];
+        error(json_encode($data));
 //        $pdf = App::make('dompdf.wrapper');
 //        $pdf->loadView('pdf.tripulantes', $data);
         $pdf = Pdf::loadView('pdf.tripulantes', $data);

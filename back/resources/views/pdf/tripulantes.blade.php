@@ -101,7 +101,7 @@
         <tr>
             <td>{{ $loop->iteration }}</td>
             <td>{{ $tripulante->name }}</td>
-            <td>{{ $tripulante->role }}</td>
+            <td>{{ $tripulante->pivot->role }}</td>
             <td>{{ $tripulante->nacionalidad }}</td>
             <td>{{ $tripulante->tipoDocumento }}</td>
             <td>{{ $tripulante->numeroIdentificacion }}</td>

@@ -17,6 +17,7 @@ export default boot(({ app, router }) => {
   app.config.globalProperties.$axios = axios.create({ baseURL: import.meta.env.VITE_API_BACK })
   app.config.globalProperties.$url = import.meta.env.VITE_API_BACK
   app.config.globalProperties.$alert = Alert
+  app.config.globalProperties.$cargos = [{label: 'Capitán', value: 'CAPITAN'}, {label: 'Marinero', value: 'MARINERO'}, {label: 'Maquinista', value: 'MAQUINISTA'}]
   app.config.globalProperties.$store = useCounterStore()
   app.config.globalProperties.$can = function (permiso) {
     if (!useCounterStore().isLogged) return false

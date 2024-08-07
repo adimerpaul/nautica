@@ -49,7 +49,7 @@
               <q-input v-model="crew.name" label="Nombre" outlined dense :rules="[val => !!val || 'Campo requerido']" />
             </div>
             <div class="col-12">
-              <q-select v-model="crew.role" :options="[{label: 'Capitán', value: 'CAPITAN'}, {label: 'Marinero', value: 'MARINERO'}, {label: 'Maquinista', value: 'MAQUINISTA'}]" label="Rol" outlined dense
+              <q-select v-model="crew.role" :options="$cargos" label="Rol" outlined dense
                         :rules="[val => !!val || 'Campo requerido']"
                         value-field="value" label-field="label"
                         map-options emit-value
