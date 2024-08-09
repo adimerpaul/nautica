@@ -128,6 +128,49 @@
           </q-markup-table>
 <!--          <pre>{{productViaje}}</pre>-->
         </div>
+        <div class="col-12 text-bold text-center q-pt-md">
+          Capturas en libras (aproximado)
+        </div>
+        <div class="col-12 text-right">
+          <q-btn :loading="loading" label="Agregar lance" color="positive"  icon="add_circle_outline" no-caps rounded size="10px" @click="agregarLance"/>
+        </div>
+        <div class="col-12">
+          <q-markup-table dense>
+            <thead class="bg-primary text-white">
+            <tr>
+              <th>Opciones</th>
+              <th>Fecha</th>
+              <th>Nro</th>
+              <th>Hora Inicio</th>
+              <th>Hora Fin</th>
+              <th>Latitud</th>
+              <th>Longitud</th>
+              <th>Camaron Blanco</th>
+              <th>Camaron Cafe</th>
+              <th>Camaron Rojo</th>
+              <th>Camaroncillo</th>
+              <th>Calamar</th>
+              <th>Caracol</th>
+              <th>Corvina</th>
+              <th>Babosa</th>
+              <th>Guabina</th>
+              <th>Jaiba</th>
+              <th>Langosta</th>
+              <th>Pulpo</th>
+              <th>Jurel</th>
+              <th>Anguila</th>
+              <th>Pargo</th>
+              <th>Robalo</th>
+              <th>Cienero</th>
+              <th>Otras Especies</th>
+              <th>Observaciones</th>
+              <th>Usuario</th>
+            </tr>
+            </thead>
+            <tbody>
+            </tbody>
+          </q-markup-table>
+        </div>
       </div>
     </q-card>
     <q-dialog v-model="dialogAgregarProducto">
@@ -250,6 +293,138 @@
     <q-dialog v-model="gastoDialog" position="right" maximized >
       <DialogGasto @gastoCreated="gastoCreated" :viaje_id="id"/>
     </q-dialog>
+    <q-dialog v-model="lanceDialog">
+      <q-card style="width: 950px;max-width: 95vh;">
+        <q-card-section class="row items-center q-pb-none">
+          <div class="text-subtitle2 text-bold">Agregar Lance</div>
+          <q-space/>
+          <q-btn
+            flat
+            round
+            dense
+            icon="close"
+            @click="() => { lanceDialog = false }"
+          />
+        </q-card-section>
+        <q-card-section>
+          <q-form @submit="lanceSave">
+              <div class="row">
+                <div class="col-6 col-md-2">
+                  <label for="Fecha">Fecha</label>
+                  <q-input v-model="lance.fecha" outlined dense type="date" />
+                </div>
+                <div class="col-6 col-md-2">
+                  <label for="Hora Inicio">Hora Inicio</label>
+                  <q-input v-model="lance.horaInicio" outlined dense type="time" />
+                </div>
+                <div class="col-6 col-md-2">
+                  <label for="Hora Fin">Hora Fin</label>
+                  <q-input v-model="lance.horaFin" outlined dense type="time" />
+                </div>
+                <div class="col-6 col-md-2">
+                  <label for="Nro">Nro</label>
+                  <q-input v-model="lance.numero" outlined dense />
+                </div>
+                <div class="col-6 col-md-2">
+                  <label for="Latitud">Latitud</label>
+                  <q-input v-model="lance.latitud" outlined dense />
+                </div>
+                <div class="col-6 col-md-2">
+                  <label for="Longitud">Longitud</label>
+                  <q-input v-model="lance.longitud" outlined dense />
+                </div>
+                <div class="col-6 col-md-2">
+                  <label for="Camaron Blanco">Camaron Blanco</label>
+                  <q-input v-model="lance.camaronBlanco" outlined dense />
+                </div>
+                <div class="col-6 col-md-2">
+                  <label for="Camaron Cafe">Camaron Cafe</label>
+                  <q-input v-model="lance.camaronCafe" outlined dense />
+                </div>
+                <div class="col-6 col-md-2">
+                  <label for="Camaron Rojo">Camaron Rojo</label>
+                  <q-input v-model="lance.camaronRojo" outlined dense />
+                </div>
+                <div class="col-6 col-md-2">
+                  <label for="Camaroncillo">Camaroncillo</label>
+                  <q-input v-model="lance.camaroncillo" outlined dense />
+                </div>
+                <div class="col-6 col-md-2">
+                  <label for="Calamar">Calamar</label>
+                  <q-input v-model="lance.calamar" outlined dense />
+                </div>
+                <div class="col-6 col-md-2">
+                  <label for="Caracol">Caracol</label>
+                  <q-input v-model="lance.caracol" outlined dense />
+                </div>
+                <div class="col-6 col-md-2">
+                  <label for="Corvina">Corvina</label>
+                  <q-input v-model="lance.corvina" outlined dense />
+                </div>
+                <div class="col-6 col-md-2">
+                  <label for="Babosa">Babosa</label>
+                  <q-input v-model="lance.babosa" outlined dense />
+                </div>
+                <div class="col-6 col-md-2">
+                  <label for="Guabina">Guabina</label>
+                  <q-input v-model="lance.guabina" outlined dense />
+                </div>
+                <div class="col-6 col-md-2">
+                  <label for="Jaiba">Jaiba</label>
+                  <q-input v-model="lance.jaiba" outlined dense />
+                </div>
+                <div class="col-6 col-md-2">
+                  <label for="Langosta">Langosta</label>
+                  <q-input v-model="lance.langosta" outlined dense />
+                </div>
+                <div class="col-6 col-md-2">
+                  <label for="Pulpo">Pulpo</label>
+                  <q-input v-model="lance.pulpo" outlined dense />
+                </div>
+                <div class="col-6 col-md-2">
+                  <label for="Jurel">Jurel</label>
+                  <q-input v-model="lance.jurel" outlined dense />
+                </div>
+                <div class="col-6 col-md-2">
+                  <label for="Anguila">Anguila</label>
+                  <q-input v-model="lance.anguila" outlined dense />
+                </div>
+                <div class="col-6 col-md-2">
+                  <label for="Pargo">Pargo</label>
+                  <q-input v-model="lance.pargo" outlined dense />
+                </div>
+                <div class="col-6 col-md-2">
+                  <label for="Robalo">Robalo</label>
+                  <q-input v-model="lance.robalo" outlined dense />
+                </div>
+                <div class="col-6 col-md-2">
+                  <label for="Cienero">Cienero</label>
+                  <q-input v-model="lance.cienero" outlined dense />
+                </div>
+                <div class="col-6 col-md-2">
+                  <label for="Otras Especies">Otras Especies</label>
+                  <q-input v-model="lance.otrasEspecies" outlined dense />
+                </div>
+                <div class="col-12">
+                  <label for="Observaciones">Observaciones</label>
+                  <q-editor min-height="5rem" v-model="lance.observaciones" />
+                </div>
+                <div class="col-12 text-right q-pt-xs">
+                  <q-btn
+                    color="green"
+                    label="Guardar"
+                    type="submit"
+                    no-caps
+                    class="text-bold"
+                    icon="save"
+                    :loading="loading"
+                  />
+                </div>
+              </div>
+          </q-form>
+        </q-card-section>
+      </q-card>
+    </q-dialog>
     <div id="myElement" class="hidden"></div>
 <!--    <pre>{{productViaje}}</pre>-->
   </q-page>
@@ -284,7 +459,10 @@ export default {
         descarga: '',
         dia: '',
         fecha: '',
-      }
+      },
+      lanceDialog: false,
+      lance: {},
+      lances: [],
     }
   },
   mounted() {
@@ -294,6 +472,50 @@ export default {
     this.productsGet()
   },
   methods: {
+    lanceSave() {
+      this.loading = true
+      this.$axios.post('lances', this.lance)
+        .then(response => {
+          this.lances.push(response.data)
+          this.lanceDialog = false
+        })
+        .catch(error => {
+          console.log(error)
+        }).finally(() => {
+        this.loading = false
+      })
+    },
+    agregarLance() {
+      this.lanceDialog = true
+      this.lance = {
+        viaje_id: this.id,
+        fecha: moment().format('YYYY-MM-DD'),
+        numero: this.lances.length + 1,
+        horaInicio: moment().format('HH:mm'),
+        horaFin: moment().format('HH:mm'),
+        latitud: '',
+        longitud: '',
+        camaronBlanco: '',
+        camaronCafe: '',
+        camaronRojo: '',
+        camaroncillo: '',
+        calamar: '',
+        caracol: '',
+        corvina: '',
+        babosa: '',
+        guabina: '',
+        jaiba: '',
+        langosta: '',
+        pulpo: '',
+        jurel: '',
+        anguila: '',
+        pargo: '',
+        robalo: '',
+        cienero: '',
+        otrasEspecies: '',
+        observaciones: '',
+      }
+    },
     gastoCreated (gasto) {
       this.gastoDialog = false
     },
