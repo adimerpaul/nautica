@@ -22,6 +22,7 @@ class PermissSeeder extends Seeder
 //        Permission::create(['name' => 'ver viajes', 'group' => 'viajes']);
 //        Permission::create(['name' => 'ver ventas', 'group' => 'ventas']);
 //        Permission::create(['name' => 'ver deudores', 'group' => 'deudores']);
+        Permission::create(['name' => 'ver productos', 'group' => 'productos']);
 
 //        $user = User::find(1);
 //
