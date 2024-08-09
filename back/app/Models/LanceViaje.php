@@ -41,5 +41,11 @@ class LanceViaje extends Model
         'created_at',
         'updated_at',
     ];
+    function user(){
+        return $this->belongsTo(User::class, 'user_id');
+    }
+    function viaje(){
+        return $this->belongsTo(Viaje::class, 'viaje_id');
+    }
 
 }

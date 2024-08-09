@@ -168,6 +168,64 @@
             </tr>
             </thead>
             <tbody>
+            <tr v-for="item in lances" :key="item.id">
+              <td>
+                <q-btn
+                  color="negative"
+                  label="Anular"
+                  no-caps
+                  dense
+                  size="10px"
+                  icon="delete"
+                  @click="anular(item)"
+                  v-if="item.status === 'ACTIVO' && viaje.estado === 'Activo'"
+                  :loading="loading"
+                />
+                <q-chip
+                  label="Anulado"
+                  text-color="white"
+                  dense
+                  v-if="item.status === 'INACTIVO'"
+                  color="red"
+                />
+                <q-btn
+                  color="primary"
+                  label="Imprimir"
+                  no-caps
+                  dense
+                  size="10px"
+                  icon="print"
+                  v-if="item.status === 'ACTIVO'"
+                  @click="imprimirPdf(item)"
+                  :loading="loading"></q-btn>
+              </td>
+              <td>{{$filters.formatdMY(item.fecha)}}</td>
+              <td>{{item.numero}}</td>
+              <td>{{item.hora_inicio}}</td>
+              <td>{{item.hora_fin}}</td>
+              <td>{{item.latitud}}</td>
+              <td>{{item.longitud}}</td>
+              <td>{{item.camaron_blanco}}</td>
+              <td>{{item.camaron_cafe}}</td>
+              <td>{{item.camaron_rojo}}</td>
+              <td>{{item.camaroncillo}}</td>
+              <td>{{item.calamar}}</td>
+              <td>{{item.caracol}}</td>
+              <td>{{item.corvina}}</td>
+              <td>{{item.babosa}}</td>
+              <td>{{item.guabina}}</td>
+              <td>{{item.jaiba}}</td>
+              <td>{{item.langosta}}</td>
+              <td>{{item.pulpo}}</td>
+              <td>{{item.jurel}}</td>
+              <td>{{item.anguila}}</td>
+              <td>{{item.pargo}}</td>
+              <td>{{item.robalo}}</td>
+              <td>{{item.cienero}}</td>
+              <td>{{item.otras_especies}}</td>
+              <td>{{item.observaciones}}</td>
+              <td>{{item.user?.name}}</td>
+            </tr>
             </tbody>
           </q-markup-table>
         </div>
@@ -315,11 +373,11 @@
                 </div>
                 <div class="col-6 col-md-2">
                   <label for="Hora Inicio">Hora Inicio</label>
-                  <q-input v-model="lance.horaInicio" outlined dense type="time" />
+                  <q-input v-model="lance.hora_inicio" outlined dense type="time" />
                 </div>
                 <div class="col-6 col-md-2">
                   <label for="Hora Fin">Hora Fin</label>
-                  <q-input v-model="lance.horaFin" outlined dense type="time" />
+                  <q-input v-model="lance.hora_fin" outlined dense type="time" />
                 </div>
                 <div class="col-6 col-md-2">
                   <label for="Nro">Nro</label>
@@ -335,15 +393,15 @@
                 </div>
                 <div class="col-6 col-md-2">
                   <label for="Camaron Blanco">Camaron Blanco</label>
-                  <q-input v-model="lance.camaronBlanco" outlined dense />
+                  <q-input v-model="lance.camaron_blanco" outlined dense />
                 </div>
                 <div class="col-6 col-md-2">
                   <label for="Camaron Cafe">Camaron Cafe</label>
-                  <q-input v-model="lance.camaronCafe" outlined dense />
+                  <q-input v-model="lance.camaron_cafe" outlined dense />
                 </div>
                 <div class="col-6 col-md-2">
                   <label for="Camaron Rojo">Camaron Rojo</label>
-                  <q-input v-model="lance.camaronRojo" outlined dense />
+                  <q-input v-model="lance.camaron_rojo" outlined dense />
                 </div>
                 <div class="col-6 col-md-2">
                   <label for="Camaroncillo">Camaroncillo</label>
@@ -403,7 +461,7 @@
                 </div>
                 <div class="col-6 col-md-2">
                   <label for="Otras Especies">Otras Especies</label>
-                  <q-input v-model="lance.otrasEspecies" outlined dense />
+                  <q-input v-model="lance.otras_especies" outlined dense />
                 </div>
                 <div class="col-12">
                   <label for="Observaciones">Observaciones</label>
@@ -426,7 +484,7 @@
       </q-card>
     </q-dialog>
     <div id="myElement" class="hidden"></div>
-<!--    <pre>{{productViaje}}</pre>-->
+    <pre>{{viaje}}</pre>
   </q-page>
 </template>
 
@@ -491,13 +549,13 @@ export default {
         viaje_id: this.id,
         fecha: moment().format('YYYY-MM-DD'),
         numero: this.lances.length + 1,
-        horaInicio: moment().format('HH:mm'),
-        horaFin: moment().format('HH:mm'),
+        hora_inicio: moment().format('HH:mm'),
+        hora_fin: moment().format('HH:mm'),
         latitud: '',
         longitud: '',
-        camaronBlanco: '',
-        camaronCafe: '',
-        camaronRojo: '',
+        camaron_blanco: '',
+        camaron_cafe: '',
+        camaron_rojo: '',
         camaroncillo: '',
         calamar: '',
         caracol: '',
@@ -512,7 +570,7 @@ export default {
         pargo: '',
         robalo: '',
         cienero: '',
-        otrasEspecies: '',
+        otras_especies: '',
         observaciones: '',
       }
     },
@@ -673,6 +731,7 @@ export default {
         .then(response => {
           this.viaje = response.data.viaje
           this.productViaje = response.data.productoViaje
+          this.lances = response.data.lances
         })
         .catch(error => {
           console.log(error)

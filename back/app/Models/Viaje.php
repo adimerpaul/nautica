@@ -37,4 +37,7 @@ class Viaje extends Model
         return $this->belongsToMany(Crew::class, 'crew_viajes', 'viaje_id', 'crew_id')
             ->withPivot('role');
     }
+    function lances(){
+        return $this->hasMany(LanceViaje::class);
+    }
 }

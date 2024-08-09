@@ -95,7 +95,8 @@ class ViajeController extends Controller{
         if (!$viaje->observaciones) {
             $viaje->observaciones = '';
         }
-        return ['viaje' => $viaje, 'productoViaje' => $productoViaje];
+        $lances = $viaje->lances;
+        return ['viaje' => $viaje, 'productoViaje' => $productoViaje, 'lances' => $lances];
     }
     public function store(Request $request){
 //        protected $fillable = ['fechaInicio', 'fechaFin', 'boats_id'];
