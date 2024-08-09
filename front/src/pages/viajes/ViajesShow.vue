@@ -172,32 +172,15 @@
               <td>
                 <q-btn
                   color="negative"
-                  label="Anular"
+                  label="Eliminar"
                   no-caps
                   dense
                   size="10px"
                   icon="delete"
-                  @click="anular(item)"
-                  v-if="item.status === 'ACTIVO' && viaje.estado === 'Activo'"
+                  @click="eliminarLance(item)"
                   :loading="loading"
+                  style="width: 75px"
                 />
-                <q-chip
-                  label="Anulado"
-                  text-color="white"
-                  dense
-                  v-if="item.status === 'INACTIVO'"
-                  color="red"
-                />
-                <q-btn
-                  color="primary"
-                  label="Imprimir"
-                  no-caps
-                  dense
-                  size="10px"
-                  icon="print"
-                  v-if="item.status === 'ACTIVO'"
-                  @click="imprimirPdf(item)"
-                  :loading="loading"></q-btn>
               </td>
               <td>{{$filters.formatdMY(item.fecha)}}</td>
               <td>{{item.numero}}</td>
@@ -484,7 +467,7 @@
       </q-card>
     </q-dialog>
     <div id="myElement" class="hidden"></div>
-    <pre>{{viaje}}</pre>
+<!--    <pre>{{viaje}}</pre>-->
   </q-page>
 </template>
 
@@ -530,6 +513,20 @@ export default {
     this.productsGet()
   },
   methods: {
+    eliminarLance(item){
+      this.$alert.confirm('¿Está seguro de eliminar este lance?').onOk(() => {
+        this.loading = true
+        this.$axios.delete(`lances/${item.id}`)
+          .then(response => {
+            this.lances = this.lances.filter(v => v.id !== item.id)
+          })
+          .catch(error => {
+            console.log(error)
+          }).finally(() => {
+          this.loading = false
+        })
+      })
+    },
     lanceSave() {
       this.loading = true
       this.$axios.post('lances', this.lance)
