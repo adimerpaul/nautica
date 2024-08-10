@@ -188,26 +188,48 @@
               <td>{{item.hora_fin}}</td>
               <td>{{item.latitud}}</td>
               <td>{{item.longitud}}</td>
-              <td>{{item.camaron_blanco}}</td>
-              <td>{{item.camaron_cafe}}</td>
-              <td>{{item.camaron_rojo}}</td>
-              <td>{{item.camaroncillo}}</td>
-              <td>{{item.calamar}}</td>
-              <td>{{item.caracol}}</td>
-              <td>{{item.corvina}}</td>
-              <td>{{item.babosa}}</td>
-              <td>{{item.guabina}}</td>
-              <td>{{item.jaiba}}</td>
-              <td>{{item.langosta}}</td>
-              <td>{{item.pulpo}}</td>
-              <td>{{item.jurel}}</td>
-              <td>{{item.anguila}}</td>
-              <td>{{item.pargo}}</td>
-              <td>{{item.robalo}}</td>
-              <td>{{item.cienero}}</td>
-              <td>{{item.otras_especies}}</td>
+              <td class="text-right">{{item.camaron_blanco}}</td>
+              <td class="text-right">{{item.camaron_cafe}}</td>
+              <td class="text-right">{{item.camaron_rojo}}</td>
+              <td class="text-right">{{item.camaroncillo}}</td>
+              <td class="text-right">{{item.calamar}}</td>
+              <td class="text-right">{{item.caracol}}</td>
+              <td class="text-right">{{item.corvina}}</td>
+              <td class="text-right">{{item.babosa}}</td>
+              <td class="text-right">{{item.guabina}}</td>
+              <td class="text-right">{{item.jaiba}}</td>
+              <td class="text-right">{{item.langosta}}</td>
+              <td class="text-right">{{item.pulpo}}</td>
+              <td class="text-right">{{item.jurel}}</td>
+              <td class="text-right">{{item.anguila}}</td>
+              <td class="text-right">{{item.pargo}}</td>
+              <td class="text-right">{{item.robalo}}</td>
+              <td class="text-right">{{item.cienero}}</td>
+              <td class="text-right">{{item.otras_especies}}</td>
               <td>{{item.observaciones}}</td>
               <td>{{item.user?.name}}</td>
+            </tr>
+            <tr>
+              <td colspan="7" class="text-right text-bold">Totales</td>
+              <td class="text-right">{{lances.reduce((a, b) => a + (b['camaron_blanco'] || 0), 0)}}</td>
+              <td class="text-right">{{lances.reduce((a, b) => a + (b['camaron_cafe'] || 0), 0)}}</td>
+              <td class="text-right">{{lances.reduce((a, b) => a + (b['camaron_rojo'] || 0), 0)}}</td>
+              <td class="text-right">{{lances.reduce((a, b) => a + (b['camaroncillo'] || 0), 0)}}</td>
+              <td class="text-right">{{lances.reduce((a, b) => a + (b['calamar'] || 0), 0)}}</td>
+              <td class="text-right">{{lances.reduce((a, b) => a + (b['caracol'] || 0), 0)}}</td>
+              <td class="text-right">{{lances.reduce((a, b) => a + (b['corvina'] || 0), 0)}}</td>
+              <td class="text-right">{{lances.reduce((a, b) => a + (b['babosa'] || 0), 0)}}</td>
+              <td class="text-right">{{lances.reduce((a, b) => a + (b['guabina'] || 0), 0)}}</td>
+              <td class="text-right">{{lances.reduce((a, b) => a + (b['jaiba'] || 0), 0)}}</td>
+              <td class="text-right">{{lances.reduce((a, b) => a + (b['langosta'] || 0), 0)}}</td>
+              <td class="text-right">{{lances.reduce((a, b) => a + (b['pulpo'] || 0), 0)}}</td>
+              <td class="text-right">{{lances.reduce((a, b) => a + (b['jurel'] || 0), 0)}}</td>
+              <td class="text-right">{{lances.reduce((a, b) => a + (b['anguila'] || 0), 0)}}</td>
+              <td class="text-right">{{lances.reduce((a, b) => a + (b['pargo'] || 0), 0)}}</td>
+              <td class="text-right">{{lances.reduce((a, b) => a + (b['robalo'] || 0), 0)}}</td>
+              <td class="text-right">{{lances.reduce((a, b) => a + (b['cienero'] || 0), 0)}}</td>
+              <td class="text-right">{{lances.reduce((a, b) => a + (b['otras_especies'] || 0), 0)}}</td>
+              <td colspan="2"></td>
             </tr>
             </tbody>
           </q-markup-table>
