@@ -14,7 +14,7 @@
                           @update:modelValue="filterProducts" />
               </div>
               <div class="col-12 col-md-5 text-right">
-                <q-btn :loading="loading" label="Nuevo Gasto" color="red"  icon="add_circle_outline" no-caps rounded @click="gastoDialog = true"/>
+<!--                <q-btn :loading="loading" label="Nuevo Gasto" color="red"  icon="add_circle_outline" no-caps rounded @click="gastoDialog = true"/>-->
               </div>
               <div class="col-12">
                 <div class="row">

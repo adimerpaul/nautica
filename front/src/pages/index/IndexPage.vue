@@ -22,8 +22,8 @@
 
       </div>
       <div class="col-12 col-md-4 text-right">
-        <q-btn :loading="loading" label="Nuevo Venta" color="green"  icon="add_circle_outline" no-caps rounded to="/sales"/>
-        <q-btn :loading="loading" label="Nuevo Gasto" color="red"  icon="add_circle_outline" no-caps rounded @click="gastoDialog = true"/>
+<!--        <q-btn :loading="loading" label="Nuevo Venta" color="green"  icon="add_circle_outline" no-caps rounded to="/sales"/>-->
+<!--        <q-btn :loading="loading" label="Nuevo Gasto" color="red"  icon="add_circle_outline" no-caps rounded @click="gastoDialog = true"/>-->
       </div>
       <div class="col-12 col-md-3 q-pa-xs">
         <CardComponent :amount="balance" color="grey" title="Balance" icon="account_balance" />

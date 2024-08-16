@@ -34,7 +34,7 @@
           <q-chip size="12px" :label="viaje?.boat?.company?.name" text-color="white" :style="{backgroundColor: viaje?.boat?.company?.color}" icon="business" />
         </div>
         <div class="col-6 col-md-2 q-pa-xs q-mt-md">
-          <q-btn :loading="loading" label="Nuevo Gasto" color="red"  icon="add_circle_outline" no-caps rounded @click="gastoDialog = true"/>
+<!--          <q-btn :loading="loading" label="Nuevo Gasto" color="red"  icon="add_circle_outline" no-caps rounded @click="gastoDialog = true"/>-->
         </div>
         <div class="col-12 col-md-12">
           <label class="text-bold">Observaciones</label>
