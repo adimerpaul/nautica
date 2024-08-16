@@ -129,6 +129,7 @@ export default {
         { title: 'Clientes', icon: 'person', to: '/clients' , can: 'ver clientes'},
         { title: 'Productos', icon: 'shopping_cart', to: '/products' , can: 'ver productos'},
         { title: 'Viajes', icon: 'flight_takeoff', to: '/viajes' , can: 'ver viajes'},
+        { title: 'Viajes Activos', icon: 'sailing', to: '/viajesActivos' , can: 'ver viajes'},
         { title: 'Venta', icon: 'shopping_cart', to: '/sales' , can: 'ver ventas'},
         { title: 'Deudores', icon: 'credit_score', to: '/debtors' , can: 'ver deudores'}
       ],

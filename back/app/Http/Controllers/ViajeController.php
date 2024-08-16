@@ -13,6 +13,17 @@ use Illuminate\Support\Facades\DB;
 use function Laravel\Prompts\error;
 
 class ViajeController extends Controller{
+    function viajesActivos(Request $request){
+        $fechaInicio = $request->input('fechaInicio');
+        $fechaFin = $request->input('fechaFin');
+        $viajes = Viaje::where('fechaInicio', '>=', $fechaInicio)
+            ->where('fechaInicio', '<=', $fechaFin)
+            ->where('estado', 'Activo')
+            ->with(['boat','crews'])
+            ->orderBy('id', 'desc')
+            ->get();
+        return $viajes;
+    }
     public function productAnular(Request $request, $id){
 //        $productoViaje = ProductoViaje::find($id);
 //        $productoViaje->status = 'INACTIVO';
