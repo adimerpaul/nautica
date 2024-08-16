@@ -374,7 +374,7 @@
               <div class="row">
                 <div class="col-6 col-md-2">
                   <label for="Fecha">Fecha</label>
-                  <q-input v-model="lance.fecha" outlined dense type="date" />
+                  <q-input v-model="lance.fecha" outlined dense type="date" disable />
                 </div>
                 <div class="col-6 col-md-2">
                   <label for="Hora Inicio">Hora Inicio</label>
