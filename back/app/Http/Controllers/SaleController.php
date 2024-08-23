@@ -33,6 +33,29 @@ class SaleController extends Controller{
             return response()->json($e->getMessage(), 500);
         }
     }
+    function salesGastos(Request $request){
+        $fechaInicioSemana = $request->fechaInicioSemana.' 00:00:00';
+        $fechaFinSemana = $request->fechaFinSemana.' 23:59:59';
+        $concepto = $request->concepto;
+        $user = $request->user();
+        if ($user->id == 1){
+            $sales = Sale::whereBetween('date', [$fechaInicioSemana, $fechaFinSemana])
+                ->where('description', 'LIKE', "%$concepto%")
+                ->where('tipo_venta', 'EGRESO')
+                ->with(['user', 'client', 'details','boat'])
+                ->orderBy('id', 'desc')
+                ->get();
+        }else{
+            $sales = Sale::whereBetween('date', [$fechaInicioSemana, $fechaFinSemana])
+                ->where('description', 'LIKE', "%$concepto%")
+                ->where('user_id', $user->id)
+                ->where('tipo_venta', 'EGRESO')
+                ->with(['user', 'client', 'details','boat'])
+                ->orderBy('id', 'desc')
+                ->get();
+        }
+        return response()->json($sales);
+    }
     public function index(Request $request){
         $fechaInicioSemana = $request->fechaInicioSemana.' 00:00:00';
         $fechaFinSemana = $request->fechaFinSemana.' 23:59:59';

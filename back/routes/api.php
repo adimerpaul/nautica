@@ -68,7 +68,7 @@ Route::group(['middleware' => 'auth:sanctum'], function(){
     Route::get('/debtors', [\App\Http\Controllers\SaleController::class, 'debtors']);
     Route::post('registrarGasto', [\App\Http\Controllers\SaleController::class, 'registrarGasto']);
     Route::post('saleAnular', [\App\Http\Controllers\SaleController::class, 'saleAnular']);
-
+    Route::get('/salesGastos', [\App\Http\Controllers\SaleController::class, 'salesGastos']);
 
     Route::post('/payments', [\App\Http\Controllers\PaymentController::class, 'store']);
     Route::post('/anularPago/{id}', [\App\Http\Controllers\PaymentController::class, 'anularPago']);
