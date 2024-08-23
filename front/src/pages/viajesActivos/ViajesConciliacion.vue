@@ -2,11 +2,14 @@
   <q-page class="bg-grey-3 q-pa-xs">
     <q-card>
       <div class="row">
+        <div class="col-12">
+          <div class="text-h5 text-center bg-primary text-white">Concolidados</div>
+        </div>
         <div class="col-6 col-md-2 q-pa-xs">
           <q-btn
             color="primary"
             label="Volver"
-            @click="() => { this.$router.push('/viajes') }"
+            @click="() => { this.$router.push('/viajesActivos') }"
             no-caps
             icon="arrow_back"
             size="sm"
@@ -34,206 +37,216 @@
           <q-chip size="12px" :label="viaje?.boat?.company?.name" text-color="white" :style="{backgroundColor: viaje?.boat?.company?.color}" icon="business" />
         </div>
         <div class="col-6 col-md-2 q-pa-xs q-mt-md">
-          <q-btn :loading="loading" label="Nuevo Gasto" color="red"  icon="add_circle_outline" no-caps rounded @click="gastoDialog = true"/>
+<!--          <q-btn :loading="loading" label="Nuevo Gasto" color="red"  icon="add_circle_outline" no-caps rounded @click="gastoDialog = true"/>-->
         </div>
-        <div class="col-12 col-md-12">
-          <label class="text-bold">Observaciones</label>
-          <q-editor min-height="5rem" v-model="viaje.observaciones" @update:model-value="debouncedUpdateObservaciones"  />
+        <div class="col-12 col-md-3 q-pa-xs">
+          <div class="bg-primary text-white text-h6 text-center">Descargas</div>
         </div>
+        <div class="col-12 col-md-3 q-pa-xs">
+          <div class="bg-primary text-white text-h6 text-center">Lances</div>
+        </div>
+        <div class="col-12 col-md-3 q-pa-xs">
+          <div class="bg-primary text-white text-h6 text-center">Ventas</div>
+        </div>
+        <div class="col-12 col-md-3 q-pa-xs">
+          <div class="bg-primary text-white text-h6 text-center">Inventario</div>
+        </div>
+<!--        <div cl
+-->
 <!--        <div class="col-12 col-md-8">-->
 
 <!--        </div>-->
-        <div class="col-12 text-right q-pa-xs">
-          <q-btn
-            color="primary"
-            label="Exportar PDF"
-            @click="imprimirPdfTotal"
-            no-caps
-            icon="picture_as_pdf"
-            size="sm"
-            :loading="loading"></q-btn>
+<!--        <div class="col-12 text-right q-pa-xs">-->
+<!--          <q-btn-->
+<!--            color="primary"-->
+<!--            label="Exportar PDF"-->
+<!--            @click="imprimirPdfTotal"-->
+<!--            no-caps-->
+<!--            icon="picture_as_pdf"-->
+<!--            size="sm"-->
+<!--            :loading="loading"></q-btn>-->
 
-          <q-btn
-            v-if="viaje.estado === 'Activo'"
-            color="green"
-            label="Agregar Producto"
-            @click="dialogAgregarProductoClick"
-            no-caps
-            size="sm"
-            class="text-bold"
-            icon="add_circle_outline"
-            :loading="loading"
-          />
-        </div>
-        <div class="col-12">
-          <q-markup-table dense>
-            <thead class="bg-primary text-white">
-<!--            protected $fillable = ['product', 'viaje_id', 'cantidad', 'fecha', 'status', 'user_id'];-->
-              <tr>
-                <th>Acciones</th>
-                <th>Fecha</th>
-                <th>Estado</th>
-                <th>Producto</th>
-<!--                <th>Libras</th>-->
-                <th>Usuario</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="item in productViaje" :key="item.id">
-                <td>
-                  <q-btn
-                    color="negative"
-                    label="Anular"
-                    no-caps
-                    dense
-                    size="10px"
-                    icon="delete"
-                    @click="anular(item)"
-                    v-if="item.status === 'ACTIVO' && viaje.estado === 'Activo'"
-                    :loading="loading"
-                  />
-                  <q-chip
-                    label="Anulado"
-                    text-color="white"
-                    dense
-                    v-if="item.status === 'INACTIVO'"
-                    color="red"
-                  />
-                  <q-btn
-                    color="primary"
-                    label="Imprimir"
-                    no-caps
-                    dense
-                    size="10px"
-                    icon="print"
-                    v-if="item.status === 'ACTIVO'"
-                    @click="imprimirPdf(item)"
-                    :loading="loading"></q-btn>
-                </td>
-                <td>{{$filters.formatdMYHID(item.fecha)}}</td>
-                <td>
-                  <q-chip label="Activo" text-color="white" dense v-if="item.status === 'ACTIVO'" color="green" />
-                  <q-chip label="Anulado" text-color="white" dense v-if="item.status === 'INACTIVO'" color="red" />
-<!--                  <q-chip :label="item.status" text-color="white"  dense v-if="item.status === 'En curso'" color="blue" />-->
-                </td>
-                <td class="">
-                  <div class="" style="width: 350px; white-space: normal; overflow-wrap: break-word;line-height: 0.9;">
-                    {{item.details}}
-                  </div>
-                </td>
-<!--                <td class="text-right">{{item.cantidad}}</td>-->
-                <td class="text-right">{{item.user?.name}}</td>
-              </tr>
-            </tbody>
-          </q-markup-table>
-<!--          <pre>{{productViaje}}</pre>-->
-        </div>
-        <div class="col-12 text-bold text-center q-pt-md">
-          Capturas en libras (aproximado)
-        </div>
-        <div class="col-12 text-right">
-          <q-btn :loading="loading" label="Agregar lance" color="positive"  icon="add_circle_outline" no-caps rounded size="10px" @click="agregarLance"/>
-        </div>
-        <div class="col-12">
-          <q-markup-table dense>
-            <thead class="bg-primary text-white">
-            <tr>
-              <th>Opciones</th>
-              <th>Fecha</th>
-              <th>Nro</th>
-              <th>Hora Inicio</th>
-              <th>Hora Fin</th>
-              <th>Latitud</th>
-              <th>Longitud</th>
-              <th>Camaron Blanco</th>
-              <th>Camaron Cafe</th>
-              <th>Camaron Rojo</th>
-              <th>Camaroncillo</th>
-              <th>Calamar</th>
-              <th>Caracol</th>
-              <th>Corvina</th>
-              <th>Babosa</th>
-              <th>Guabina</th>
-              <th>Jaiba</th>
-              <th>Langosta</th>
-              <th>Pulpo</th>
-              <th>Jurel</th>
-              <th>Anguila</th>
-              <th>Pargo</th>
-              <th>Robalo</th>
-              <th>Cienero</th>
-              <th>Otras Especies</th>
-              <th>Observaciones</th>
-              <th>Usuario</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr v-for="item in lances" :key="item.id">
-              <td>
-                <q-btn
-                  color="negative"
-                  label="Eliminar"
-                  no-caps
-                  dense
-                  size="10px"
-                  icon="delete"
-                  @click="eliminarLance(item)"
-                  :loading="loading"
-                  style="width: 75px"
-                />
-              </td>
-              <td>{{$filters.formatdMY(item.fecha)}}</td>
-              <td>{{item.numero}}</td>
-              <td>{{item.hora_inicio}}</td>
-              <td>{{item.hora_fin}}</td>
-              <td>{{item.latitud}}</td>
-              <td>{{item.longitud}}</td>
-              <td class="text-right">{{item.camaron_blanco}}</td>
-              <td class="text-right">{{item.camaron_cafe}}</td>
-              <td class="text-right">{{item.camaron_rojo}}</td>
-              <td class="text-right">{{item.camaroncillo}}</td>
-              <td class="text-right">{{item.calamar}}</td>
-              <td class="text-right">{{item.caracol}}</td>
-              <td class="text-right">{{item.corvina}}</td>
-              <td class="text-right">{{item.babosa}}</td>
-              <td class="text-right">{{item.guabina}}</td>
-              <td class="text-right">{{item.jaiba}}</td>
-              <td class="text-right">{{item.langosta}}</td>
-              <td class="text-right">{{item.pulpo}}</td>
-              <td class="text-right">{{item.jurel}}</td>
-              <td class="text-right">{{item.anguila}}</td>
-              <td class="text-right">{{item.pargo}}</td>
-              <td class="text-right">{{item.robalo}}</td>
-              <td class="text-right">{{item.cienero}}</td>
-              <td class="text-right">{{item.otras_especies}}</td>
-              <td>{{item.observaciones}}</td>
-              <td>{{item.user?.name}}</td>
-            </tr>
-            <tr>
-              <td colspan="7" class="text-right text-bold">Totales</td>
-              <td class="text-right">{{lances.reduce((a, b) => a + (b['camaron_blanco'] || 0), 0)}}</td>
-              <td class="text-right">{{lances.reduce((a, b) => a + (b['camaron_cafe'] || 0), 0)}}</td>
-              <td class="text-right">{{lances.reduce((a, b) => a + (b['camaron_rojo'] || 0), 0)}}</td>
-              <td class="text-right">{{lances.reduce((a, b) => a + (b['camaroncillo'] || 0), 0)}}</td>
-              <td class="text-right">{{lances.reduce((a, b) => a + (b['calamar'] || 0), 0)}}</td>
-              <td class="text-right">{{lances.reduce((a, b) => a + (b['caracol'] || 0), 0)}}</td>
-              <td class="text-right">{{lances.reduce((a, b) => a + (b['corvina'] || 0), 0)}}</td>
-              <td class="text-right">{{lances.reduce((a, b) => a + (b['babosa'] || 0), 0)}}</td>
-              <td class="text-right">{{lances.reduce((a, b) => a + (b['guabina'] || 0), 0)}}</td>
-              <td class="text-right">{{lances.reduce((a, b) => a + (b['jaiba'] || 0), 0)}}</td>
-              <td class="text-right">{{lances.reduce((a, b) => a + (b['langosta'] || 0), 0)}}</td>
-              <td class="text-right">{{lances.reduce((a, b) => a + (b['pulpo'] || 0), 0)}}</td>
-              <td class="text-right">{{lances.reduce((a, b) => a + (b['jurel'] || 0), 0)}}</td>
-              <td class="text-right">{{lances.reduce((a, b) => a + (b['anguila'] || 0), 0)}}</td>
-              <td class="text-right">{{lances.reduce((a, b) => a + (b['pargo'] || 0), 0)}}</td>
-              <td class="text-right">{{lances.reduce((a, b) => a + (b['robalo'] || 0), 0)}}</td>
-              <td class="text-right">{{lances.reduce((a, b) => a + (b['cienero'] || 0), 0)}}</td>
-              <td class="text-right">{{lances.reduce((a, b) => a + (b['otras_especies'] || 0), 0)}}</td>
-              <td colspan="2"></td>
-            </tr>
-            </tbody>
-          </q-markup-table>
-        </div>
+<!--          <q-btn-->
+<!--            v-if="viaje.estado === 'Activo'"-->
+<!--            color="green"-->
+<!--            label="Agregar Producto"-->
+<!--            @click="dialogAgregarProductoClick"-->
+<!--            no-caps-->
+<!--            size="sm"-->
+<!--            class="text-bold"-->
+<!--            icon="add_circle_outline"-->
+<!--            :loading="loading"-->
+<!--          />-->
+<!--        </div>-->
+<!--        <div class="col-12">-->
+<!--          <q-markup-table dense>-->
+<!--            <thead class="bg-primary text-white">-->
+<!--&lt;!&ndash;            protected $fillable = ['product', 'viaje_id', 'cantidad', 'fecha', 'status', 'user_id'];&ndash;&gt;-->
+<!--              <tr>-->
+<!--                <th>Acciones</th>-->
+<!--                <th>Fecha</th>-->
+<!--                <th>Estado</th>-->
+<!--                <th>Producto</th>-->
+<!--&lt;!&ndash;                <th>Libras</th>&ndash;&gt;-->
+<!--                <th>Usuario</th>-->
+<!--              </tr>-->
+<!--            </thead>-->
+<!--            <tbody>-->
+<!--              <tr v-for="item in productViaje" :key="item.id">-->
+<!--                <td>-->
+<!--                  <q-btn-->
+<!--                    color="negative"-->
+<!--                    label="Anular"-->
+<!--                    no-caps-->
+<!--                    dense-->
+<!--                    size="10px"-->
+<!--                    icon="delete"-->
+<!--                    @click="anular(item)"-->
+<!--                    v-if="item.status === 'ACTIVO' && viaje.estado === 'Activo'"-->
+<!--                    :loading="loading"-->
+<!--                  />-->
+<!--                  <q-chip-->
+<!--                    label="Anulado"-->
+<!--                    text-color="white"-->
+<!--                    dense-->
+<!--                    v-if="item.status === 'INACTIVO'"-->
+<!--                    color="red"-->
+<!--                  />-->
+<!--                  <q-btn-->
+<!--                    color="primary"-->
+<!--                    label="Imprimir"-->
+<!--                    no-caps-->
+<!--                    dense-->
+<!--                    size="10px"-->
+<!--                    icon="print"-->
+<!--                    v-if="item.status === 'ACTIVO'"-->
+<!--                    @click="imprimirPdf(item)"-->
+<!--                    :loading="loading"></q-btn>-->
+<!--                </td>-->
+<!--                <td>{{$filters.formatdMYHID(item.fecha)}}</td>-->
+<!--                <td>-->
+<!--                  <q-chip label="Activo" text-color="white" dense v-if="item.status === 'ACTIVO'" color="green" />-->
+<!--                  <q-chip label="Anulado" text-color="white" dense v-if="item.status === 'INACTIVO'" color="red" />-->
+<!--&lt;!&ndash;                  <q-chip :label="item.status" text-color="white"  dense v-if="item.status === 'En curso'" color="blue" />&ndash;&gt;-->
+<!--                </td>-->
+<!--                <td class="">-->
+<!--                  <div class="" style="width: 350px; white-space: normal; overflow-wrap: break-word;line-height: 0.9;">-->
+<!--                    {{item.details}}-->
+<!--                  </div>-->
+<!--                </td>-->
+<!--&lt;!&ndash;                <td class="text-right">{{item.cantidad}}</td>&ndash;&gt;-->
+<!--                <td class="text-right">{{item.user?.name}}</td>-->
+<!--              </tr>-->
+<!--            </tbody>-->
+<!--          </q-markup-table>-->
+<!--&lt;!&ndash;          <pre>{{productViaje}}</pre>&ndash;&gt;-->
+<!--        </div>-->
+<!--        <div class="col-12 text-bold text-center q-pt-md">-->
+<!--          Capturas en libras (aproximado)-->
+<!--        </div>-->
+<!--        <div class="col-12 text-right">-->
+<!--          <q-btn :loading="loading" label="Agregar lance" color="positive"  icon="add_circle_outline" no-caps rounded size="10px" @click="agregarLance"/>-->
+<!--        </div>-->
+<!--        <div class="col-12">-->
+<!--          <q-markup-table dense>-->
+<!--            <thead class="bg-primary text-white">-->
+<!--            <tr>-->
+<!--              <th>Opciones</th>-->
+<!--              <th>Fecha</th>-->
+<!--              <th>Nro</th>-->
+<!--              <th>Hora Inicio</th>-->
+<!--              <th>Hora Fin</th>-->
+<!--              <th>Latitud</th>-->
+<!--              <th>Longitud</th>-->
+<!--              <th>Camaron Blanco</th>-->
+<!--              <th>Camaron Cafe</th>-->
+<!--              <th>Camaron Rojo</th>-->
+<!--              <th>Camaroncillo</th>-->
+<!--              <th>Calamar</th>-->
+<!--              <th>Caracol</th>-->
+<!--              <th>Corvina</th>-->
+<!--              <th>Babosa</th>-->
+<!--              <th>Guabina</th>-->
+<!--              <th>Jaiba</th>-->
+<!--              <th>Langosta</th>-->
+<!--              <th>Pulpo</th>-->
+<!--              <th>Jurel</th>-->
+<!--              <th>Anguila</th>-->
+<!--              <th>Pargo</th>-->
+<!--              <th>Robalo</th>-->
+<!--              <th>Cienero</th>-->
+<!--              <th>Otras Especies</th>-->
+<!--              <th>Observaciones</th>-->
+<!--              <th>Usuario</th>-->
+<!--            </tr>-->
+<!--            </thead>-->
+<!--            <tbody>-->
+<!--            <tr v-for="item in lances" :key="item.id">-->
+<!--              <td>-->
+<!--                <q-btn-->
+<!--                  color="negative"-->
+<!--                  label="Eliminar"-->
+<!--                  no-caps-->
+<!--                  dense-->
+<!--                  size="10px"-->
+<!--                  icon="delete"-->
+<!--                  @click="eliminarLance(item)"-->
+<!--                  :loading="loading"-->
+<!--                  style="width: 75px"-->
+<!--                />-->
+<!--              </td>-->
+<!--              <td>{{$filters.formatdMY(item.fecha)}}</td>-->
+<!--              <td>{{item.numero}}</td>-->
+<!--              <td>{{item.hora_inicio}}</td>-->
+<!--              <td>{{item.hora_fin}}</td>-->
+<!--              <td>{{item.latitud}}</td>-->
+<!--              <td>{{item.longitud}}</td>-->
+<!--              <td class="text-right">{{item.camaron_blanco}}</td>-->
+<!--              <td class="text-right">{{item.camaron_cafe}}</td>-->
+<!--              <td class="text-right">{{item.camaron_rojo}}</td>-->
+<!--              <td class="text-right">{{item.camaroncillo}}</td>-->
+<!--              <td class="text-right">{{item.calamar}}</td>-->
+<!--              <td class="text-right">{{item.caracol}}</td>-->
+<!--              <td class="text-right">{{item.corvina}}</td>-->
+<!--              <td class="text-right">{{item.babosa}}</td>-->
+<!--              <td class="text-right">{{item.guabina}}</td>-->
+<!--              <td class="text-right">{{item.jaiba}}</td>-->
+<!--              <td class="text-right">{{item.langosta}}</td>-->
+<!--              <td class="text-right">{{item.pulpo}}</td>-->
+<!--              <td class="text-right">{{item.jurel}}</td>-->
+<!--              <td class="text-right">{{item.anguila}}</td>-->
+<!--              <td class="text-right">{{item.pargo}}</td>-->
+<!--              <td class="text-right">{{item.robalo}}</td>-->
+<!--              <td class="text-right">{{item.cienero}}</td>-->
+<!--              <td class="text-right">{{item.otras_especies}}</td>-->
+<!--              <td>{{item.observaciones}}</td>-->
+<!--              <td>{{item.user?.name}}</td>-->
+<!--            </tr>-->
+<!--            <tr>-->
+<!--              <td colspan="7" class="text-right text-bold">Totales</td>-->
+<!--              <td class="text-right">{{lances.reduce((a, b) => a + (b['camaron_blanco'] || 0), 0)}}</td>-->
+<!--              <td class="text-right">{{lances.reduce((a, b) => a + (b['camaron_cafe'] || 0), 0)}}</td>-->
+<!--              <td class="text-right">{{lances.reduce((a, b) => a + (b['camaron_rojo'] || 0), 0)}}</td>-->
+<!--              <td class="text-right">{{lances.reduce((a, b) => a + (b['camaroncillo'] || 0), 0)}}</td>-->
+<!--              <td class="text-right">{{lances.reduce((a, b) => a + (b['calamar'] || 0), 0)}}</td>-->
+<!--              <td class="text-right">{{lances.reduce((a, b) => a + (b['caracol'] || 0), 0)}}</td>-->
+<!--              <td class="text-right">{{lances.reduce((a, b) => a + (b['corvina'] || 0), 0)}}</td>-->
+<!--              <td class="text-right">{{lances.reduce((a, b) => a + (b['babosa'] || 0), 0)}}</td>-->
+<!--              <td class="text-right">{{lances.reduce((a, b) => a + (b['guabina'] || 0), 0)}}</td>-->
+<!--              <td class="text-right">{{lances.reduce((a, b) => a + (b['jaiba'] || 0), 0)}}</td>-->
+<!--              <td class="text-right">{{lances.reduce((a, b) => a + (b['langosta'] || 0), 0)}}</td>-->
+<!--              <td class="text-right">{{lances.reduce((a, b) => a + (b['pulpo'] || 0), 0)}}</td>-->
+<!--              <td class="text-right">{{lances.reduce((a, b) => a + (b['jurel'] || 0), 0)}}</td>-->
+<!--              <td class="text-right">{{lances.reduce((a, b) => a + (b['anguila'] || 0), 0)}}</td>-->
+<!--              <td class="text-right">{{lances.reduce((a, b) => a + (b['pargo'] || 0), 0)}}</td>-->
+<!--              <td class="text-right">{{lances.reduce((a, b) => a + (b['robalo'] || 0), 0)}}</td>-->
+<!--              <td class="text-right">{{lances.reduce((a, b) => a + (b['cienero'] || 0), 0)}}</td>-->
+<!--              <td class="text-right">{{lances.reduce((a, b) => a + (b['otras_especies'] || 0), 0)}}</td>-->
+<!--              <td colspan="2"></td>-->
+<!--            </tr>-->
+<!--            </tbody>-->
+<!--          </q-markup-table>-->
+<!--        </div>-->
       </div>
     </q-card>
     <q-dialog v-model="dialogAgregarProducto">
