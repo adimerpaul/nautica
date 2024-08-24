@@ -46,7 +46,7 @@
         <div class="col-12 text-right q-pa-xs">
           <q-btn
             color="primary"
-            label="Exportar PDF"
+            label="PDF Total"
             @click="imprimirPdfTotal"
             no-caps
             icon="picture_as_pdf"
@@ -56,7 +56,7 @@
           <q-btn
             v-if="viaje.estado === 'Activo'"
             color="green"
-            label="Agregar Producto"
+            label="Agregar Descarga"
             @click="dialogAgregarProductoClick"
             no-caps
             size="sm"
@@ -128,112 +128,112 @@
           </q-markup-table>
 <!--          <pre>{{productViaje}}</pre>-->
         </div>
-        <div class="col-12 text-bold text-center q-pt-md">
-          Capturas en libras (aproximado)
-        </div>
-        <div class="col-12 text-right">
-          <q-btn :loading="loading" label="Agregar lance" color="positive"  icon="add_circle_outline" no-caps rounded size="10px" @click="agregarLance"/>
-        </div>
-        <div class="col-12">
-          <q-markup-table dense>
-            <thead class="bg-primary text-white">
-            <tr>
-              <th>Opciones</th>
-              <th>Fecha</th>
-              <th>Nro</th>
-              <th>Hora Inicio</th>
-              <th>Hora Fin</th>
-              <th>Latitud</th>
-              <th>Longitud</th>
-              <th>Camaron Blanco</th>
-              <th>Camaron Cafe</th>
-              <th>Camaron Rojo</th>
-              <th>Camaroncillo</th>
-              <th>Calamar</th>
-              <th>Caracol</th>
-              <th>Corvina</th>
-              <th>Babosa</th>
-              <th>Guabina</th>
-              <th>Jaiba</th>
-              <th>Langosta</th>
-              <th>Pulpo</th>
-              <th>Jurel</th>
-              <th>Anguila</th>
-              <th>Pargo</th>
-              <th>Robalo</th>
-              <th>Cienero</th>
-              <th>Otras Especies</th>
-              <th>Observaciones</th>
-              <th>Usuario</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr v-for="item in lances" :key="item.id">
-              <td>
-                <q-btn
-                  color="negative"
-                  label="Eliminar"
-                  no-caps
-                  dense
-                  size="10px"
-                  icon="delete"
-                  @click="eliminarLance(item)"
-                  :loading="loading"
-                  style="width: 75px"
-                />
-              </td>
-              <td>{{$filters.formatdMY(item.fecha)}}</td>
-              <td>{{item.numero}}</td>
-              <td>{{item.hora_inicio}}</td>
-              <td>{{item.hora_fin}}</td>
-              <td>{{item.latitud}}</td>
-              <td>{{item.longitud}}</td>
-              <td class="text-right">{{item.camaron_blanco}}</td>
-              <td class="text-right">{{item.camaron_cafe}}</td>
-              <td class="text-right">{{item.camaron_rojo}}</td>
-              <td class="text-right">{{item.camaroncillo}}</td>
-              <td class="text-right">{{item.calamar}}</td>
-              <td class="text-right">{{item.caracol}}</td>
-              <td class="text-right">{{item.corvina}}</td>
-              <td class="text-right">{{item.babosa}}</td>
-              <td class="text-right">{{item.guabina}}</td>
-              <td class="text-right">{{item.jaiba}}</td>
-              <td class="text-right">{{item.langosta}}</td>
-              <td class="text-right">{{item.pulpo}}</td>
-              <td class="text-right">{{item.jurel}}</td>
-              <td class="text-right">{{item.anguila}}</td>
-              <td class="text-right">{{item.pargo}}</td>
-              <td class="text-right">{{item.robalo}}</td>
-              <td class="text-right">{{item.cienero}}</td>
-              <td class="text-right">{{item.otras_especies}}</td>
-              <td>{{item.observaciones}}</td>
-              <td>{{item.user?.name}}</td>
-            </tr>
-            <tr>
-              <td colspan="7" class="text-right text-bold">Totales</td>
-              <td class="text-right">{{lances.reduce((a, b) => a + (b['camaron_blanco'] || 0), 0)}}</td>
-              <td class="text-right">{{lances.reduce((a, b) => a + (b['camaron_cafe'] || 0), 0)}}</td>
-              <td class="text-right">{{lances.reduce((a, b) => a + (b['camaron_rojo'] || 0), 0)}}</td>
-              <td class="text-right">{{lances.reduce((a, b) => a + (b['camaroncillo'] || 0), 0)}}</td>
-              <td class="text-right">{{lances.reduce((a, b) => a + (b['calamar'] || 0), 0)}}</td>
-              <td class="text-right">{{lances.reduce((a, b) => a + (b['caracol'] || 0), 0)}}</td>
-              <td class="text-right">{{lances.reduce((a, b) => a + (b['corvina'] || 0), 0)}}</td>
-              <td class="text-right">{{lances.reduce((a, b) => a + (b['babosa'] || 0), 0)}}</td>
-              <td class="text-right">{{lances.reduce((a, b) => a + (b['guabina'] || 0), 0)}}</td>
-              <td class="text-right">{{lances.reduce((a, b) => a + (b['jaiba'] || 0), 0)}}</td>
-              <td class="text-right">{{lances.reduce((a, b) => a + (b['langosta'] || 0), 0)}}</td>
-              <td class="text-right">{{lances.reduce((a, b) => a + (b['pulpo'] || 0), 0)}}</td>
-              <td class="text-right">{{lances.reduce((a, b) => a + (b['jurel'] || 0), 0)}}</td>
-              <td class="text-right">{{lances.reduce((a, b) => a + (b['anguila'] || 0), 0)}}</td>
-              <td class="text-right">{{lances.reduce((a, b) => a + (b['pargo'] || 0), 0)}}</td>
-              <td class="text-right">{{lances.reduce((a, b) => a + (b['robalo'] || 0), 0)}}</td>
-              <td class="text-right">{{lances.reduce((a, b) => a + (b['cienero'] || 0), 0)}}</td>
-              <td class="text-right">{{lances.reduce((a, b) => a + (b['otras_especies'] || 0), 0)}}</td>
-              <td colspan="2"></td>
-            </tr>
-            </tbody>
-          </q-markup-table>
-        </div>
+<!--        <div class="col-12 text-bold text-center q-pt-md">-->
+<!--          Capturas en libras (aproximado)-->
+<!--        </div>-->
+<!--        <div class="col-12 text-right">-->
+<!--          <q-btn :loading="loading" label="Agregar lance" color="positive"  icon="add_circle_outline" no-caps rounded size="10px" @click="agregarLance"/>-->
+<!--        </div>-->
+<!--        <div class="col-12">-->
+<!--          <q-markup-table dense>-->
+<!--            <thead class="bg-primary text-white">-->
+<!--            <tr>-->
+<!--              <th>Opciones</th>-->
+<!--              <th>Fecha</th>-->
+<!--              <th>Nro</th>-->
+<!--              <th>Hora Inicio</th>-->
+<!--              <th>Hora Fin</th>-->
+<!--              <th>Latitud</th>-->
+<!--              <th>Longitud</th>-->
+<!--              <th>Camaron Blanco</th>-->
+<!--              <th>Camaron Cafe</th>-->
+<!--              <th>Camaron Rojo</th>-->
+<!--              <th>Camaroncillo</th>-->
+<!--              <th>Calamar</th>-->
+<!--              <th>Caracol</th>-->
+<!--              <th>Corvina</th>-->
+<!--              <th>Babosa</th>-->
+<!--              <th>Guabina</th>-->
+<!--              <th>Jaiba</th>-->
+<!--              <th>Langosta</th>-->
+<!--              <th>Pulpo</th>-->
+<!--              <th>Jurel</th>-->
+<!--              <th>Anguila</th>-->
+<!--              <th>Pargo</th>-->
+<!--              <th>Robalo</th>-->
+<!--              <th>Cienero</th>-->
+<!--              <th>Otras Especies</th>-->
+<!--              <th>Observaciones</th>-->
+<!--              <th>Usuario</th>-->
+<!--            </tr>-->
+<!--            </thead>-->
+<!--            <tbody>-->
+<!--            <tr v-for="item in lances" :key="item.id">-->
+<!--              <td>-->
+<!--                <q-btn-->
+<!--                  color="negative"-->
+<!--                  label="Eliminar"-->
+<!--                  no-caps-->
+<!--                  dense-->
+<!--                  size="10px"-->
+<!--                  icon="delete"-->
+<!--                  @click="eliminarLance(item)"-->
+<!--                  :loading="loading"-->
+<!--                  style="width: 75px"-->
+<!--                />-->
+<!--              </td>-->
+<!--              <td>{{$filters.formatdMY(item.fecha)}}</td>-->
+<!--              <td>{{item.numero}}</td>-->
+<!--              <td>{{item.hora_inicio}}</td>-->
+<!--              <td>{{item.hora_fin}}</td>-->
+<!--              <td>{{item.latitud}}</td>-->
+<!--              <td>{{item.longitud}}</td>-->
+<!--              <td class="text-right">{{item.camaron_blanco}}</td>-->
+<!--              <td class="text-right">{{item.camaron_cafe}}</td>-->
+<!--              <td class="text-right">{{item.camaron_rojo}}</td>-->
+<!--              <td class="text-right">{{item.camaroncillo}}</td>-->
+<!--              <td class="text-right">{{item.calamar}}</td>-->
+<!--              <td class="text-right">{{item.caracol}}</td>-->
+<!--              <td class="text-right">{{item.corvina}}</td>-->
+<!--              <td class="text-right">{{item.babosa}}</td>-->
+<!--              <td class="text-right">{{item.guabina}}</td>-->
+<!--              <td class="text-right">{{item.jaiba}}</td>-->
+<!--              <td class="text-right">{{item.langosta}}</td>-->
+<!--              <td class="text-right">{{item.pulpo}}</td>-->
+<!--              <td class="text-right">{{item.jurel}}</td>-->
+<!--              <td class="text-right">{{item.anguila}}</td>-->
+<!--              <td class="text-right">{{item.pargo}}</td>-->
+<!--              <td class="text-right">{{item.robalo}}</td>-->
+<!--              <td class="text-right">{{item.cienero}}</td>-->
+<!--              <td class="text-right">{{item.otras_especies}}</td>-->
+<!--              <td>{{item.observaciones}}</td>-->
+<!--              <td>{{item.user?.name}}</td>-->
+<!--            </tr>-->
+<!--            <tr>-->
+<!--              <td colspan="7" class="text-right text-bold">Totales</td>-->
+<!--              <td class="text-right">{{lances.reduce((a, b) => a + (b['camaron_blanco'] || 0), 0)}}</td>-->
+<!--              <td class="text-right">{{lances.reduce((a, b) => a + (b['camaron_cafe'] || 0), 0)}}</td>-->
+<!--              <td class="text-right">{{lances.reduce((a, b) => a + (b['camaron_rojo'] || 0), 0)}}</td>-->
+<!--              <td class="text-right">{{lances.reduce((a, b) => a + (b['camaroncillo'] || 0), 0)}}</td>-->
+<!--              <td class="text-right">{{lances.reduce((a, b) => a + (b['calamar'] || 0), 0)}}</td>-->
+<!--              <td class="text-right">{{lances.reduce((a, b) => a + (b['caracol'] || 0), 0)}}</td>-->
+<!--              <td class="text-right">{{lances.reduce((a, b) => a + (b['corvina'] || 0), 0)}}</td>-->
+<!--              <td class="text-right">{{lances.reduce((a, b) => a + (b['babosa'] || 0), 0)}}</td>-->
+<!--              <td class="text-right">{{lances.reduce((a, b) => a + (b['guabina'] || 0), 0)}}</td>-->
+<!--              <td class="text-right">{{lances.reduce((a, b) => a + (b['jaiba'] || 0), 0)}}</td>-->
+<!--              <td class="text-right">{{lances.reduce((a, b) => a + (b['langosta'] || 0), 0)}}</td>-->
+<!--              <td class="text-right">{{lances.reduce((a, b) => a + (b['pulpo'] || 0), 0)}}</td>-->
+<!--              <td class="text-right">{{lances.reduce((a, b) => a + (b['jurel'] || 0), 0)}}</td>-->
+<!--              <td class="text-right">{{lances.reduce((a, b) => a + (b['anguila'] || 0), 0)}}</td>-->
+<!--              <td class="text-right">{{lances.reduce((a, b) => a + (b['pargo'] || 0), 0)}}</td>-->
+<!--              <td class="text-right">{{lances.reduce((a, b) => a + (b['robalo'] || 0), 0)}}</td>-->
+<!--              <td class="text-right">{{lances.reduce((a, b) => a + (b['cienero'] || 0), 0)}}</td>-->
+<!--              <td class="text-right">{{lances.reduce((a, b) => a + (b['otras_especies'] || 0), 0)}}</td>-->
+<!--              <td colspan="2"></td>-->
+<!--            </tr>-->
+<!--            </tbody>-->
+<!--          </q-markup-table>-->
+<!--        </div>-->
       </div>
     </q-card>
     <q-dialog v-model="dialogAgregarProducto">

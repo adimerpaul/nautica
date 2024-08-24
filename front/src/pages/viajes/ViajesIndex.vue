@@ -42,6 +42,12 @@
                 </q-item-section>
                 <q-item-section>Agregar Carga</q-item-section>
               </q-item>
+              <q-item clickable v-ripple @click="addLance(props.row)">
+                <q-item-section avatar>
+                  <q-icon name="add_circle_outline" />
+                </q-item-section>
+                <q-item-section>Agregar Lance</q-item-section>
+              </q-item>
               <q-item clickable v-ripple @click="listaTripulantes(props.row)">
                 <q-item-section avatar>
                   <q-icon name="print" />
@@ -312,6 +318,9 @@ export default {
     },
     addProducts (viaje) {
       this.$router.push('/viajesShow/' + viaje.id)
+    },
+    addLance (viaje) {
+      this.$router.push('/viajesLance/' + viaje.id)
     },
     viajeDelete (viaje) {
       this.$alert.confirm('¿Está seguro de eliminar este viaje?').onOk(() => {

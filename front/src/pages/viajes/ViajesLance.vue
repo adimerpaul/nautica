@@ -44,6 +44,17 @@
 
 <!--        </div>-->
         <div class="col-12 text-right q-pa-xs">
+<!--          botona ctulizar-->
+          <q-btn
+            outline
+            color="primary"
+            label="Actualizar"
+            @click="getViaje"
+            no-caps
+            icon="refresh"
+            size="sm"
+            :loading="loading"></q-btn>
+
           <q-btn
             color="primary"
             label="PDF Total"
@@ -56,7 +67,7 @@
           <q-btn
             v-if="viaje.estado === 'Activo'"
             color="green"
-            label="Agregar Descarga"
+            label="Agregar Lance"
             @click="dialogAgregarProductoClick"
             no-caps
             size="sm"
@@ -79,7 +90,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="item in productViaje" :key="item.id">
+              <tr v-for="item in lances" :key="item.id">
                 <td>
                   <q-btn
                     color="negative"
@@ -239,7 +250,7 @@
     <q-dialog v-model="dialogAgregarProducto">
       <q-card style="width: 750px;max-width: 95vh;">
         <q-card-section class="row items-center q-pb-none">
-          <div class="text-subtitle2 text-bold">Descarga {{viaje.boat?.name}}</div>
+          <div class="text-subtitle2 text-bold">Lance {{viaje.boat?.name}}</div>
           <q-space/>
           <q-btn
             flat
@@ -247,7 +258,7 @@
             dense
             icon="close"
             @click="() => { dialogAgregarProducto = false }"
-          />¡
+          />
         </q-card-section>
         <q-form @submit="productAdd">
           <q-card-section>
