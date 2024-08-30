@@ -69,8 +69,12 @@ export default {
         const permisosName = response.data.user.permisosName
         if (permisosName.includes('ver inicio')) {
           this.$router.push('/')
-        } else {
+        } else if (permisosName.includes('ver ventas')) {
           this.$router.push('/sales')
+        } else if (permisosName.includes('ver viajes')) {
+          this.$router.push('/viajes')
+        } else {
+          this.$router.push('/new')
         }
       }).catch(error => {
         this.$alert.error(error.response.data.message)

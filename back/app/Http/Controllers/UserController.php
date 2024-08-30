@@ -55,7 +55,9 @@ class UserController extends Controller{
         return $permissions;
     }
     public function index(){
-        $users= User::orderBy('id', 'desc')->with('permissions')->get();
+        $users= User::orderBy('id', 'desc')
+            ->with(['permissions', 'company', 'boat'])
+            ->get();
 //        $permisosId = [];
 //        foreach($users as $user){
 //            $permisosId = [];
@@ -78,9 +80,11 @@ class UserController extends Controller{
         $user->email = $request->email;
         $user->username = $request->username;
         $user->role = $request->role;
+        $user->company_id = $request->company_id;
+        $user->bote_id = $request->boat_id;
         $user->password = Hash::make($request->password);
         $user->save();
-        return $user;
+        return User::with(['permissions', 'company', 'boat'])->find($user->id);
     }
     public function update(Request $request, $id){
         $user = User::find($id);
@@ -88,8 +92,10 @@ class UserController extends Controller{
         $user->email = $request->email;
         $user->username = $request->username;
         $user->role = $request->role;
+        $user->company_id = $request->company_id;
+        $user->bote_id = $request->boat_id;
         $user->save();
-        return $user;
+        return User::with(['permissions', 'company', 'boat'])->find($user->id);
     }
     public function delete($id){
         $user = User::find($id);

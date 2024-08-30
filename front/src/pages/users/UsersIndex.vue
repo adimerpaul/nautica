@@ -68,6 +68,23 @@
               <q-input v-model="user.username" label="Usuario" outlined dense :rules="[val => !!val || 'Campo requerido']" />
             </div>
             <div class="col-12">
+              <q-select v-model="user.company_id" label="Empresa" outlined dense
+                        :options="companies"
+                        option-label="name" option-value="id"
+                        :hint="''"
+                        emit-value map-options
+              />
+<!--              <pre>{{companies}}</pre>-->
+            </div>
+            <div class="col-12">
+              <q-select v-model="user.boat_id" label="Barco" outlined dense
+                        :options="boats"
+                        option-label="name" option-value="id"
+                        :hint="''"
+                        emit-value map-options
+              />
+            </div>
+            <div class="col-12">
               <q-input v-model="user.password" label="Contraseña" outlined dense
                        :rules="[val => !!val || 'Campo requerido']" :type="passwordShow ? 'text' : 'password'"
                        v-if="!user.id"
@@ -127,6 +144,8 @@ export default {
         { name: 'id', label: 'ID', align: 'left', field: row => row.id },
         { name: 'name', label: 'Nombre', align: 'left', field: row => row.name },
         { name: 'username', label: 'Usuario', align: 'left', field: row => row.username },
+        { name: 'company', label: 'Empresa', align: 'left', field: row => row?.company?.name },
+        { name: 'boat', label: 'Barco', align: 'left', field: row => row?.boat?.name },
         { name: 'role', label: 'Rol', align: 'left', field: row => row.role }
       ],
       loading: false,
@@ -138,14 +157,38 @@ export default {
       passwordShow: false,
       permisos: [],
       permisosSelected: [],
-      dialogPermisos: false
+      dialogPermisos: false,
+      companies: [],
+      boats: [],
     }
   },
   mounted() {
+    this.companiesGet()
+    this.boatGet()
     this.permissionGet()
     this.userGet()
   },
   methods: {
+    companiesGet () {
+      this.loading = true
+      this.$axios.get('companies').then(response => {
+        this.companies = response.data
+      }).catch(error => {
+        this.$alert.error(error.response.data.message)
+      }).finally(() => {
+        this.loading = false
+      })
+    },
+    boatGet () {
+      this.loading = true
+      this.$axios.get('boats').then(response => {
+        this.boats = response.data
+      }).catch(error => {
+        this.$alert.error(error.response.data.message)
+      }).finally(() => {
+        this.loading = false
+      })
+    },
     userPermisos () {
       this.loading = true
       this.$axios.put(`permissions/${this.user.id}`, {permissions: this.permisosSelected}).then(response => {
@@ -224,6 +267,7 @@ export default {
     },
     userEdit (user) {
       this.userDialog = true
+      user.company_id = ''
       this.user = {...user}
     },
     userAdd () {

@@ -19,7 +19,7 @@ const routes = [
       { path: 'sales', component: () => import('pages/sales/SalesIndex.vue'), meta: { requiresAuth: true } },
       { path: 'debtors', component: () => import('pages/debtors/DebtorsIndex.vue'), meta: { requiresAuth: true } },
       { path: 'gastos', component: () => import('pages/gastos/GastosIndex.vue'), meta: { requiresAuth: true } },
-      // viajesConciliacion
+      { path: 'new', component: () => import('pages/New.vue'), meta: { requiresAuth: true } },
       { path: 'viajesConciliacion/:id', component: () => import('pages/viajesActivos/ViajesConciliacion.vue'), meta: { requiresAuth: true } },
     ]
   },

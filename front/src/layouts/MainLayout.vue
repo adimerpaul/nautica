@@ -93,6 +93,7 @@
                     <q-chip dense label="Vendedor" color="orange" text-color="white" v-if="$store.user?.role === 'VENDEDOR'" icon="account_circle"/>
                     <q-chip dense label="Admin" color="indigo" text-color="white" v-if="$store.user?.role === 'ADMIN'" icon="account_circle"/>
                     <q-chip dense label="Super admin" color="purple" text-color="white" v-if="$store.user?.role === 'SUPERADMIN'" icon="account_circle"/>
+                    <q-chip dense label="patron" color="green" text-color="white" v-if="$store.user?.role === 'PATRON'" icon="account_circle"/>
                   </q-item-label>
                   <q-item-label caption class="text-white">{{ $store.user.name }}</q-item-label>
                 </q-item-section>
@@ -145,9 +146,9 @@ export default {
         { title: 'Tripulantes', icon: 'group', to: '/crews' , can: 'ver tripulantes'},
         { title: 'Clientes', icon: 'person', to: '/clients' , can: 'ver clientes'},
         { title: 'Productos', icon: 'shopping_cart', to: '/products' , can: 'ver productos'},
-        { title: 'Gastos', icon: 'point_of_sale', to: '/gastos' , can: 'ver viajes'},
+        { title: 'Gastos', icon: 'point_of_sale', to: '/gastos' , can: 'ver ventas'},
         { title: 'Viajes Historico', icon: 'flight_takeoff', to: '/viajes' , can: 'ver viajes'},
-        { title: 'Viajes Activos', icon: 'sailing', to: '/viajesActivos' , can: 'ver viajes'},
+        { title: 'Viajes Activos', icon: 'sailing', to: '/viajesActivos' , can: 'ver ventas'},
         { title: 'Venta', icon: 'shopping_cart', to: '/sales' , can: 'ver ventas'},
         { title: 'Deudores', icon: 'credit_score', to: '/debtors' , can: 'ver deudores'}
       ],
