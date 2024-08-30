@@ -40,10 +40,13 @@
           <label class="text-bold">Observaciones</label>
           <q-editor min-height="5rem" v-model="viaje.observaciones" @update:model-value="debouncedUpdateObservaciones"  />
         </div>
-<!--        <div class="col-12 col-md-8">-->
-
-<!--        </div>-->
-        <div class="col-12 text-right q-pa-xs">
+        <div class="col-12 col-md-2">
+          <q-input v-model="fecha_inicio" outlined dense type="date" label="Fecha Inicio" @update:modelValue="filtroViajes" />
+        </div>
+        <div class="col-12 col-md-2">
+          <q-input v-model="fecha_fin" outlined dense type="date" label="Fecha Fin" @update:modelValue="filtroViajes" />
+        </div>
+        <div class="col-12 col-md-8 text-right q-pa-xs">
 <!--          botona ctulizar-->
           <q-btn
             outline
@@ -537,6 +540,8 @@ export default {
       dialogAgregarProducto: false,
       products: [],
       productsAll: [],
+      fecha_inicio: '',
+      fecha_fin: '',
       product: '',
       cantidad: '',
       loading: false,
@@ -551,6 +556,7 @@ export default {
       lanceDialog: false,
       lance: {},
       lances: [],
+      lancesAll: [],
     }
   },
   mounted() {
@@ -560,6 +566,15 @@ export default {
     this.productsGet()
   },
   methods: {
+    filtroViajes() {
+      if (this.fecha_inicio === '' || this.fecha_fin === '') {
+        this.lances = this.lancesAll
+        return false
+      }
+      this.lances = this.lancesAll.filter(v => {
+        return moment(v.fecha).isSameOrAfter(this.fecha_inicio) && moment(v.fecha).isSameOrBefore(this.fecha_fin)
+      })
+    },
     eliminarLance(item){
       this.$alert.confirm('¿Está seguro de eliminar este lance?').onOk(() => {
         this.loading = true
@@ -785,6 +800,7 @@ export default {
           this.viaje = response.data.viaje
           this.productViaje = response.data.productoViaje
           this.lances = response.data.lances
+          this.lancesAll = response.data.lances
         })
         .catch(error => {
           console.log(error)
