@@ -35,16 +35,35 @@ class ExcelController extends Controller{
     }
     function exportDescargarPdfTotal($viaje_id){
         $viaje= Viaje::find($viaje_id);
-        $productos = $viaje->productos;
+//        $productos = $viaje->productos;
+//        $productoRes= [];
+//        foreach ($productos as $producto) {
+//            if ($producto->status == 'ACTIVO') {
+//                if(isset($productoRes[$producto->product_id])){
+//                    $productoRes[$producto->product_id]['cantidad'] += $producto->cantidad;
+//                }else{
+//                    $productoRes[$producto->product_id] = [
+//                        'cantidad' => $producto->cantidad,
+//                        'product' => $producto->product
+//                    ];
+//                }
+//            }
+//        }
         $productoRes= [];
-        foreach ($productos as $producto) {
-            if(isset($productoRes[$producto->product_id])){
-                $productoRes[$producto->product_id]['cantidad'] += $producto->cantidad;
-            }else{
-                $productoRes[$producto->product_id] = [
-                    'cantidad' => $producto->cantidad,
-                    'product' => $producto->product
-                ];
+        $descargas = Descarga::where('viaje_id', $viaje_id)
+            ->where('status', 'ACTIVO')
+            ->with('productos')
+            ->get();
+        foreach ($descargas as $descarga) {
+            foreach ($descarga->productos as $producto) {
+                if(isset($productoRes[$producto->product_id])){
+                    $productoRes[$producto->product_id]['cantidad'] += $producto->cantidad;
+                }else{
+                    $productoRes[$producto->product_id] = [
+                        'cantidad' => $producto->cantidad,
+                        'product' => $producto->product
+                    ];
+                }
             }
         }
         $data = [
@@ -52,7 +71,7 @@ class ExcelController extends Controller{
             'productos' => $productoRes,
             'cantidadViajes' => count($viaje->descargas)
         ];
-        error(json_encode($data));
+//        error(json_encode($data));
         $pdf = Pdf::loadView('pdf.descargarTotal', $data);
         return $pdf->stream();
     }

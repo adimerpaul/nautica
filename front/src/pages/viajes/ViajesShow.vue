@@ -47,6 +47,16 @@
           <q-input v-model="fecha_fin" outlined dense type="date" label="Fecha Fin" @update:modelValue="filtroViajes" />
         </div>
         <div class="col-12 col-md-8 text-right q-pa-xs">
+<!--          btn actulizar-->
+          <q-btn
+              outline
+            color="primary"
+            label="Actualizar"
+            @click="getViaje"
+            no-caps
+            icon="refresh"
+            size="sm"
+            :loading="loading"></q-btn>
           <q-btn
             color="primary"
             label="PDF Total"

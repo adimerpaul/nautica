@@ -53,6 +53,7 @@ Route::group(['middleware' => 'auth:sanctum'], function(){
     Route::get('/categories', [\App\Http\Controllers\CategoryController::class, 'index']);
 
     Route::get('/viajes', [\App\Http\Controllers\ViajeController::class, 'index']);
+    Route::get('/viajesConciliacion/{id}', [\App\Http\Controllers\ViajeController::class, 'viajesConciliacion']);
     Route::get('/viajesActivos', [\App\Http\Controllers\ViajeController::class, 'viajesActivos']);
     Route::get('/viajes/{id}', [\App\Http\Controllers\ViajeController::class, 'show']);
     Route::post('/viajes', [\App\Http\Controllers\ViajeController::class, 'store']);

@@ -13,6 +13,25 @@ use Illuminate\Support\Facades\DB;
 use function Laravel\Prompts\error;
 
 class ViajeController extends Controller{
+    function viajesConciliacion($id){
+        $viaje = Viaje::with(['boat','productos.product'])->find($id);
+        $productos = Product::all();
+
+        foreach ($productos as $producto){
+            $producto->descargas = Descarga::where('viaje_id', $id)
+                ->where('status', 'ACTIVO')
+                ->with('productos')
+                ->whereHas('productos', function($query) use ($producto){
+                    $query->where('product_id', $producto->id);
+                })
+                ->get();
+        }
+
+        return [
+            'viaje' => $viaje,
+            'productos' => $viaje->productos
+        ];
+    }
     function viajesActivos(Request $request){
         $fechaInicio = $request->input('fechaInicio');
         $fechaFin = $request->input('fechaFin');
