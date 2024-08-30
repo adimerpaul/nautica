@@ -11,8 +11,17 @@ class LanceController extends Controller{
         return response()->json($lances);
     }
     function store(Request $request){
-        $request->merge(['user_id' => $request->user()->id]);
-        $lance = Lance::create($request->all());
+//        $request->merge(['user_id' => $request->user()->id]);
+        $lanceRequest = $request->lance;
+        $lanceRequest['user_id'] = $request->user()->id;
+        $lance = Lance::create($lanceRequest);
+        $productos = $request->products;
+        foreach($productos as $producto){
+            $lance->productos()->create([
+                'cantidad' => $producto['stock'],
+                'product_id' => $producto['id']
+            ]);
+        }
         return Lance::where('id', $lance->id)->with('user')->first();
     }
     function destroy($id){
@@ -20,4 +29,11 @@ class LanceController extends Controller{
         $lance->delete();
         return response()->json($lance);
     }
+    function anularLance($id){
+        $lance = Lance::find($id);
+        $lance->status = 'INACTIVO';
+        $lance->save();
+        return response()->json($lance);
+    }
+//    append
 }

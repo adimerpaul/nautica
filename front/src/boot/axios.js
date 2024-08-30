@@ -41,7 +41,7 @@ export default boot(({ app, router }) => {
       const meses = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Set', 'Nov', 'Dic']
       const mes = meses[moment(String(value)).format('MM') - 1]
       if (!value) return ''
-      const date = moment(String(value)).format('DD') + '-' + mes + '-' + moment(String(value)).format('YYYY') + '|' + moment(String(value)).format('HH:mm')
+      const date = moment(String(value)).format('DD') + '-' + mes + '-' + moment(String(value)).format('YYYY') + ' ' + moment(String(value)).format('HH:mm')
       return date
     },
     formatdMYHID: function (value) {

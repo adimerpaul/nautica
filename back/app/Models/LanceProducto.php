@@ -23,4 +23,7 @@ class LanceProducto extends Model
     function lance(){
         return $this->belongsTo(Lance::class, 'lance_id');
     }
+    function product(){
+        return $this->belongsTo(Product::class, 'product_id');
+    }
 }

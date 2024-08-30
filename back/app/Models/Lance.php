@@ -18,11 +18,11 @@ class Lance extends Model
         'latitud',
         'longitud',
         'status',
+        'observaciones',
         'viaje_id',
         'user_id'
     ];
     protected $hidden = [
-        'created_at',
         'updated_at',
         'deleted_at'
     ];
@@ -35,5 +35,18 @@ class Lance extends Model
     function productos(){
         return $this->hasMany(LanceProducto::class, 'lance_id');
     }
-
+    protected $appends=['details'];
+    public function getDetailsAttribute(){
+        $productos = LanceProducto::where('lance_id', $this->id)->get();
+        $this->cantidad = 0;
+        $res = '';
+        foreach ($productos as $producto) {
+            $this->cantidad += isset($producto->cantidad) ? $producto->cantidad : 0;
+            $res .= isset($producto->cantidad) ? $producto->cantidad.' ' : '0 '; // Agregar cantidad o '0' si es null
+            $res .= isset($producto->product->name) ? $producto->product->name : 'Nombre no disponible'; // Agregar nombre del producto o indicar que no está disponible
+            $res .= ', ';
+        }
+        $res = substr($res, 0, -2);
+        return $res;
+    }
 }

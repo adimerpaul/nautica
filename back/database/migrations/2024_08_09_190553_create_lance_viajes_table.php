@@ -20,6 +20,7 @@ return new class extends Migration
             $table->double('latitud', 8, 6)->nullable();
             $table->double('longitud', 9, 6)->nullable();
             $table->string('status')->default('ACTIVO');
+            $table->text('observaciones')->nullable();
             $table->unsignedBigInteger('viaje_id');
             $table->foreign('viaje_id')->references('id')->on('viajes');
             $table->unsignedBigInteger('user_id');

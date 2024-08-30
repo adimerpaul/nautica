@@ -85,7 +85,7 @@
                 <th>Fecha</th>
                 <th>Estado</th>
                 <th>Producto</th>
-<!--                <th>Libras</th>-->
+                <th>Observaciones</th>
                 <th>Usuario</th>
               </tr>
             </thead>
@@ -110,18 +110,18 @@
                     v-if="item.status === 'INACTIVO'"
                     color="red"
                   />
-                  <q-btn
-                    color="primary"
-                    label="Imprimir"
-                    no-caps
-                    dense
-                    size="10px"
-                    icon="print"
-                    v-if="item.status === 'ACTIVO'"
-                    @click="imprimirPdf(item)"
-                    :loading="loading"></q-btn>
+<!--                  <q-btn-->
+<!--                    color="primary"-->
+<!--                    label="Imprimir"-->
+<!--                    no-caps-->
+<!--                    dense-->
+<!--                    size="10px"-->
+<!--                    icon="print"-->
+<!--                    v-if="item.status === 'ACTIVO'"-->
+<!--                    @click="imprimirPdf(item)"-->
+<!--                    :loading="loading"></q-btn>-->
                 </td>
-                <td>{{$filters.formatdMYHID(item.fecha)}}</td>
+                <td>{{$filters.dateDmYHis(item.created_at)}}</td>
                 <td>
                   <q-chip label="Activo" text-color="white" dense v-if="item.status === 'ACTIVO'" color="green" />
                   <q-chip label="Anulado" text-color="white" dense v-if="item.status === 'INACTIVO'" color="red" />
@@ -132,7 +132,7 @@
                     {{item.details}}
                   </div>
                 </td>
-<!--                <td class="text-right">{{item.cantidad}}</td>-->
+                <td class="text-right">{{item.observaciones}}</td>
                 <td class="text-right">{{item.user?.name}}</td>
               </tr>
             </tbody>
@@ -263,19 +263,33 @@
         <q-form @submit="productAdd">
           <q-card-section>
             <div class="row">
-              <div class="col-12 col-md-4 q-pa-xs">
-                <label for="Nro Descarga">Nro Descarga</label><br>
-<!--                # <q-chip :label="descargar.descarga" text-color="white"  dense color="primary" />-->
-                <q-input v-model="descargar.descarga" outlined filled dense />
-              </div>
-              <div class="col-12 col-md-4 q-pa-xs">
-                <label for="Dia">Dia</label><br>
-<!--                <q-chip :label="descargar.dia" text-color="white"  dense color="primary" /> Dia-->
-                <q-input v-model="descargar.dia" outlined filled dense />
-              </div>
-              <div class="col-12 col-md-4 q-pa-xs">
+              <div class="col-12 col-md-2 q-pa-xs">
                 <label for="Dia">Fecha</label><br>
                 <q-input v-model="descargar.fecha" outlined type="date" filled dense />
+              </div>
+              <div class="col-12 col-md-2 q-pa-xs">
+                <label for="Nro Descarga">Nro Descarga</label><br>
+                <q-input v-model="descargar.numero" outlined filled dense />
+              </div>
+              <div class="col-6 col-md-2 q-pa-xs">
+                <label for="Hora Inicio">Hora Inicio</label><br>
+                <q-input v-model="descargar.hora_inicio" outlined filled dense type="time" />
+              </div>
+              <div class="col-6 col-md-2 q-pa-xs">
+                <label for="Hora Fin">Hora Fin</label><br>
+                <q-input v-model="descargar.hora_fin" outlined filled dense type="time" />
+              </div>
+              <div class="col-6 col-md-2 q-pa-xs">
+                <label for="Latitud">Latitud</label><br>
+                <q-input v-model="descargar.latitud" outlined filled dense />
+              </div>
+              <div class="col-6 col-md-2 q-pa-xs">
+                <label for="Longitud">Longitud</label><br>
+                <q-input v-model="descargar.longitud" outlined filled dense />
+              </div>
+              <div class="col-12 q-pa-xs">
+                <label for="Longitud">Observaciones</label><br>
+                <q-input v-model="descargar.observaciones" outlined filled dense />
               </div>
               <div class="col-12 col-md-6 q-pa-xs">
                 <label for="Dia">Producto</label><br>
@@ -673,9 +687,9 @@ export default {
     anular(item) {
       this.$alert.confirm('¿Está seguro de anular este producto?').onOk(() => {
         this.loading = true
-        this.$axios.put(`productAnular/${item.id}`)
+        this.$axios.put(`anularLance/${item.id}`)
           .then(response => {
-            this.productViaje = this.productViaje.map(v => {
+            this.lances = this.lances.map(v => {
               if (v.id === item.id) {
                 v.status = 'INACTIVO'
               }
@@ -690,10 +704,14 @@ export default {
       })
     },
     productAdd() {
+      if (this.productBuy.length === 0) {
+        this.$alert.error('Agregue productos')
+        return false
+      }
       this.loading = true
-      this.$axios.post('productAdd', {
+      this.$axios.post('lances', {
         products: this.productBuy,
-        descarga: this.descargar
+        lance: this.descargar
       })
         .then(response => {
           // this.productViaje.unshift(response.data)
@@ -739,10 +757,15 @@ export default {
       this.product = ''
       this.cantidad = ''
       this.descargar = {
+        fecha: moment().format('YYYY-MM-DD'),
+        numero: this.lances.length + 1,
+        hora_inicio: moment().format('HH:mm'),
+        hora_fin: moment().format('HH:mm'),
+        latitud: '',
+        observaciones: '',
+        longitud: '',
+        status: 'ACTIVO',
         viaje_id: this.id,
-        descarga: this.productViaje.length + 1,
-        dia: dias + 1,
-        fecha: moment().format('YYYY-MM-DD')
       }
       this.productBuy = []
     },
