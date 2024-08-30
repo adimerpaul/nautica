@@ -38,6 +38,6 @@ class Viaje extends Model
             ->withPivot('role');
     }
     function lances(){
-        return $this->hasMany(LanceViaje::class);
+        return $this->hasMany(Lance::class);
     }
 }
