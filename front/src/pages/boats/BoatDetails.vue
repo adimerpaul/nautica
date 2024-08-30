@@ -36,8 +36,8 @@
               <div class="col-12 col-md-2">
                 <div class="text-caption">Dias para su vencimiento</div>
                 <div class="text-h6 text-right q-mr-md text-bold q-mt-xs">
-<!--              //color verde fi falta menos de 20 dias amarilllo si altan  menos de 10 dias y rojo  faltan 5 dias-->
-                  <span v-if="diffDays(boat.dif_fecha) > 0" :class="{'text-positive': diffDays(boat.dif_fecha) > 20, 'text-warning': diffDays(boat.dif_fecha) <= 20 && diffDays(boat.dif_fecha) > 10, 'text-negative': diffDays(boat.dif_fecha) <= 10}">
+<!--              //color verde fi falta menos de 60 dias amarilllo si altan  menos de 30 dias y rojo  faltan 5 dias-->
+                  <span v-if="diffDays(boat.dif_fecha) > 0" :class="{'text-positive': diffDays(boat.dif_fecha) > 60, 'text-warning': diffDays(boat.dif_fecha) <= 60 && diffDays(boat.dif_fecha) > 30, 'text-negative': diffDays(boat.dif_fecha) <= 30}">
                     {{diffDays(boat.dif_fecha)}}
                   </span>
                   <span v-else class="text-negative">
@@ -60,7 +60,7 @@
               <div class="col-12 col-md-2">
                 <div class="text-caption">Dias para su vencimiento</div>
                 <div class="text-h6 text-right q-mr-md text-bold q-mt-xs">
-                  <span v-if="diffDays(boat.autoridad_fecha) > 0" :class="{'text-positive': diffDays(boat.autoridad_fecha) > 20, 'text-warning': diffDays(boat.autoridad_fecha) <= 20 && diffDays(boat.autoridad_fecha) > 10, 'text-negative': diffDays(boat.autoridad_fecha) <= 10}">
+                  <span v-if="diffDays(boat.autoridad_fecha) > 0" :class="{'text-positive': diffDays(boat.autoridad_fecha) > 60, 'text-warning': diffDays(boat.autoridad_fecha) <= 60 && diffDays(boat.autoridad_fecha) > 30, 'text-negative': diffDays(boat.autoridad_fecha) <= 30}">
                     {{diffDays(boat.autoridad_fecha)}}
                   </span>
                   <span v-else class="text-negative">
@@ -83,7 +83,7 @@
               <div class="col-12 col-md-2">
                 <div class="text-caption">Dias para su vencimiento</div>
                 <div class="text-h6 text-right q-mr-md text-bold q-mt-xs">
-                  <span v-if="diffDays(boat.licencia_fecha) > 0" :class="{'text-positive': diffDays(boat.licencia_fecha) > 20, 'text-warning': diffDays(boat.licencia_fecha) <= 20 && diffDays(boat.licencia_fecha) > 10, 'text-negative': diffDays(boat.licencia_fecha) <= 10}">
+                  <span v-if="diffDays(boat.licencia_fecha) > 0" :class="{'text-positive': diffDays(boat.licencia_fecha) > 60, 'text-warning': diffDays(boat.licencia_fecha) <= 60 && diffDays(boat.licencia_fecha) > 30, 'text-negative': diffDays(boat.licencia_fecha) <= 30}">
                     {{diffDays(boat.licencia_fecha)}}
                   </span>
                   <span v-else class="text-negative">

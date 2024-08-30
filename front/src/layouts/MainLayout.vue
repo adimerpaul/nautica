@@ -17,8 +17,26 @@
           </div>
         </q-toolbar-title>
         <div>
-          <q-btn flat dense icon="o_notifications" aria-label="Notificaciones">
-            <q-badge color="primary" text-color="white" floating>3</q-badge>
+          <q-btn flat dense icon="o_notifications" aria-label="Notificaciones" v-if="botesPorVencer.length > 0">
+            <q-badge color="primary" text-color="white" floating>{{botesPorVencer.length}}</q-badge>
+            <q-menu>
+              <q-list>
+                <q-item clickable v-ripple v-for="bote in botesPorVencer" :key="bote.id" :to="'/boats/'+bote.id">
+                  <q-item-section avatar>
+                    <q-avatar icon="directions_boat" />
+                  </q-item-section>
+                  <q-item-section>
+                    <q-item-label>{{bote.name}}</q-item-label>
+                    <q-item-label caption>
+                      <div class="text-bold" v-if="bote.dif">Dif: {{bote.dif}}</div>
+                      <div class="text-bold" v-if="bote.autoridad">Autoridad: {{bote.autoridad}}</div>
+                      <div class="text-bold" v-if="bote.licencia">Licencia: {{bote.licencia}}</div>
+                    </q-item-label>
+                  </q-item-section>
+                </q-item>
+              </q-list>
+<!--              <pre>{{botesPorVencer}}</pre>-->
+            </q-menu>
           </q-btn>
           <q-btn flat dense icon="o_account_circle" aria-label="Menu" :label="textCapitalize($store.user.name)" no-caps icon-right="arrow_drop_down">
             <q-menu>
@@ -93,7 +111,6 @@
                 </q-item-section>
               </q-item>
             </template>
-
           </q-list>
         </q-header>
         <q-footer>
@@ -129,15 +146,45 @@ export default {
         { title: 'Clientes', icon: 'person', to: '/clients' , can: 'ver clientes'},
         { title: 'Productos', icon: 'shopping_cart', to: '/products' , can: 'ver productos'},
         { title: 'Gastos', icon: 'point_of_sale', to: '/gastos' , can: 'ver viajes'},
-        { title: 'Viajes', icon: 'flight_takeoff', to: '/viajes' , can: 'ver viajes'},
+        { title: 'Viajes Historico', icon: 'flight_takeoff', to: '/viajes' , can: 'ver viajes'},
         { title: 'Viajes Activos', icon: 'sailing', to: '/viajesActivos' , can: 'ver viajes'},
         { title: 'Venta', icon: 'shopping_cart', to: '/sales' , can: 'ver ventas'},
         { title: 'Deudores', icon: 'credit_score', to: '/debtors' , can: 'ver deudores'}
       ],
-      permisos : JSON.parse(localStorage.getItem('permisos'))
+      permisos : JSON.parse(localStorage.getItem('permisos')),
+      botesPorVencer: []
     };
   },
+  mounted() {
+    this.getBotesPorVencer()
+  },
   methods: {
+    diffDays (date) {
+      if (!date) return ''
+      const diffTime = new Date(date) - new Date()
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
+      return diffDays
+    },
+    getBotesPorVencer() {
+      this.$axios.get('/botesPorVencer').then(res => {
+        // this.botesPorVencer = res.data
+//        'dif_fecha',
+//        'autoridad_fecha',
+//        'licencia_fecha',
+        res.data.forEach(bote => {
+          if (bote.dif_fecha ) {
+            bote.dif = this.diffDays(bote.dif_fecha)
+          }
+          if (bote.autoridad_fecha) {
+            bote.autoridad = this.diffDays(bote.autoridad_fecha)
+          }
+          if (bote.licencia_fecha) {
+            bote.licencia = this.diffDays(bote.licencia_fecha)
+          }
+        })
+        this.botesPorVencer = res.data
+      })
+    },
     textCapitalize(text) {
       if (!text) return '';
       const lower = text.toLowerCase();

@@ -10,6 +10,19 @@ class BoatController extends Controller{
     public function index(){
         return Boat::orderBy('id', 'desc')->with('company')->get();
     }
+    function botesPorVencer(){
+//        'dif_fecha',
+//        'autoridad_fecha',
+//        'licencia_fecha',
+//        que pregunte 60 dias antes de vencer
+        $now = date('Y-m-d');
+        $boats = Boat::where('dif_fecha', '<', date('Y-m-d', strtotime($now . ' + 60 days')))
+            ->orWhere('autoridad_fecha', '<', date('Y-m-d', strtotime($now . ' + 60 days')))
+            ->orWhere('licencia_fecha', '<', date('Y-m-d', strtotime($now . ' + 60 days')))
+            ->with('company')
+            ->get();
+        return $boats;
+    }
     public function show($id){
         return Boat::where('id', $id)->with('company')->first();
     }

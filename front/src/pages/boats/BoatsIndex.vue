@@ -11,7 +11,7 @@
                 <q-item-section avatar>
                   <q-icon name="visibility" />
                 </q-item-section>
-                <q-item-section>Ver</q-item-section>
+                <q-item-section>Datos bote</q-item-section>
               </q-item>
               <q-item clickable v-ripple @click="boatEdit(props.row)">
                 <q-item-section avatar>
