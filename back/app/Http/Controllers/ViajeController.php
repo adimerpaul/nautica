@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Descarga;
+use App\Models\Detail;
+use App\Models\LanceProducto;
 use App\Models\Product;
 use App\Models\ProductoViaje;
+use App\Models\Sale;
 use App\Models\Viaje;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
@@ -13,23 +16,48 @@ use Illuminate\Support\Facades\DB;
 use function Laravel\Prompts\error;
 
 class ViajeController extends Controller{
-    function viajesConciliacion($id){
+    function viajesConciliacion($id, Request $request){
+        $fechaInicio = $request->input('fechaIni');
+        $fechaFin = $request->input('fechaFin');
         $viaje = Viaje::with(['boat','productos.product'])->find($id);
         $productos = Product::all();
-
+        $productoRes= [];
         foreach ($productos as $producto){
-            $producto->descargas = Descarga::where('viaje_id', $id)
-                ->where('status', 'ACTIVO')
-                ->with('productos')
-                ->whereHas('productos', function($query) use ($producto){
-                    $query->where('product_id', $producto->id);
+            $cantidadDescarga = ProductoViaje::where('viaje_id', $id)
+                ->whereHas('descarga', function($query) use ($fechaInicio, $fechaFin){
+                    $query->where('status', 'ACTIVO');
+                    $query->where('fecha', '>=', $fechaInicio);
+                    $query->where('fecha', '<=', $fechaFin);
                 })
-                ->get();
+                ->where('product_id', $producto->id)
+                ->sum('cantidad');
+
+            $cantidadLance = LanceProducto::whereHas('lance', function($query) use ($id, $fechaInicio, $fechaFin){
+                $query->where('viaje_id', $id);
+                $query->where('fecha', '>=', $fechaInicio);
+                $query->where('fecha', '<=', $fechaFin);
+            })
+                ->where('product_id', $producto->id)
+                ->sum('cantidad');
+
+            $cantidadSales = Detail::whereHas('sale', function($query) use ($fechaInicio, $fechaFin){
+                $query->where('date', '>=', $fechaInicio);
+                $query->where('date', '<=', $fechaFin);
+            })
+                ->where('product_id', $producto->id)
+                ->sum('quantity');
+            $productoRes[] = [
+                'name' => $producto->name,
+                'descarga' => $cantidadDescarga,
+                'lances' => $cantidadLance,
+                'ventas' => $cantidadSales,
+                'inventario' => $producto->stock
+            ];
         }
 
         return [
             'viaje' => $viaje,
-            'productos' => $viaje->productos
+            'productos' => $productoRes
         ];
     }
     function viajesActivos(Request $request){
