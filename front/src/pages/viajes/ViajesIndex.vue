@@ -125,6 +125,7 @@
                 <q-select v-model="viaje.boat_id" :options="boats" label="Barco" outlined dense
                           :rules="[val => !!val || 'Campo requerido']"
                           map-options emit-value
+                          @update:modelValue="changePropietario"
                           option-value="id" option-label="name"
                 />
               </div>
@@ -228,6 +229,10 @@ export default {
     this.boatsGet()
   },
   methods: {
+    changePropietario (val) {
+      const boat = this.boats.find(boat => boat.id === val)
+      this.viaje.propietario = boat.company.name
+    },
     crewsGet () {
       this.loading = true
       this.$axios.get('crews').then(response => {
