@@ -646,7 +646,7 @@ export default {
     },
     imprimirPdfTotal() {
       this.loading = true
-      this.$axios.get('exportDescargarPdfTotal/' + this.id, {
+      this.$axios.get('exportPdfLances/' + this.id, {
         responseType: 'blob'
       })
         .then(response => {
@@ -666,7 +666,7 @@ export default {
     },
     imprimirPdf(item) {
       this.loading = true
-      this.$axios.get('exportDescargarPdf/' + item.id, {
+      this.$axios.get('exportPdfLances/' + item.id, {
         responseType: 'blob'
       })
         .then(response => {

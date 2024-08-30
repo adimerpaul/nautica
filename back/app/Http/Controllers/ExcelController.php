@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Descarga;
 use App\Models\Detail;
+use App\Models\Product;
 use App\Models\Sale;
 use App\Models\Viaje;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -14,6 +15,24 @@ use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use function Laravel\Prompts\error;
 
 class ExcelController extends Controller{
+    function exportPdfLances($viaje_id){
+        $viaje = Viaje::find($viaje_id);
+        $products = Product::orderBy('id', 'asc')->get();
+        $lances = $viaje->lances;
+        $lancesRes = [];
+        foreach ($lances as $lance) {
+            if($lance->status == 'ACTIVO'){
+                $lancesRes[] = $lance;
+            }
+        }
+        $data = [
+            'viaje' => $viaje,
+            'lances' => $lancesRes,
+            'products' => $products
+        ];
+        $pdf = Pdf::loadView('pdf.lances', $data)->setPaper('letter', 'landscape');
+        return $pdf->stream();
+    }
     function exportDescargarPdfTotal($viaje_id){
         $viaje= Viaje::find($viaje_id);
         $productos = $viaje->productos;
