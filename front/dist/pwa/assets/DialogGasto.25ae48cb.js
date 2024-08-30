@@ -39,7 +39,7 @@ Oruro</div>
       <td class='conte2'>${parseFloat(t.montoTotal).toFixed(2)}</td></tr>
       </table>
       <br>
-      <div>Son ${s} ${((parseFloat(t.montoTotal)-Math.floor(parseFloat(t.montoTotal)))*100).toFixed(2)} /100 Bolivianos</div><hr>
+      <div>Son ${s} ${((parseFloat(t.montoTotal)-Math.floor(parseFloat(t.montoTotal)))*100).toFixed(2)} /100 Dolares</div><hr>
       <div class='titulo2' style='font-size: 9px'>
       ESTA FACTURA CONTRIBUYE AL DESARROLLO DEL PA\xCDS,<br>
       EL USO IL\xCDCITO SER\xC1 SANCIONADO PENALMENTE DE<br>
@@ -72,7 +72,7 @@ Tel. ${l.telefono}<br>
       <tr><td class='titder' style='width: 60%'>SUBTOTAL Bs</td><td class='conte2'>${parseFloat(t.total).toFixed(2)}</td></tr>
       </table>
       <br>
-      <div>Son ${s} ${((parseFloat(t.total)-Math.floor(parseFloat(t.total)))*100).toFixed(2)} /100 Bolivianos</div><hr>
+      <div>Son ${s} ${((parseFloat(t.total)-Math.floor(parseFloat(t.total)))*100).toFixed(2)} /100 Dolares</div><hr>
       <div style='display: flex;justify-content: center;'>
         <img  src="${d}" style="width: 75px; height: 75px; display: block; margin-left: auto; margin-right: auto;">
       </div></div>
@@ -94,7 +94,7 @@ Oruro</div>
       <tr><td class='titder' style='width: 60%'>SUBTOTAL Bs</td><td class='conte2'>${parseFloat(i).toFixed(2)}</td></tr>
       </table>
       <br>
-      <div>Son ${E} ${((parseFloat(i)-Math.floor(parseFloat(i)))*100).toFixed(2)} /100 Bolivianos</div><hr>
+      <div>Son ${E} ${((parseFloat(i)-Math.floor(parseFloat(i)))*100).toFixed(2)} /100 Dolares</div><hr>
       <div style='display: flex;justify-content: center;'>
         <img  src="${p}" style="width: 75px; height: 75px; display: block; margin-left: auto; margin-right: auto;">
       </div></div>
@@ -118,7 +118,7 @@ Oruro</div>
       <tr><td class='titder' style='width: 60%'>SUBTOTAL Bs</td><td class='conte2'>${parseFloat(t.total).toFixed(2)}</td></tr>
       </table>
       <br>
-      <div>Son ${s} ${((parseFloat(t.total)-Math.floor(parseFloat(t.total)))*100).toFixed(2)} /100 Bolivianos</div><hr>
+      <div>Son ${s} ${((parseFloat(t.total)-Math.floor(parseFloat(t.total)))*100).toFixed(2)} /100 Dolares</div><hr>
       <div style='display: flex;justify-content: center;'>
         <img  src="${d}" style="width: 75px; height: 75px; display: block; margin-left: auto; margin-right: auto;">
       </div></div>

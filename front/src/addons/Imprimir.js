@@ -51,16 +51,16 @@ Oruro</div>
         })
         cadena += `<hr>
       <table style='font-size: 8px;'>
-      <tr><td class='titder' style='width: 60%'>SUBTOTAL Bs</td><td class='conte2'>${parseFloat(factura.montoTotal).toFixed(2)}</td></tr>
-      <tr><td class='titder'>DESCUENTO Bs</td><td class='conte2'>0.00</td></tr>
-      <tr><td class='titder'>TOTAL Bs</td><td class='conte2'>${parseFloat(factura.montoTotal).toFixed(2)}</td></tr>
-      <tr><td class='titder'>MONTO GIFT CARD Bs</td ><td class='conte2'>0.00</td></tr>
-      <tr><td class='titder'>MONTO A PAGAR Bs</td><td class='conte2'>${parseFloat(factura.montoTotal).toFixed(2)}</td></tr>
-      <tr><td class='titder' style='font-size: 8px'>IMPORTE BASE CRÉDITO FISCAL Bs</td>
+      <tr><td class='titder' style='width: 60%'>SUBTOTAL $</td><td class='conte2'>${parseFloat(factura.montoTotal).toFixed(2)}</td></tr>
+      <tr><td class='titder'>DESCUENTO $</td><td class='conte2'>0.00</td></tr>
+      <tr><td class='titder'>TOTAL $</td><td class='conte2'>${parseFloat(factura.montoTotal).toFixed(2)}</td></tr>
+      <tr><td class='titder'>MONTO GIFT CARD $</td ><td class='conte2'>0.00</td></tr>
+      <tr><td class='titder'>MONTO A PAGAR $</td><td class='conte2'>${parseFloat(factura.montoTotal).toFixed(2)}</td></tr>
+      <tr><td class='titder' style='font-size: 8px'>IMPORTE BASE CRÉDITO FISCAL $</td>
       <td class='conte2'>${parseFloat(factura.montoTotal).toFixed(2)}</td></tr>
       </table>
       <br>
-      <div>Son ${a} ${((parseFloat(factura.montoTotal) - Math.floor(parseFloat(factura.montoTotal))) * 100).toFixed(2)} /100 Bolivianos</div><hr>
+      <div>Son ${a} ${((parseFloat(factura.montoTotal) - Math.floor(parseFloat(factura.montoTotal))) * 100).toFixed(2)} /100 Dorales</div><hr>
       <div class='titulo2' style='font-size: 9px'>
       ESTA FACTURA CONTRIBUYE AL DESARROLLO DEL PAÍS,<br>
       EL USO ILÍCITO SERÁ SANCIONADO PENALMENTE DE<br>
@@ -133,10 +133,10 @@ Tel. ${env.telefono}<br>
 
         cadena += `<hr>
       <table style='font-size: 8px;'>
-      <tr><td class='titder' style='width: 60%'>SUBTOTAL Bs</td><td class='conte2'>${parseFloat(factura.total).toFixed(2)}</td></tr>
+      <tr><td class='titder' style='width: 60%'>SUBTOTAL $</td><td class='conte2'>${parseFloat(factura.total).toFixed(2)}</td></tr>
       </table>
       <br>
-      <div>Son ${a} ${((parseFloat(factura.total) - Math.floor(parseFloat(factura.total))) * 100).toFixed(2)} /100 Bolivianos</div><hr>
+      <div>Son ${a} ${((parseFloat(factura.total) - Math.floor(parseFloat(factura.total))) * 100).toFixed(2)} /100 Dolares</div><hr>
       <div style='display: flex;justify-content: center;'>
         <img  src="${url}" style="width: 75px; height: 75px; display: block; margin-left: auto; margin-right: auto;">
       </div></div>
@@ -194,10 +194,10 @@ Oruro</div>
         })
         cadena += `<hr>
       <table style='font-size: 8px;'>
-      <tr><td class='titder' style='width: 60%'>SUBTOTAL Bs</td><td class='conte2'>${parseFloat(montoTotal).toFixed(2)}</td></tr>
+      <tr><td class='titder' style='width: 60%'>SUBTOTAL $</td><td class='conte2'>${parseFloat(montoTotal).toFixed(2)}</td></tr>
       </table>
       <br>
-      <div>Son ${a} ${((parseFloat(montoTotal) - Math.floor(parseFloat(montoTotal))) * 100).toFixed(2)} /100 Bolivianos</div><hr>
+      <div>Son ${a} ${((parseFloat(montoTotal) - Math.floor(parseFloat(montoTotal))) * 100).toFixed(2)} /100 Dolares</div><hr>
       <div style='display: flex;justify-content: center;'>
         <img  src="${url}" style="width: 75px; height: 75px; display: block; margin-left: auto; margin-right: auto;">
       </div></div>
@@ -252,10 +252,10 @@ Oruro</div>
         // })
         cadena += `<hr>
       <table style='font-size: 8px;'>
-      <tr><td class='titder' style='width: 60%'>SUBTOTAL Bs</td><td class='conte2'>${parseFloat(buy.total).toFixed(2)}</td></tr>
+      <tr><td class='titder' style='width: 60%'>SUBTOTAL $</td><td class='conte2'>${parseFloat(buy.total).toFixed(2)}</td></tr>
       </table>
       <br>
-      <div>Son ${a} ${((parseFloat(buy.total) - Math.floor(parseFloat(buy.total))) * 100).toFixed(2)} /100 Bolivianos</div><hr>
+      <div>Son ${a} ${((parseFloat(buy.total) - Math.floor(parseFloat(buy.total))) * 100).toFixed(2)} /100 Dolares</div><hr>
       <div style='display: flex;justify-content: center;'>
         <img  src="${url}" style="width: 75px; height: 75px; display: block; margin-left: auto; margin-right: auto;">
       </div></div>
