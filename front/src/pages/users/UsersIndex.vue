@@ -36,6 +36,7 @@
           <q-chip dense label="Vendedor" color="orange" text-color="white" v-if="props.row.role === 'VENDEDOR'" icon="account_circle"/>
           <q-chip dense label="Admin" color="indigo" text-color="white" v-if="props.row.role === 'ADMIN'" icon="account_circle"/>
           <q-chip dense label="Super admin" color="purple" text-color="white" v-if="props.row.role === 'SUPERADMIN'" icon="account_circle"/>
+          <q-chip dense label="Patron" color="green" text-color="white" v-if="props.row.role === 'PATRON'" icon="account_circle"/>
         </q-td>
       </template>
       <template v-slot:top-right>
@@ -79,7 +80,7 @@
             <div class="col-12">
 <!--              vendedor,administrador,superadmin,-->
               <q-select v-model="user.role" label="Rol" outlined dense
-                        :options="[{label: 'Vendedor', value: 'VENDEDOR'}, {label: 'Admin', value: 'ADMIN'}, {label: 'Super Admin', value: 'SUPERADMIN'}]"
+                        :options="$roles"
                         :rules="[val => !!val || 'Campo requerido']"
                         emit-value map-options
               />

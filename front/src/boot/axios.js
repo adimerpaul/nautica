@@ -19,6 +19,12 @@ export default boot(({ app, router }) => {
   app.config.globalProperties.$alert = Alert
   app.config.globalProperties.$cargos = [{label: 'Capitán', value: 'CAPITAN'}, {label: 'Marinero', value: 'MARINERO'}, {label: 'Maquinista', value: 'MAQUINISTA'}]
   app.config.globalProperties.$store = useCounterStore()
+  app.config.globalProperties.$roles = [
+    {label: 'Vendedor', value: 'VENDEDOR'},
+    {label: 'Admin', value: 'ADMIN'},
+    {label: 'Super Admin', value: 'SUPERADMIN'},
+    {label: 'Patron', value: 'PATRON'},
+  ]
   app.config.globalProperties.$can = function (permiso) {
     if (!useCounterStore().isLogged) return false
     return useCounterStore().user.permissions.includes(permiso)
