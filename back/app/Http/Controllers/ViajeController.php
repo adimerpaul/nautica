@@ -134,18 +134,36 @@ class ViajeController extends Controller{
         $user = $request->user();
         error(json_encode($user));
         if ($user->role == 'PATRON') {
-            if ($user->company_id) {
+//            if ($user->company_id) {
+//                $viajes = Viaje::with(['boat','crews'])
+//                    ->where('estado', 'Activo')
+//                    ->whereHas('boat', function($query) use ($user){
+//                        $query->where('company_id', $user->company_id);
+//                    })
+//                    ->orderBy('id', 'desc')
+//                    ->get();
+//            }elseif ($user->bote_id){
+//                $viajes = Viaje::with(['boat', 'crews'])
+//                    ->where('estado', 'Activo')
+//                    ->where('boat_id', $user->bote_id)
+//                    ->orderBy('id', 'desc')
+//                    ->get();
+//            }else{
+//                $viajes = [];
+//            }
+            if ($user->bote_id) {
+//                error('entro'.$user->bote_id);
+                $viajes = Viaje::with(['boat', 'crews'])
+                    ->where('estado', 'Activo')
+                    ->where('boat_id', $user->bote_id)
+                    ->orderBy('id', 'desc')
+                    ->get();
+            }elseif ($user->company_id) {
                 $viajes = Viaje::with(['boat','crews'])
                     ->where('estado', 'Activo')
                     ->whereHas('boat', function($query) use ($user){
                         $query->where('company_id', $user->company_id);
                     })
-                    ->orderBy('id', 'desc')
-                    ->get();
-            }elseif ($user->bote_id){
-                $viajes = Viaje::with(['boat', 'crews'])
-                    ->where('estado', 'Activo')
-                    ->where('boat_id', $user->bote_id)
                     ->orderBy('id', 'desc')
                     ->get();
             }else{

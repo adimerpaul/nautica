@@ -68,23 +68,6 @@
               <q-input v-model="user.username" label="Usuario" outlined dense :rules="[val => !!val || 'Campo requerido']" />
             </div>
             <div class="col-12">
-              <q-select v-model="user.company_id" label="Empresa" outlined dense
-                        :options="companies"
-                        option-label="name" option-value="id"
-                        :hint="''"
-                        emit-value map-options
-              />
-<!--              <pre>{{companies}}</pre>-->
-            </div>
-            <div class="col-12">
-              <q-select v-model="user.boat_id" label="Barco" outlined dense
-                        :options="boats"
-                        option-label="name" option-value="id"
-                        :hint="''"
-                        emit-value map-options
-              />
-            </div>
-            <div class="col-12">
               <q-input v-model="user.password" label="Contraseña" outlined dense
                        :rules="[val => !!val || 'Campo requerido']" :type="passwordShow ? 'text' : 'password'"
                        v-if="!user.id"
@@ -95,10 +78,28 @@
               </q-input>
             </div>
             <div class="col-12">
-<!--              vendedor,administrador,superadmin,-->
               <q-select v-model="user.role" label="Rol" outlined dense
                         :options="$roles"
                         :rules="[val => !!val || 'Campo requerido']"
+                        emit-value map-options
+              />
+            </div>
+<!--            <pre>{{user.role}}</pre>-->
+            <div class="col-12" v-if="user.role == 'PATRON'">
+              <q-select v-model="user.company_id" label="Empresa" outlined dense
+                        :options="companies"
+                        option-label="name" option-value="id"
+                        @update:modelValue="boatFilter"
+                        :hint="''"
+                        emit-value map-options
+              />
+<!--              <pre>{{companies}}</pre>-->
+            </div>
+            <div class="col-12" v-if="user.role == 'PATRON'">
+              <q-select v-model="user.boat_id" label="Barco" outlined dense
+                        :options="boats"
+                        option-label="name" option-value="id"
+                        :hint="''"
                         emit-value map-options
               />
             </div>
@@ -160,6 +161,7 @@ export default {
       dialogPermisos: false,
       companies: [],
       boats: [],
+      boatsAll: []
     }
   },
   mounted() {
@@ -169,10 +171,20 @@ export default {
     this.userGet()
   },
   methods: {
+    boatFilter (val) {
+      // console.log('aaa')
+      // console.log(val)
+      if (val) {
+        this.boats = this.boatsAll.filter(b => b.company_id === val)
+      } else {
+        this.boats = []
+      }
+    },
     companiesGet () {
       this.loading = true
+      this.companies = [{name: 'Seleccione una empresa', id: ''}]
       this.$axios.get('companies').then(response => {
-        this.companies = response.data
+        this.companies = this.companies.concat(response.data)
       }).catch(error => {
         this.$alert.error(error.response.data.message)
       }).finally(() => {
@@ -183,6 +195,7 @@ export default {
       this.loading = true
       this.$axios.get('boats').then(response => {
         this.boats = response.data
+        this.boatsAll = response.data
       }).catch(error => {
         this.$alert.error(error.response.data.message)
       }).finally(() => {
