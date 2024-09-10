@@ -31,7 +31,7 @@ class UserController extends Controller{
         }
     }
     public function me(Request $request){
-        $user = User::with('permissions')->find($request->user()->id);
+        $user = User::with(['permissions','roles'])->find($request->user()->id);
         $permisosName = [];
         foreach($user->permissions as $permiso){
             $permisosName[] = $permiso->name;

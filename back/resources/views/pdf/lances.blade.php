@@ -7,9 +7,13 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Lances</title>
     <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
         body {
             font-family: Arial, sans-serif;
-            font-size: 12px;
+            font-size: 10px;
         }
         .text-center {
             text-align: center;
@@ -43,7 +47,7 @@
         }
     </style>
 </head>
-<body>
+<body style="padding: 10px">
 {{--protected $fillable = ['user_id', 'viaje_id', 'descarga', 'dia', 'fecha', 'status'];--}}
 <div class="text-center text-h5">Viaje: {{$viaje->fechaInicio}} - {{$viaje->fechaFin}}</div>
 <div class="text-bold text-center">
