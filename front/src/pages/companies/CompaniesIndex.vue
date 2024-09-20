@@ -45,7 +45,7 @@
               <q-input v-model="company.address" label="Dirección" outlined dense :rules="[val => !!val || 'Campo requerido']" />
             </div>
             <div class="col-12">
-              <q-input v-model="company.phone" label="Teléfono" outlined dense :rules="[val => !!val || 'Campo requerido']" />
+              <q-input v-model="company.phone" label="Teléfono" type="number" outlined dense :rules="[val => !!val || 'Campo requerido']" />
             </div>
 <!--            <pre>{{company}}</pre>-->
           </div>
@@ -91,6 +91,7 @@ export default {
           this.companyDialog = false
           const index = this.companies.findIndex(company => company.id === this.company.id)
           this.companies.splice(index, 1, response.data)
+          this.$alert.success('empresa actualizado correctamente')
         }).catch(error => {
           this.$alert.error(error.response.data.message)
         }).finally(() => {
@@ -100,6 +101,7 @@ export default {
         this.$axios.post('companies', this.company).then(response => {
           this.companyDialog = false
           this.companies.unshift(response.data)
+          this.$alert.success('empresa agregado correctamente')
         }).catch(error => {
           this.$alert.error(error.response.data.message)
         }).finally(() => {
@@ -108,12 +110,13 @@ export default {
       }
     },
     companyDelete (company) {
-      this.$alert.confirm('¿Está seguro de eliminar este companye?').onOk(() => {
+      this.$alert.confirm('¿Está seguro de eliminar este empresa?').onOk(() => {
         this.loading = true
         this.$axios.delete(`companies/${company.id}`).then(res => {
           const index = this.companies.findIndex(company => company.id === res.data.id)
           console.log(index)
           if (index !== -1) this.companies.splice(index, 1)
+          this.$alert.success('empresa eliminado correctamente')
         }).catch(error => {
           this.$alert.error(error.response.data.message)
         }).finally(() => {

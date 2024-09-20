@@ -136,6 +136,8 @@
   </q-page>
 </template>
 <script>
+import {Alert} from "src/addons/Alert";
+
 export default {
   name: 'ClientsIndex',
   data () {
@@ -237,6 +239,7 @@ export default {
           this.userDialog = false
           const index = this.users.findIndex(user => user.id === this.user.id)
           this.users.splice(index, 1, response.data)
+          this.$alert.success('Usuario actualizado con éxito')
         }).catch(error => {
           this.$alert.error(error.response.data.message)
         }).finally(() => {
@@ -246,6 +249,7 @@ export default {
         this.$axios.post('users', this.user).then(response => {
           this.userDialog = false
           this.users.unshift(response.data)
+          this.$alert.success('Usuario agregado con éxito')
         }).catch(error => {
           this.$alert.error(error.response.data.message)
         }).finally(() => {
@@ -266,11 +270,12 @@ export default {
       })
     },
     userDelete (user) {
-      this.$alert.confirm('¿Está seguro de eliminar este usere?').onOk(() => {
+      this.$alert.confirm('¿Está seguro de eliminar este usuario?').onOk(() => {
         this.loading = true
         this.$axios.delete(`users/${user.id}`).then(res => {
           const index = this.users.findIndex(user => user.id === res.data.id)
           if (index > -1) this.users.splice(index, 1)
+          this.$alert.success('Usuario eliminado con éxito')
         }).catch(error => {
           this.$alert.error(error.response.data.message)
         }).finally(() => {
