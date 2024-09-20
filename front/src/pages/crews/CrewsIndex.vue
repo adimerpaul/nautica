@@ -147,7 +147,7 @@ export default {
       }
     },
     crewDelete (crew) {
-      this.$alert.confirm('¿Está seguro de eliminar este crewe?').onOk(() => {
+      this.$alert.confirm('¿Está seguro de eliminar este Tripulante?').onOk(() => {
         this.loading = true
         this.$axios.delete(`crews/${crew.id}`).then(res => {
           const index = this.crews.findIndex(crew => crew.id === res.data.id)
@@ -155,7 +155,7 @@ export default {
           if (index !== -1) this.crews.splice(index, 1)
           this.$alert.success('Tripulante eliminado')
         }).catch(error => {
-          this.$alert.error(error.response.data.message)
+          this.$alert.error("No se puede eliminar registro, contacte con su administrador.")
         }).finally(() => {
           this.loading = false
         })

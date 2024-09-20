@@ -306,7 +306,7 @@ export default {
       this.$store.orders = []
     },
     productsGet () {
-      this.$axios.get('products').then(response => {
+      this.$axios.get('productsActivos').then(response => {
         this.products = response.data
         this.productsAll = response.data
       })

@@ -8,6 +8,9 @@ use Intervention\Image\ImageManager;
 
 class ProductController extends Controller
 {
+    function productsActivos(){
+        return Product::where('status', 'ACTIVE')->orderBy('id', 'desc')->get();
+    }
     public function index()
     {
         return Product::orderBy('id', 'desc')->get();

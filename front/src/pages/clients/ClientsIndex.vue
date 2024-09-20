@@ -107,6 +107,7 @@ export default {
           this.clientDialog = false
           const index = this.clients.findIndex(client => client.id === this.client.id)
           this.clients.splice(index, 1, response.data)
+          this.$alert.success('Cliente actualizado correctamente')
         }).catch(error => {
           this.$alert.error(error.response.data.message)
         }).finally(() => {
@@ -116,6 +117,7 @@ export default {
         this.$axios.post('clients', this.client).then(response => {
           this.clientDialog = false
           this.clients.unshift(response.data)
+          this.$alert.success('Cliente agregado correctamente')
         }).catch(error => {
           this.$alert.error(error.response.data.message)
         }).finally(() => {
@@ -129,8 +131,9 @@ export default {
         this.$axios.delete(`clients/${id}`).then(response => {
           const index = this.clients.findIndex(client => client.id === id)
           this.clients.splice(index, 1)
+          this.$alert.success('Cliente eliminado correctamente')
         }).catch(error => {
-          this.$alert.error(error.response.data.message)
+          this.$alert.error('No se puede eliminar el registro porque tiene registros dependientes asociados.')
         }).finally(() => {
           this.loading = false
         })
