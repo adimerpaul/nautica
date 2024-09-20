@@ -71,18 +71,36 @@
                 <q-btn-dropdown dense icon="more_vert" align="right" label="Opciones" no-caps
                                 :color="props.row.tipo_venta=='INGRESO'?'green-9':'red-9'"
                                 size="10px" v-if="props.row.status=='ACTIVO'">
-                  <q-item clickable v-close-popup class="text-center">
-                    <q-btn dense label="Anular" color="red-4" size="10px" class="full-width"
-                           no-caps no-wrap icon="o_highlight_off" @click="saleAnular(props.row.id)">
-                      <q-tooltip>Anular venta</q-tooltip>
-                    </q-btn>
-                  </q-item>
-                  <q-item clickable v-close-popup class="text-center">
-                    <q-btn dense label="Imprimir" color="green-4" size="10px" class="full-width"
-                           no-caps no-wrap icon="print" @click="reimprimirNota(props.row)">
-                      <q-tooltip>Imprimir nota</q-tooltip>
-                    </q-btn>
-                  </q-item>
+<!--                  <q-item clickable v-close-popup class="text-center">-->
+<!--                    <q-btn dense label="Anular" color="red-4" size="10px" class="full-width"-->
+<!--                           no-caps no-wrap icon="o_highlight_off" @click="saleAnular(props.row.id)">-->
+<!--                      <q-tooltip>Anular venta</q-tooltip>-->
+<!--                    </q-btn>-->
+<!--                  </q-item>-->
+<!--                  <q-item clickable v-close-popup class="text-center">-->
+<!--                    <q-btn dense label="Imprimir" color="green-4" size="10px" class="full-width"-->
+<!--                           no-caps no-wrap icon="print" @click="reimprimirNota(props.row)">-->
+<!--                      <q-tooltip>Imprimir nota</q-tooltip>-->
+<!--                    </q-btn>-->
+<!--                  </q-item>-->
+                  <q-list>
+                    <q-item clickable v-close-popup @click="reimprimirNota(props.row)">
+                      <q-item-section avatar>
+                        <q-icon name="o_print" />
+                      </q-item-section>
+                      <q-item-section>
+                          <div>Imprimir nota</div>
+                      </q-item-section>
+                    </q-item>
+                    <q-item clickable v-close-popup @click="saleAnular(props.row.id)">
+                      <q-item-section avatar>
+                        <q-icon name="o_highlight_off" />
+                      </q-item-section>
+                      <q-item-section>
+                          <div>Anular</div>
+                      </q-item-section>
+                    </q-item>
+                  </q-list>
                 </q-btn-dropdown>
                 <div v-else style="width: 95px">
                   <q-chip label="Anulado" color="grey-4" text-color="white" dense flat />
@@ -108,10 +126,10 @@
               <q-td key="concepto" :props="props" class="">
                 <div>
                   <!--                  {{ props.row.tipo_venta}}-->
-                  <q-btn icon="o_local_atm" size="15px" :color="`${props.row.tipo_venta=='INGRESO'?'green':'red'}-7`"
-                         :class="`bg-${props.row.tipo_venta=='INGRESO'?'green':'red'}-2`" dense flat
-                         style="padding: 0px; margin: 0px; border-radius: 0px;position: absolute;top: 5px;left: 0px;"/>
-                  <div style="padding-left: 15px">
+<!--                  <q-btn icon="o_local_atm" size="15px" :color="`${props.row.tipo_venta=='INGRESO'?'green':'red'}-7`"-->
+<!--                         :class="`bg-${props.row.tipo_venta=='INGRESO'?'green':'red'}-2`" dense flat-->
+<!--                         style="padding: 0px; margin: 0px; border-radius: 0px;position: absolute;top: 5px;left: 0px;"/>-->
+                  <div style="">
                     <div class=" q-ml-xs" style="width: 180px; white-space: normal; overflow-wrap: break-word;line-height: 0.9;">
                       {{ props.row.description }}
                       {{ props.row?.boat?.name }}
@@ -170,7 +188,7 @@ export default {
         { name: 'montoTotal', label: 'Monto total', align: 'left', field: 'montoTotal', sortable: true },
         { name: 'fechayhora', label: 'Fecha y hora', align: 'left', field: 'fechayhora', sortable: true },
         { name: 'concepto', label: 'Concepto', align: 'left', field: 'concepto', sortable: true },
-        { name: 'observacion', label: 'Comentario', align: 'left', field: 'observacion', sortable: true },
+        // { name: 'observacion', label: 'Comentario', align: 'left', field: 'observacion', sortable: true },
         { name: 'pago', label: 'Pago', align: 'left', field: 'pago', sortable: true },
         { name: 'numeroFactura', label: 'Numero de factura', align: 'left', field: 'numero de factura', sortable: true },
         // { name: 'egresoingreso', label: 'Egreso / ingreso', align: 'left', field: 'egreso / ingreso', sortable: true },
