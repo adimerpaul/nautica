@@ -9,9 +9,10 @@
 <!--              //ver -->
               <q-item clickable v-ripple @click="boatShow(props.row)">
                 <q-item-section avatar>
-                  <q-icon name="visibility" />
+<!--                  icon upload-->
+                  <q-icon name="attach_file" />
                 </q-item-section>
-                <q-item-section>Datos bote</q-item-section>
+                <q-item-section>Adjuntas</q-item-section>
               </q-item>
               <q-item clickable v-ripple @click="boatEdit(props.row)">
                 <q-item-section avatar>
@@ -131,6 +132,7 @@ export default {
           this.boatDialog = false
           const index = this.boats.findIndex(boat => boat.id === this.boat.id)
           this.boats.splice(index, 1, response.data)
+          this.$alert.success('Bote actualizado correctamente')
         }).catch(error => {
           this.$alert.error(error.response.data.message)
         }).finally(() => {
@@ -140,6 +142,7 @@ export default {
         this.$axios.post('boats', this.boat).then(response => {
           this.boatDialog = false
           this.boats.unshift(response.data)
+          this.$alert.success('Bote agregado correctamente')
         }).catch(error => {
           this.$alert.error(error.response.data.message)
         }).finally(() => {
@@ -154,6 +157,7 @@ export default {
           const index = this.boats.findIndex(boat => boat.id === res.data.id)
           console.log(index)
           if (index !== -1) this.boats.splice(index, 1)
+          this.$alert.success('Bote eliminado correctamente')
         }).catch(error => {
           this.$alert.error(error.response.data.message)
         }).finally(() => {

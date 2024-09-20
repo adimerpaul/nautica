@@ -128,6 +128,7 @@ export default {
           this.crewDialog = false
           const index = this.crews.findIndex(crew => crew.id === this.crew.id)
           this.crews.splice(index, 1, response.data)
+          this.$alert.success('Tripulante actualizado')
         }).catch(error => {
           this.$alert.error(error.response.data.message)
         }).finally(() => {
@@ -137,6 +138,7 @@ export default {
         this.$axios.post('crews', this.crew).then(response => {
           this.crewDialog = false
           this.crews.unshift(response.data)
+          this.$alert.success('Tripulante agregado')
         }).catch(error => {
           this.$alert.error(error.response.data.message)
         }).finally(() => {
@@ -151,6 +153,7 @@ export default {
           const index = this.crews.findIndex(crew => crew.id === res.data.id)
           console.log(index)
           if (index !== -1) this.crews.splice(index, 1)
+          this.$alert.success('Tripulante eliminado')
         }).catch(error => {
           this.$alert.error(error.response.data.message)
         }).finally(() => {
