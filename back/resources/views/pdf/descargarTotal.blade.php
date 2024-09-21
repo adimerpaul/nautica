@@ -40,29 +40,76 @@
         }
     </style>
 </head>
+@php
+function formatDate($date){
+    $date = new DateTime($date);
+    return $date->format('d/m/Y');
+}
+@endphp
 <body>
 {{--protected $fillable = ['user_id', 'viaje_id', 'descarga', 'dia', 'fecha', 'status'];--}}
-<div class="text-center text-h5">Viaje: {{$viaje->fechaInicio}} - {{$viaje->fechaFin}} - {{$viaje->estado}}</div>
-<div class="text-bold">
-    Viajes: {{$cantidadViajes}}
-</div>
-<div class="text-bold">
-    Barco: {{$viaje->boat->name}}
-</div>
-<div class="">
-    Observacion: {{$viaje->observaciones}}
-</div>
-<table class="table">
+<table style="width: 100%">
     <tr>
-        <th class="text-center text-bold" style="width: 90%">Producto</th>
-        <th class="text-center text-bold" style="width: 10%">Cantidad</th>
+        <td style="width: 20%">
+            <img src="{{public_path('img/logo.png')}}" alt="Logo" style="width: 100px">
+        </td>
+        <td style="width: 60%" valign="top">
+            <div style="text-align: center; font-size: 1.3em;font-weight: bold">
+                Reporte de productos por viaje
+            </div>
+        </td>
+        <td style="width: 20%"></td>
+    </tr>
+</table>
+<table>
+    <tr>
+        <td style="width: 50%">
+            <div><b>Viajes:</b> {{$cantidadViajes}}</div>
+        </td>
+        <td style="width: 50%">
+            <div><b>Dias:</b> {{$cantidadDias}}</div>
+        </td>
+    </tr>
+    <tr>
+        <td style="width: 50%">
+            <div><b>Barco:</b> {{$viaje->boat->name}}</div>
+        </td>
+        <td style="width: 50%">
+            <div><b>Estado:</b> {{$viaje->estado}}</div>
+        </td>
+    </tr>
+    <tr>
+        <td style="width: 50%">
+            <div><b>Empresa:</b> {{$viaje->boat->company->name}}</div>
+        </td>
+        <td style="width: 50%">
+            <div><b>Fecha:</b> {{formatDate($viaje->fechaInicio)}} - {{formatDate($viaje->fechaFin)}}</div>
+        </td>
+    </tr>
+</table>
+{{--<div class="text-center text-h5">Viaje: {{formatDate($viaje->fechaInicio)}} - {{formatDate($viaje->fechaFin)}} - {{$viaje->estado}}</div>--}}
+{{--<div class="text-bold">--}}
+{{--    Viajes: {{$cantidadViajes}}--}}
+{{--</div>--}}
+{{--<div class="text-bold">--}}
+{{--    Barco: {{$viaje->boat->name}}--}}
+{{--</div>--}}
+{{--<div class="">--}}
+{{--    Observacion: {{$viaje->observaciones}}--}}
+{{--</div>--}}
+<table class="table" style="padding: 5px 50px">
+    <tr style="background-color: #153D64;color: white">
+        <th class="text-center text-bold" style="width: 10%">N</th>
+        <th class="text-center text-bold" style="width: 15%">Cantidad</th>
+        <th class="text-center text-bold" style="width: 75%">Producto</th>
     </tr>
 {{--    protected $fillable = ['product_id', 'viaje_id', 'cantidad', 'fecha', 'status', 'user_id', 'descarga_id'];--}}
 {{--    <pre>{{$productos}}</pre>--}}
     @foreach($productos as $d)
         <tr>
+            <td class="text-center">{{$loop->iteration}}</td>
+            <td class="text-center">{{$d['cantidad']}}</td>
             <td class="">{{$d['product']['name']}}</td>
-            <td class="text-right">{{$d['cantidad']}}</td>
 {{--            <td>{{$d['detalle']}}</td>--}}
 {{--            <td class="text-center">{{$d['venta']}}</td>--}}
 {{--            <td class="text-center">{{$d['gasto']}}</td>--}}
@@ -73,5 +120,11 @@
         </tr>
     @endforeach
 </table>
+{{--observaciones tiene HTML--}}
+<div class="text-bold">
+    Observaciones:
+</div>
+<div>
+    {!! $viaje->observaciones !!}
 </body>
 </html>

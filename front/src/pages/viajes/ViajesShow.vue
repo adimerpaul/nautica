@@ -260,7 +260,7 @@
             dense
             icon="close"
             @click="() => { dialogAgregarProducto = false }"
-          />¡
+          />
         </q-card-section>
         <q-form @submit="productAdd">
           <q-card-section>

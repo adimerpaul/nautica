@@ -81,7 +81,7 @@ Route::group(['middleware' => 'auth:sanctum'], function(){
     Route::get('/exportSalesPdf', [\App\Http\Controllers\ExcelController::class, 'exportSalesPdf']);
 
     Route::get('/exportDescargarPdf/{id}', [\App\Http\Controllers\ExcelController::class, 'exportDescargarPdf']);
-    Route::get('/exportDescargarPdfTotal/{viaje_id}', [\App\Http\Controllers\ExcelController::class, 'exportDescargarPdfTotal']);
+
 
 
     Route::get('/lances', [\App\Http\Controllers\LanceController::class, 'index']);
@@ -91,3 +91,4 @@ Route::group(['middleware' => 'auth:sanctum'], function(){
 });
 Route::get('/exportPdfLances/{viaje_id}', [\App\Http\Controllers\ExcelController::class, 'exportPdfLances']);
 Route::get('/compromiso/{loan_id}', [\App\Http\Controllers\ReportController::class, 'compromiso']);
+Route::get('/exportDescargarPdfTotal/{viaje_id}', [\App\Http\Controllers\ExcelController::class, 'exportDescargarPdfTotal']);

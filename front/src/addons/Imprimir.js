@@ -101,7 +101,7 @@ Oruro</div>
         }
       }
       const env = useCounterStore().env
-      QRCode.toDataURL(`Fecha: ${factura.fechaEmision} Monto: ${parseFloat(factura.total).toFixed(2)}`, opts).then(url => {
+      QRCode.toDataURL(`Fecha: ${factura.date} Monto: ${parseFloat(factura.total).toFixed(2)}`, opts).then(url => {
         let cadena = `${this.head()}
   <div style='padding-left: 0.5cm;padding-right: 0.5cm'>
   <img src="/logo.png" alt="logo" style="width: 100px; display: block; margin-left: auto; margin-right: auto;">
@@ -115,7 +115,7 @@ Tel. ${env.telefono}<br>
 <hr>
 <table>
 <tr><td class='titder'>${factura.tipo_venta === 'EGRESO' ? 'PROVEEDOR' : 'NOMBRE/RAZÓN SOCIAL'}:</td><td class='contenido'>${factura.client ? factura.client.name : ''}</td>
-</tr><tr><td class='titder'>NIT/CI/CEX:</td><td class='contenido'>${factura.client ? factura.client.nit : ''}</td></tr>
+</tr><tr><td class='titder'>CI/CEX:</td><td class='contenido'>${factura.client ? factura.client.nit : ''}</td></tr>
 <tr><td class='titder'>FECHA DE EMISIÓN:</td><td class='contenido'>${factura.date}</td></tr>
 </table><hr><div class='titulo'>DETALLE</div>`
 

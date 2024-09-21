@@ -36,13 +36,13 @@
                 </q-item-section>
                 <q-item-section>Eliminar</q-item-section>
               </q-item>
-              <q-item clickable v-ripple @click="addProducts(props.row)">
+              <q-item clickable v-ripple @click="addProducts(props.row)" v-if="props.row.estado === 'Activo'">
                 <q-item-section avatar>
                   <q-icon name="add_circle_outline" />
                 </q-item-section>
                 <q-item-section>Agregar Descarga</q-item-section>
               </q-item>
-              <q-item clickable v-ripple @click="addLance(props.row)">
+              <q-item clickable v-ripple @click="addLance(props.row)" v-if="props.row.estado === 'Activo'">
                 <q-item-section avatar>
                   <q-icon name="add_circle_outline" />
                 </q-item-section>
@@ -340,8 +340,10 @@ export default {
           const index = this.viajes.findIndex(viaje => viaje.id === res.data.id)
           console.log(index)
           if (index !== -1) this.viajes.splice(index, 1)
+          this.$alert.success('Viaje eliminado')
         }).catch(error => {
-          this.$alert.error(error.response.data.message)
+          // this.$alert.error(error.response.data.message)
+          this.$alert.error('No se puede eliminar este viaje')
         }).finally(() => {
           this.loading = false
         })
