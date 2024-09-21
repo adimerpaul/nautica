@@ -266,11 +266,11 @@ export default {
         this.loading = false
         return
       }
-      if (this.crewViajes.some(crew => !crew.crew_id)) {
-        this.$alert.error('Debe seleccionar un tripulante')
-        this.loading = false
-        return
-      }
+      // if (this.crewViajes.some(crew => !crew.crew_id)) {
+      //   this.$alert.error('Debe seleccionar un tripulante')
+      //   this.loading = false
+      //   return
+      // }
       this.viaje.crews = this.crewViajes
       this.loading = true
       if (this.viaje.id) {

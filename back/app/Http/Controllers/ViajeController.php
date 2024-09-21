@@ -197,25 +197,34 @@ class ViajeController extends Controller{
         return ['viaje' => $viaje, 'productoViaje' => $productoViaje, 'lances' => $lances];
     }
     public function store(Request $request){
-//        protected $fillable = ['fechaInicio', 'fechaFin', 'boats_id'];
-        $viaje = new Viaje();
-        $viaje->fechaInicio = $request->input('fechaInicio');
-        $viaje->fechaFin = $request->input('fechaFin');
-        $viaje->boat_id = $request->input('boat_id');
-        $viaje->hora = $request->input('hora');
-        $viaje->dias = $request->input('dias');
-        $viaje->zarpe = $request->input('zarpe');
-        $viaje->puertoSalida = $request->input('puertoSalida');
-        $viaje->puertoLlegada = $request->input('puertoLlegada');
-        $viaje->bandera = $request->input('bandera');
-        $viaje->propietario = $request->input('propietario');
+        try {
+            DB::beginTransaction();
+            //        protected $fillable = ['fechaInicio', 'fechaFin', 'boats_id'];
+            $viaje = new Viaje();
+            $viaje->fechaInicio = $request->input('fechaInicio');
+            $viaje->fechaFin = $request->input('fechaFin');
+            $viaje->boat_id = $request->input('boat_id');
+            $viaje->hora = $request->input('hora');
+            $viaje->dias = $request->input('dias');
+            $viaje->zarpe = $request->input('zarpe');
+            $viaje->puertoSalida = $request->input('puertoSalida');
+            $viaje->puertoLlegada = $request->input('puertoLlegada');
+            $viaje->bandera = $request->input('bandera');
+            $viaje->propietario = $request->input('propietario');
 //        $viaje->observaciones = $request->input('observaciones');
-        $viaje->save();
-        $crews = $request->input('crews');
-        foreach ($crews as $crew){
-            $viaje->crews()->attach($crew['crew_id'], ['role' => $crew['cargo']]);
+            $viaje->save();
+            $crews = $request->input('crews');
+            foreach ($crews as $crew){
+                if ($crew['crew_id'] != null && $crew['crew_id'] != ''){
+                    $viaje->crews()->attach($crew['crew_id'], ['role' => $crew['cargo']]);
+                }
+            }
+            DB::commit();
+            return Viaje::with('boat')->find($viaje->id);
+        }catch (\Exception $e){
+            DB::rollBack();
+            return response()->json(['message' => $e->getMessage()], 500);
         }
-        return Viaje::with('boat')->find($viaje->id);
     }
     public function update(Request $request, $id){
         $viaje = Viaje::find($id);
