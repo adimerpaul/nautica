@@ -101,7 +101,7 @@
                     </q-btn-dropdown>
                   </td>
                   <td>{{$filters.formatdMYHID(deudor.date)}}</td>
-                  <td>{{$filters.capitalizeText(deudor.client.name+' '+deudor.client.lastname)}}</td>
+                  <td>{{$filters.capitalizeText(deudor.client?.name+' '+(deudor.client?.lastname != null ? deudor.client?.lastname : ''))}}</td>
                   <td class="text-right">
                     {{deudor.total}}
                   </td>
@@ -134,14 +134,16 @@
         <q-card-section>
           <q-form @submit="registrarPago">
           <div>
-            <span class="text-bold">{{deudor.client.name+' '+deudor.client.lastname}}</span><br>
+            <span class="text-bold">{{deudor.client.name+' '+(deudor.client.lastname!=null?deudor.client.lastname:'')}}</span><br>
             Deuda: <span class="text-bold text-red">{{deudor.debt}}</span> <br>
             Pagado: <span class="text-bold text-green">{{deudor.pago}}</span> <br>
             Total: <span class="text-bold">{{deudor.total}}</span>
           </div>
           <q-input v-model="pago" label="Monto" type="number" dense outlined step="0.01"
-                   :rules="[val => val > 0 || 'Debe ser mayor a 0', val => val <= deudor.debt || 'Debe ser menor o igual a la deuda']"/>
-
+                   :rules="[
+                       val => val > 0 || 'Debe ser mayor a 0',
+                       val => val <= deudor.debt || 'Debe ser menor o igual a la deuda',
+                   ]"/>
             <q-card-actions align="right">
               <q-btn label="Cancelar" color="negative" @click="dialog = false" no-caps :loading="loading"/>
               <q-btn label="Guardar" color="primary" type="submit" no-caps :loading="loading"/>
