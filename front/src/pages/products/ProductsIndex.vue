@@ -4,7 +4,11 @@
       <q-card-section class="q-pa-xs">
         <div class="row">
           <div class="col-12 col-md-4">
-            <q-input v-model="search" label="Buscar" outlined dense />
+            <q-input v-model="search" label="Buscar" outlined dense @keyup.enter="productsGet" >
+              <template v-slot:append>
+                <q-icon name="search" />
+              </template>
+            </q-input>
           </div>
           <div class="col-12 col-md-2">
             <q-btn
@@ -17,15 +21,15 @@
               rounded
               :loading="loading"
             ></q-btn>
-            <q-btn
-              color="grey-8"
-              label="Descargar"
-              class="text-bold"
-              no-caps
-              icon="get_app"
-              flat
-              rounded
-            ></q-btn>
+<!--            <q-btn-->
+<!--              color="grey-8"-->
+<!--              label="Descargar"-->
+<!--              class="text-bold"-->
+<!--              no-caps-->
+<!--              icon="get_app"-->
+<!--              flat-->
+<!--              rounded-->
+<!--            ></q-btn>-->
           </div>
           <div class="col-12 col-md-6 text-right">
             <q-btn
@@ -317,7 +321,11 @@ export default {
     },
     productsGet () {
       this.loading = true
-      this.$axios.get('products').then(response => {
+      this.$axios.get('products',{
+        params: {
+          search: this.search
+        }
+      }).then(response => {
         this.products = response.data
       }).finally(() => {
         this.loading = false

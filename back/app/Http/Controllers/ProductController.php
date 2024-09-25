@@ -11,9 +11,10 @@ class ProductController extends Controller
     function productsActivos(){
         return Product::where('status', 'ACTIVE')->orderBy('id', 'desc')->get();
     }
-    public function index()
+    public function index(Request $request)
     {
-        return Product::orderBy('id', 'desc')->get();
+        $search = $request->search;
+        return Product::orderBy('id', 'desc')->where('name', 'like', '%'.$search.'%')->get();
     }
 
     public function store(Request $request)
