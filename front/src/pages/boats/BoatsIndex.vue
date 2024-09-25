@@ -46,14 +46,20 @@
         </q-td>
       </template>
       <template v-slot:top-right>
-        <q-btn outline dense icon="add_circle" @click="boatAdd" label="Agregar" no-caps :loading="loading">
-          <q-tooltip>Agregar</q-tooltip>
-        </q-btn>
-        <q-input v-model="filter" dense class="q-ml-md" debounce="300" placeholder="Buscar" outlined clearable >
-          <template v-slot:append>
-            <q-icon name="search" />
-          </template>
-        </q-input>
+        <div class="row">
+          <div class="col-4 flex flex-center">
+            <q-btn outline dense icon="add_circle" @click="boatAdd" label="Agregar" no-caps :loading="loading" class="full-width">
+              <q-tooltip>Agregar</q-tooltip>
+            </q-btn>
+          </div>
+          <div class="col-8">
+            <q-input v-model="filter" dense class="q-ml-md" debounce="300" placeholder="Buscar" outlined clearable >
+              <template v-slot:append>
+                <q-icon name="search" />
+              </template>
+            </q-input>
+          </div>
+        </div>
       </template>
     </q-table>
 <!--    <pre>{{boats}}</pre>-->
