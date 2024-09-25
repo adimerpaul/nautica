@@ -10,7 +10,7 @@
               </template>
             </q-input>
           </div>
-          <div class="col-12 col-md-2">
+          <div class="col-6 col-md-2 q-mt-xs">
             <q-btn
               color="primary"
               label="Actualizar"
@@ -31,10 +31,10 @@
 <!--              rounded-->
 <!--            ></q-btn>-->
           </div>
-          <div class="col-12 col-md-6 text-right">
+          <div class="col-6 col-md-6 text-right q-mt-xs">
             <q-btn
               color="green"
-              label="Crear Producto"
+              label="Crear Product"
               class="text-bold"
               @click="productClick()"
               no-caps
