@@ -4,62 +4,16 @@
       <q-card-section class="q-pa-xs">
         <div class="row">
           <div class="col-8 col-md-4">
-            <q-input v-model="search" label="Buscar por cliente o usuario" placeholder="Buscar" dense outlined />
+            <q-input v-model="search" label="Buscar por cliente o usuario" placeholder="Buscar" dense outlined >
+              <template v-slot:append>
+                <q-icon name="search" />
+              </template>
+            </q-input>
           </div>
           <div class="col-4 col-md-4">
             <q-btn v-model="search" color="primary" label="Buscar" @click="deudoresGet" :loading="loading" icon="search" no-caps/>
           </div>
-          <div class="col-12">
-<!--            {-->
-<!--            "id": 13,-->
-<!--            "date": "2024-06-20 05:25:52",-->
-<!--            "client_id": 1,-->
-<!--            "total": 3,-->
-<!--            "tipo": "CREDITO",-->
-<!--            "user_id": 1,-->
-<!--            "status": "ACTIVO",-->
-<!--            "observacion": "sin observacion",-->
-<!--            "pago": 1,-->
-<!--            "debt": 2,-->
-<!--            "client": {-->
-<!--            "id": 1,-->
-<!--            "name": "ADIMER PAUL",-->
-<!--            "lastname": "CHAMBI",-->
-<!--            "company": "FNI",-->
-<!--            "nit": "123456",-->
-<!--            "phone": "5261245"-->
-<!--            },-->
-<!--            "user": {-->
-<!--            "id": 1,-->
-<!--            "name": "Administrador",-->
-<!--            "role": "SUPERADMIN",-->
-<!--            "username": "admin",-->
-<!--            "email": "admin@test.com",-->
-<!--            "email_verified_at": null-->
-<!--            },-->
-<!--            "details": [-->
-<!--            {-->
-<!--            "id": 29,-->
-<!--            "sale_id": 13,-->
-<!--            "product_id": 13,-->
-<!--            "user_id": 1,-->
-<!--            "product_name": "Jaiba",-->
-<!--            "quantity": 1,-->
-<!--            "price": 3,-->
-<!--            "total": 3-->
-<!--            }-->
-<!--            ],-->
-<!--            "payments": [-->
-<!--            {-->
-<!--            "id": 2,-->
-<!--            "sale_id": 13,-->
-<!--            "user_id": 1,-->
-<!--            "amount": 1,-->
-<!--            "date": "2024-06-20 05:25:52",-->
-<!--            "status": "PAGADO"-->
-<!--            }-->
-<!--            ]-->
-<!--            },-->
+          <div class="col-12 q-mt-md">
             <q-markup-table dense wrap-cells separator="cell">
               <thead class="bg-primary text-white">
                 <tr>
