@@ -16,14 +16,14 @@
           </template>
         </q-input>
       </div>
-      <div class="col-12 col-md-2 text-right">
+      <div class="col-12 col-md-6 text-right">
         <q-btn label="Excel" color="green" size="10px"  icon="fa-solid fa-file-excel" no-caps rounded @click="exportarExcel" :loading="loading"/>
         <q-btn label="Pdf" color="red" size="10px"  icon="fa-solid fa-file-pdf" no-caps rounded @click="exportarPdf" :loading="loading"/>
 
-      </div>
-      <div class="col-12 col-md-4 text-right">
+<!--      </div>-->
+<!--      <div class="col-12 col-md-4 text-right">-->
         <!--        <q-btn :loading="loading" label="Nuevo Venta" color="green"  icon="add_circle_outline" no-caps rounded to="/sales"/>-->
-                <q-btn :loading="loading" label="Nuevo Gasto" color="red"  icon="add_circle_outline" no-caps rounded @click="gastoDialog = true"/>
+                <q-btn :loading="loading" size="10px" label="Nuevo Gasto" color="red"  icon="add_circle_outline" no-caps rounded @click="gastoDialog = true"/>
       </div>
 <!--      <div class="col-12 col-md-3 q-pa-xs">-->
 <!--        <CardComponent :amount="balance" color="grey" title="Balance" icon="account_balance" />-->
