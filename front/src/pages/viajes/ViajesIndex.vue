@@ -130,12 +130,18 @@
                 />
               </div>
               <div class="col-12 col-md-6">
-                <q-input v-model="viaje.puertoSalida" label="Puerto de Salida" outlined dense
-                         :rules="[val => !!val || 'Campo requerido']" />
+<!--                <q-input v-model="viaje.puertoSalida" label="Puerto de Salida" outlined dense-->
+<!--                         :rules="[val => !!val || 'Campo requerido']" />-->
+                <q-select v-model="viaje.puertoSalida" :options="puertos" label="Puerto de Salida" outlined dense
+                          :rules="[val => !!val || 'Campo requerido']"
+                          map-options emit-value />
               </div>
               <div class="col-12 col-md-6">
-                <q-input v-model="viaje.puertoLlegada" label="Puerto de Llegada" outlined dense
-                         :rules="[val => !!val || 'Campo requerido']" />
+<!--                <q-input v-model="viaje.puertoLlegada" label="Puerto de Llegada" outlined dense-->
+<!--                         :rules="[val => !!val || 'Campo requerido']" />-->
+                <q-select v-model="viaje.puertoLlegada" :options="puertos" label="Puerto de Llegada" outlined dense
+                          :rules="[val => !!val || 'Campo requerido']"
+                          map-options emit-value />
               </div>
               <div class="col-12 col-md-6">
                 <q-input v-model="viaje.bandera" label="Bandera" outlined dense
@@ -221,6 +227,16 @@ export default {
         { crew_id: '', cargo: '' },
       ],
       crews: [],
+      puertos: [
+        'SONSONATE, Acajutla - Muelle Artesanal de Pesca',
+        'SONSONATE, Acajutla - Puerto de ACAJUTLA CEPA',
+        'LA LIBERTAD, La Libertad - Muelle Artesanal de Pesca',
+        'LA PAZ, San Luis La Herradura - Oficinas de CENDEPESCA',
+        'USULUTAN, Puerto El Triunfo - Muelle Artesanal de Puerto el Triunfo',
+        'LA UNION, La Unión Puerto CORSAIN',
+        'LA UNION, La Unión - Muelle Artesanal los Coquitos',
+        'LA UNION, Meanguera del Golfo - Muelle de Meanguera del Golfo'
+      ],
     }
   },
   mounted() {
