@@ -63,10 +63,17 @@
               ></q-select>
             </div>
             <div class="col-12">
-              <q-input v-model="crew.nacionalidad" label="Nacionalidad" outlined dense :rules="[val => !!val || 'Campo requerido']" />
+<!--              <q-input v-model="crew.nacionalidad" label="Nacionalidad" outlined dense :rules="[val => !!val || 'Campo requerido']" />-->
+              <q-select v-model="crew.nacionalidad" :options="['SALVADOREÑO','GUATEMALTECO','HONDUREÑO','NICARAGUENSE','COSTARRICENSE','PANAMEÑO','COLOMBIANO','VENEZOLANO','ECUATORIANO','PERUANO','BOLIVIANO','CHILENO','ARGENTINO','URUGUAYO','PARAGUAYO','BRASILEÑO','MEXICANO','CUBANO','DOMINICANO','OTRO']" label="Nacionalidad" outlined dense
+                        :rules="[val => !!val || 'Campo requerido']"
+                        value-field="value" label-field="label"></q-select>
             </div>
             <div class="col-12">
-              <q-input v-model="crew.tipoDocumento" label="Tipo de Documento" outlined dense :rules="[val => !!val || 'Campo requerido']" />
+<!--              <q-input v-model="crew.tipoDocumento" label="Tipo de Documento" outlined dense :rules="[val => !!val || 'Campo requerido']" />-->
+              <q-select v-model="crew.tipoDocumento" :options="['DUI','NIT','PASAPORTE','LICENCIA','OTRO']" label="Tipo de Documento" outlined dense
+                        :rules="[val => !!val || 'Campo requerido']"
+                        value-field="value" label-field="label"
+              ></q-select>
             </div>
             <div class="col-12">
               <q-input v-model="crew.numeroIdentificacion" label="Número de Identificación" outlined dense :rules="[val => !!val || 'Campo requerido']" />
