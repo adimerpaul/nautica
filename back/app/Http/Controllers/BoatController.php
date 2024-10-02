@@ -3,10 +3,38 @@
 namespace App\Http\Controllers;
 
 use App\Models\Boat;
+use App\Models\BoteFile;
 use App\Models\Company;
 use Illuminate\Http\Request;
 
 class BoatController extends Controller{
+    function boatsFile2(Request $request,$id){
+//        const formData = new FormData()
+//      formData.append('documento', this.file.documento)
+//      formData.append('anio', this.file.anio)
+//      formData.append('fecha_vencimiento', this.file.fecha_vencimiento)
+//      formData.append('archivo', this.file.archivo)
+//      this.$axios.post(`boatsFile/${this.boat.id}`, formData).then(response => {
+//            this.boat = response.data
+//        this.dialog = false
+//        this.boatsGet()
+//      })
+        $validatedData = $request->validate([
+            'archivo' => 'required',
+        ]);
+
+        $file = $request->file('archivo');
+        $name = time().$file->getClientOriginalName();
+        $file->move(public_path().'/files/', $name);
+        $boteFile = BoteFile::create([
+            'boat_id' => $id,
+            'documento' => $request->documento,
+            'anio' => $request->anio,
+            'fecha' => $request->fecha_vencimiento,
+            'file' => $name,
+        ]);
+
+    }
     public function index(){
         return Boat::orderBy('id', 'desc')->with('company')->get();
     }
@@ -24,7 +52,7 @@ class BoatController extends Controller{
         return $boats;
     }
     public function show($id){
-        return Boat::where('id', $id)->with('company')->first();
+        return Boat::where('id', $id)->with('company','files')->first();
     }
     public function store(Request $request){
         $validatedData = $request->validate([

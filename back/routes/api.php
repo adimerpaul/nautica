@@ -32,6 +32,8 @@ Route::group(['middleware' => 'auth:sanctum'], function(){
     Route::delete('/boats/{id}', [\App\Http\Controllers\BoatController::class, 'destroy']);
     Route::get('/botesPorVencer', [\App\Http\Controllers\BoatController::class, 'botesPorVencer']);
 
+    Route::post('/boatsFile2/{id}', [\App\Http\Controllers\BoatController::class, 'boatsFile2']);
+
     Route::get('/crews', [\App\Http\Controllers\CrewController::class, 'index']);
     Route::post('/crews', [\App\Http\Controllers\CrewController::class, 'store']);
     Route::put('/crews/{id}', [\App\Http\Controllers\CrewController::class, 'update']);
