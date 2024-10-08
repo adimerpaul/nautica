@@ -118,7 +118,7 @@
                   <q-item-label :class="`text-white ${rutaActual=='/' ?'text-bold':''}`">Inicio</q-item-label>
                 </q-item-section>
               </q-item>
-            <q-item clickable dense v-ripple  to="/users" exact :class="`text-white ${rutaActual== '/users' ?'bg-secondary':''}`">
+            <q-item clickable dense v-ripple  to="/users" exact :class="`text-white ${rutaActual== '/users' ?'bg-secondary':''}`" v-if="$store.user?.id ==1 || $store.user?.role == 'SUPERADMIN'">
               <q-item-section avatar>
                 <q-avatar  text-color="white" :icon="`${rutaActual=='/users' ?'people':'o_'+'people'}`" :size="`${rutaActual=='/users' ?'45px':'38px'}`" />
               </q-item-section>
@@ -126,7 +126,7 @@
                 <q-item-label :class="`text-white ${rutaActual=='/users' ?'text-bold':''}`">usuarios</q-item-label>
               </q-item-section>
             </q-item>
-            <q-item clickable dense v-ripple  to="/clients" exact :class="`text-white ${rutaActual== '/clients' ?'bg-secondary':''}`">
+            <q-item clickable dense v-ripple  to="/clients" exact :class="`text-white ${rutaActual== '/clients' ?'bg-secondary':''}`" v-if="$store.user?.id ==1 || $store.user?.role == 'SUPERADMIN'">
               <q-item-section avatar>
                 <q-avatar  text-color="white" :icon="`${rutaActual=='/clients' ?'person':'o_'+'person'}`" :size="`${rutaActual=='/clients' ?'45px':'38px'}`" />
               </q-item-section>
@@ -150,7 +150,7 @@
                 <q-item-label :class="`text-white ${rutaActual=='/boats' ?'text-bold':''}`">Botes</q-item-label>
               </q-item-section>
             </q-item>
-            <q-item clickable dense v-ripple  to="/crews" exact :class="`text-white ${rutaActual== '/crews' ?'bg-secondary':''}`">
+            <q-item clickable dense v-ripple  to="/crews" exact :class="`text-white ${rutaActual== '/crews' ?'bg-secondary':''}`" v-if="$store.user?.id ==1 || $store.user?.role == 'SUPERADMIN'">
               <q-item-section avatar>
                 <q-avatar  text-color="white" :icon="`${rutaActual=='/crews' ?'group':'o_'+'group'}`" :size="`${rutaActual=='/crews' ?'45px':'38px'}`" />
               </q-item-section>
@@ -158,7 +158,7 @@
                 <q-item-label :class="`text-white ${rutaActual=='/crews' ?'text-bold':''}`">Tripulantes</q-item-label>
               </q-item-section>
             </q-item>
-            <q-item clickable dense v-ripple  to="/products" exact :class="`text-white ${rutaActual== '/products' ?'bg-secondary':''}`">
+            <q-item clickable dense v-ripple  to="/products" exact :class="`text-white ${rutaActual== '/products' ?'bg-secondary':''}`" v-if="$store.user?.id ==1 || $store.user?.role == 'SUPERADMIN'">
               <q-item-section avatar>
                 <q-avatar  text-color="white" :icon="`${rutaActual=='/products' ?'shopping_cart':'o_'+'shopping_cart'}`" :size="`${rutaActual=='/products' ?'45px':'38px'}`" />
               </q-item-section>
@@ -166,7 +166,7 @@
                 <q-item-label :class="`text-white ${rutaActual=='/products' ?'text-bold':''}`">Productos</q-item-label>
               </q-item-section>
             </q-item>
-            <q-item clickable dense v-ripple  to="/viajes" exact :class="`text-white ${rutaActual== '/viajes' ?'bg-secondary':''}`">
+            <q-item clickable dense v-ripple  to="/viajes" exact :class="`text-white ${rutaActual== '/viajes' ?'bg-secondary':''}`" v-if="$store.user?.id ==1 || $store.user?.role == 'SUPERADMIN'">
               <q-item-section avatar>
                 <q-avatar  text-color="white" :icon="`${rutaActual=='/viajes' ?'flight_takeoff':'o_'+'flight_takeoff'}`" :size="`${rutaActual=='/viajes' ?'45px':'38px'}`" />
               </q-item-section>
@@ -174,7 +174,7 @@
                 <q-item-label :class="`text-white ${rutaActual=='/viajes' ?'text-bold':''}`">Viajes</q-item-label>
               </q-item-section>
             </q-item>
-            <q-item clickable dense v-ripple  to="/viajesActivos" exact :class="`text-white ${rutaActual== '/viajesActivos' ?'bg-secondary':''}`">
+            <q-item clickable dense v-ripple  to="/viajesActivos" exact :class="`text-white ${rutaActual== '/viajesActivos' ?'bg-secondary':''}`" v-if="$store.user?.id ==1 || $store.user?.role == 'SUPERADMIN'">
               <q-item-section avatar>
                 <q-avatar  text-color="white" :icon="`${rutaActual=='/viajesActivos' ?'sailing':'o_'+'sailing'}`" :size="`${rutaActual=='/viajesActivos' ?'45px':'38px'}`" />
               </q-item-section>

@@ -68,12 +68,21 @@ class SaleController extends Controller{
                 ->orderBy('id', 'desc')
                 ->get();
         }else{
-            $sales = Sale::whereBetween('date', [$fechaInicioSemana, $fechaFinSemana])
-                ->where('description', 'LIKE', "%$concepto%")
-                ->where('company_id', $user->company_id)
-                ->with(['user', 'client', 'details','boat'])
-                ->orderBy('id', 'desc')
-                ->get();
+            if ($user->role == 'SUPERADMIN') {
+                $sales = Sale::whereBetween('date', [$fechaInicioSemana, $fechaFinSemana])
+                    ->where('description', 'LIKE', "%$concepto%")
+                    ->where('company_id', $user->company_id)
+                    ->with(['user', 'client', 'details', 'boat'])
+                    ->orderBy('id', 'desc')
+                    ->get();
+            } else {
+                $sales = Sale::whereBetween('date', [$fechaInicioSemana, $fechaFinSemana])
+                    ->where('description', 'LIKE', "%$concepto%")
+                    ->where('user_id', $user->id)
+                    ->with(['user', 'client', 'details', 'boat'])
+                    ->orderBy('id', 'desc')
+                    ->get();
+            }
         }
         return response()->json($sales);
     }
