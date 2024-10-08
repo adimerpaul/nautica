@@ -134,7 +134,7 @@
                 <q-item-label :class="`text-white ${rutaActual=='/clients' ?'text-bold':''}`">Clientes</q-item-label>
               </q-item-section>
             </q-item>
-            <q-item clickable dense v-ripple  to="/companies" exact :class="`text-white ${rutaActual== '/companies' ?'bg-secondary':''}`">
+            <q-item clickable dense v-ripple  to="/companies" exact :class="`text-white ${rutaActual== '/companies' ?'bg-secondary':''}`" v-if="$store.user?.id ==1">
               <q-item-section avatar>
                 <q-avatar  text-color="white" :icon="`${rutaActual=='/companies' ?'business':'o_'+'business'}`" :size="`${rutaActual=='/companies' ?'45px':'38px'}`" />
               </q-item-section>
@@ -142,7 +142,7 @@
                 <q-item-label :class="`text-white ${rutaActual=='/companies' ?'text-bold':''}`">Empresas</q-item-label>
               </q-item-section>
             </q-item>
-            <q-item clickable dense v-ripple  to="/boats" exact :class="`text-white ${rutaActual== '/boats' ?'bg-secondary':''}`">
+            <q-item clickable dense v-ripple  to="/boats" exact :class="`text-white ${rutaActual== '/boats' ?'bg-secondary':''}`" v-if="$store.user?.id ==1">
               <q-item-section avatar>
                 <q-avatar  text-color="white" :icon="`${rutaActual=='/boats' ?'directions_boat':'o_'+'directions_boat'}`" :size="`${rutaActual=='/boats' ?'45px':'38px'}`" />
               </q-item-section>
