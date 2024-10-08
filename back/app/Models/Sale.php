@@ -20,6 +20,7 @@ class Sale extends Model{
         'motivo_anulacion',
         'viaje_id',
         'boat_id',
+        'company_id',
     ];
     protected $hidden = ['created_at', 'updated_at'];
     public function client(){

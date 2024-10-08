@@ -12,7 +12,7 @@ use Spatie\Permission\Models\Permission;
 class UserController extends Controller{
     public function login(Request $request){
         $credentials = $request->only('username', 'password');
-        $user = User::where('username', $credentials['username'])->with('permissions')->first();
+        $user = User::where('username', $credentials['username'])->with('permissions','roles','company')->first();
         $permisosName = [];
         foreach($user->permissions as $permiso){
             $permisosName[] = $permiso->name;
@@ -31,7 +31,7 @@ class UserController extends Controller{
         }
     }
     public function me(Request $request){
-        $user = User::with(['permissions','roles'])->find($request->user()->id);
+        $user = User::with(['permissions','roles','company'])->find($request->user()->id);
         $permisosName = [];
         foreach($user->permissions as $permiso){
             $permisosName[] = $permiso->name;

@@ -70,7 +70,7 @@ class SaleController extends Controller{
         }else{
             $sales = Sale::whereBetween('date', [$fechaInicioSemana, $fechaFinSemana])
                 ->where('description', 'LIKE', "%$concepto%")
-                ->where('user_id', $user->id)
+                ->where('company_id', $user->company_id)
                 ->with(['user', 'client', 'details','boat'])
                 ->orderBy('id', 'desc')
                 ->get();
@@ -167,8 +167,8 @@ class SaleController extends Controller{
         $sale->user_id = $user_id;
         $sale->observacion = $request->observacion;
         $sale->pago = $request->pago;
+        $sale->company_id = $request->user()->company_id;
         $sale->save();
-
         return $sale;
     }
 
