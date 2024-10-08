@@ -54,18 +54,23 @@ class UserController extends Controller{
         $permissions = Permission::all();
         return $permissions;
     }
-    public function index(){
-        $users= User::orderBy('id', 'desc')
-            ->with(['permissions', 'company', 'boat'])
-            ->get();
-//        $permisosId = [];
-//        foreach($users as $user){
-//            $permisosId = [];
-//            foreach($user->permissions as $permiso){
-//                $permisosId[] = $permiso->id;
-//            }
-//            $user->permisosId = $permisosId;
-//        }
+    public function index(Request $request){
+        $user = $request->user();
+        if ($user->id == 1) {
+            $users= User::orderBy('id', 'desc')
+                ->with(['permissions', 'company', 'boat'])
+                ->get();
+            return $users;
+        }else{
+            $users= User::where('company_id', $user->company_id)
+                ->orderBy('id', 'desc')
+                ->with(['permissions', 'company', 'boat'])
+                ->get();
+            return $users;
+        }
+//        $users= User::orderBy('id', 'desc')
+//            ->with(['permissions', 'company', 'boat'])
+//            ->get();
         return $users;
     }
     public function store(Request $request){

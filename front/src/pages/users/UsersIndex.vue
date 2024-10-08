@@ -42,7 +42,8 @@
       <template v-slot:top-right>
         <div class="row">
           <div class="col-4 flex flex-center">
-            <q-btn outline dense icon="add_circle" @click="userAdd" label="Agregar" no-caps :loading="loading">
+            <q-btn outline dense icon="add_circle" @click="userAdd" label="Agregar" no-caps :loading="loading"
+                   v-if="$store.user.id === 1">
               <q-tooltip>Agregar</q-tooltip>
             </q-btn>
           </div>

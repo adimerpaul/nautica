@@ -95,7 +95,7 @@
                     <q-chip dense label="Super admin" color="purple" text-color="white" v-if="$store.user?.role === 'SUPERADMIN'" icon="account_circle"/>
                     <q-chip dense label="patron" color="green" text-color="white" v-if="$store.user?.role === 'PATRON'" icon="account_circle"/>
                   </q-item-label>
-                  <q-item-label caption class="text-white">{{ $store.user.name }}</q-item-label>
+                  <q-item-label caption class="text-white">{{$store.user?.company?.name}}</q-item-label>
                 </q-item-section>
               </q-item>
             </q-item-label>
