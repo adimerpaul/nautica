@@ -1,6 +1,7 @@
 <template>
   <q-page class="q-pa-xs bg-grey-3">
-    <div class="row" v-if="$store.user.id == 1">
+<!--    <pre>{{$store.user}}</pre>-->
+    <div class="row" v-if="$store.user.role == 'SUPERADMIN'">
       <div class="col-6 col-md-2 q-pa-xs">
         <q-input v-model="fechaInicioSemana" label="Fecha inicio" dense outlined type="date" class="bg-white" @update:model-value="salesGet"/>
       </div>

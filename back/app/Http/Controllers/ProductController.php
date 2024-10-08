@@ -8,13 +8,31 @@ use Intervention\Image\ImageManager;
 
 class ProductController extends Controller
 {
-    function productsActivos(){
-        return Product::where('status', 'ACTIVE')->orderBy('id', 'desc')->get();
+    function productsActivos(Request $request){
+        $user = $request->user();
+        error_log($user->id);
+        if ($user->id == 1) {
+            return Product::where('status', 'ACTIVE')->orderBy('id', 'desc')->get();
+        }else{
+            $products = Product::where('status', 'ACTIVE')
+                ->where('company_id', $user->company_id)
+                ->orderBy('id', 'desc')
+                ->get();
+            return $products;
+        }
     }
     public function index(Request $request)
     {
         $search = $request->search;
-        return Product::orderBy('id', 'desc')->where('name', 'like', '%'.$search.'%')->get();
+        $user = $request->user();
+        if ($user->id == 1) {
+            return Product::orderBy('id', 'desc')->where('name', 'like', '%'.$search.'%')->get();
+        }else{
+            return Product::where('company_id', $user->company_id)
+                ->orderBy('id', 'desc')
+                ->where('name', 'like', '%'.$search.'%')
+                ->get();
+        }
     }
 
     public function store(Request $request)
@@ -32,6 +50,7 @@ class ProductController extends Controller
             'stock' => $productRequest['stock'],
             'category_id' => $productRequest['category_id'],
             'user_id' => $request->user()->id,
+            'company_id' => $request->user()->company_id
         ]);
         return response()->json($product, 201);
     }

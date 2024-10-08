@@ -258,10 +258,10 @@ export default {
       }
     },
     productCreate () {
-      if(this.$refs.file.files.length === 0){
-        this.$alert.error('Debe seleccionar una imagen')
-        return false
-      }
+      // if(this.$refs.file.files.length === 0){
+      //   this.$alert.error('Debe seleccionar una imagen')
+      //   return false
+      // }
       this.loading = true
       const formData = new FormData()
       formData.append('product', JSON.stringify(this.product))
@@ -311,7 +311,7 @@ export default {
         price: '',
         stock: '',
         image: 'images.png',
-        status: '1',
+        status: 'ACTIVE',
         costo: '',
       }
     },
