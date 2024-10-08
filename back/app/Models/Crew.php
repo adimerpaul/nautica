@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Crew extends Model{
     use HasFactory;
-    protected $fillable = ['name', 'role', 'boat_id', 'nacionalidad', 'tipoDocumento', 'numeroIdentificacion', 'telefono'];
+    protected $fillable = ['name', 'role', 'boat_id', 'nacionalidad', 'tipoDocumento', 'numeroIdentificacion', 'telefono', 'company_id'];
     public function boat(){
         return $this->belongsTo(Boat::class);
     }

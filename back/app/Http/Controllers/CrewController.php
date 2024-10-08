@@ -6,10 +6,17 @@ use App\Models\Crew;
 use Illuminate\Http\Request;
 
 class CrewController extends Controller{
-    public function index(){
-        return Crew::orderBy('id', 'desc')->with('boat')->get();
+    public function index(Request $request){
+        $user = $request->user();
+        if ($user->id == 1) {
+            return Crew::orderBy('id', 'desc')->with('boat')->get();
+        } else {
+            return Crew::where('company_id', $user->company_id)->orderBy('id', 'desc')->with('boat')->get();
+        }
+//        return Crew::orderBy('id', 'desc')->with('boat')->get();
     }
     public function store(Request $request){
+        $user = $request->user();
         $validatedData = $request->validate([
             'name' => 'required',
             'role' => 'required',
@@ -23,6 +30,7 @@ class CrewController extends Controller{
         $crew->tipoDocumento = $request->tipoDocumento;
         $crew->numeroIdentificacion = $request->numeroIdentificacion;
         $crew->telefono = $request->telefono;
+        $crew->company_id = $user->company_id;
         $crew->save();
         return Crew::where('id', $crew->id)->with('boat')->first();
     }

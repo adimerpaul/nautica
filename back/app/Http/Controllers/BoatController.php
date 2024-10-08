@@ -35,8 +35,14 @@ class BoatController extends Controller{
         ]);
 
     }
-    public function index(){
-        return Boat::orderBy('id', 'desc')->with('company')->get();
+    public function index(Request $request){
+        $user = $request->user();
+        if($user->id == 1){
+            return Boat::orderBy('id', 'desc')->with('company')->get();
+        }else{
+            return Boat::where('company_id', $user->company_id)->orderBy('id', 'desc')->with('company')->get();
+        }
+//        return Boat::orderBy('id', 'desc')->with('company')->get();
     }
     function botesPorVencer(){
 //        'dif_fecha',

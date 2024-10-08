@@ -394,8 +394,8 @@ export default {
         hora: moment().format('HH:00'),
         dias: '',
         zarpe: '',
-        puertoSalida: 'MUELLE DE PESCA, PUERTO EL TRIUNFO',
-        puertoLlegada: 'MUELLE DE PESCA, PUERTO EL TRIUNFO',
+        puertoSalida: '',
+        puertoLlegada: '',
         bandera: 'SALVADOREÑA ESA-00283 (ARB 90.74 TM)',
         propietario: 'LA REYNAGA MORENO, S.A. DE C.V.'
       }
