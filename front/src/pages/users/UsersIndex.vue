@@ -91,7 +91,7 @@
               />
             </div>
 <!--            <pre>{{user.role}}</pre>-->
-            <div class="col-12" v-if="user.role == 'PATRON'">
+            <div class="col-12">
               <q-select v-model="user.company_id" label="Empresa" outlined dense
                         :options="companies"
                         option-label="name" option-value="id"
@@ -101,7 +101,7 @@
               />
 <!--              <pre>{{companies}}</pre>-->
             </div>
-            <div class="col-12" v-if="user.role == 'PATRON'">
+            <div class="col-12">
               <q-select v-model="user.boat_id" label="Barco" outlined dense
                         :options="boats"
                         option-label="name" option-value="id"
