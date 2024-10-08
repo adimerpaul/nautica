@@ -79,18 +79,35 @@ class SaleController extends Controller{
     }
     function debtors(Request $request){
         $search = $request->search;
-        $debtors = Sale::with('client', 'user', 'details', 'payments.user')
-            ->where('tipo', 'CREDITO')
-            ->where(function($query) use ($search) {
-                $query->whereHas('client', function($query) use ($search){
-                    $query->where('name', 'like', "%$search%");
+        $user = $request->user();
+        if ($user->id == 1) {
+            $debtors = Sale::with('client', 'user', 'details', 'payments.user')
+                ->where('tipo', 'CREDITO')
+                ->where(function ($query) use ($search) {
+                    $query->whereHas('client', function ($query) use ($search) {
+                        $query->where('name', 'like', "%$search%");
+                    })
+                        ->orWhereHas('user', function ($query) use ($search) {
+                            $query->where('name', 'like', "%$search%");
+                        });
                 })
-                ->orWhereHas('user', function($query) use ($search){
-                    $query->where('name', 'like', "%$search%");
-                });
-            })
-            ->orderBy('id', 'desc')
-            ->get();
+                ->orderBy('id', 'desc')
+                ->get();
+        } else {
+            $debtors = Sale::with('client', 'user', 'details', 'payments.user')
+                ->where('company_id', $user->company_id)
+                ->where('tipo', 'CREDITO')
+                ->where(function ($query) use ($search) {
+                    $query->whereHas('client', function ($query) use ($search) {
+                        $query->where('name', 'like', "%$search%");
+                    })
+                        ->orWhereHas('user', function ($query) use ($search) {
+                            $query->where('name', 'like', "%$search%");
+                        });
+                })
+                ->orderBy('id', 'desc')
+                ->get();
+        }
 
         foreach ($debtors as $debtor){
             $pago = Payment::where('sale_id', $debtor->id)->where('status', 'PAGADO')->sum('amount');

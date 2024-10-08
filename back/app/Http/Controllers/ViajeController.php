@@ -19,8 +19,9 @@ class ViajeController extends Controller{
     function viajesConciliacion($id, Request $request){
         $fechaInicio = $request->input('fechaIni');
         $fechaFin = $request->input('fechaFin');
+        $user = $request->user();
         $viaje = Viaje::with(['boat','productos.product'])->find($id);
-        $productos = Product::all();
+        $productos = Product::where('company_id', $user->company_id)->get();
         $productoRes= [];
         foreach ($productos as $producto){
             $cantidadDescarga = ProductoViaje::where('viaje_id', $id)
@@ -63,12 +64,29 @@ class ViajeController extends Controller{
     function viajesActivos(Request $request){
         $fechaInicio = $request->input('fechaInicio');
         $fechaFin = $request->input('fechaFin');
-        $viajes = Viaje::where('fechaInicio', '>=', $fechaInicio)
-            ->where('fechaInicio', '<=', $fechaFin)
-            ->where('estado', 'Activo')
-            ->with(['boat','crews'])
-            ->orderBy('id', 'desc')
-            ->get();
+        $user = $request->user();
+        if ($user->id == 1) {
+            $viajes = Viaje::where('fechaInicio', '>=', $fechaInicio)
+                ->where('fechaInicio', '<=', $fechaFin)
+                ->where('estado', 'Activo')
+                ->with(['boat','crews'])
+                ->orderBy('id', 'desc')
+                ->get();
+        }else{
+            $viajes = Viaje::where('fechaInicio', '>=', $fechaInicio)
+                ->where('fechaInicio', '<=', $fechaFin)
+                ->where('estado', 'Activo')
+                ->where('company_id', $user->company_id)
+                ->with(['boat','crews'])
+                ->orderBy('id', 'desc')
+                ->get();
+        }
+//        $viajes = Viaje::where('fechaInicio', '>=', $fechaInicio)
+//            ->where('fechaInicio', '<=', $fechaFin)
+//            ->where('estado', 'Activo')
+//            ->with(['boat','crews'])
+//            ->orderBy('id', 'desc')
+//            ->get();
         return $viajes;
     }
     public function productAnular(Request $request, $id){
@@ -133,8 +151,14 @@ class ViajeController extends Controller{
     public function index(Request $request){
         $user = $request->user();
         error(json_encode($user));
-        if ($user->role == 'PATRON') {
-//            if ($user->company_id) {
+//        if ($user->role == 'PATRON') {
+//            if ($user->bote_id) {
+//                $viajes = Viaje::with(['boat', 'crews'])
+//                    ->where('estado', 'Activo')
+//                    ->where('boat_id', $user->bote_id)
+//                    ->orderBy('id', 'desc')
+//                    ->get();
+//            }elseif ($user->company_id) {
 //                $viajes = Viaje::with(['boat','crews'])
 //                    ->where('estado', 'Activo')
 //                    ->whereHas('boat', function($query) use ($user){
@@ -142,39 +166,26 @@ class ViajeController extends Controller{
 //                    })
 //                    ->orderBy('id', 'desc')
 //                    ->get();
-//            }elseif ($user->bote_id){
-//                $viajes = Viaje::with(['boat', 'crews'])
-//                    ->where('estado', 'Activo')
-//                    ->where('boat_id', $user->bote_id)
-//                    ->orderBy('id', 'desc')
-//                    ->get();
 //            }else{
 //                $viajes = [];
 //            }
-            if ($user->bote_id) {
-//                error('entro'.$user->bote_id);
-                $viajes = Viaje::with(['boat', 'crews'])
-                    ->where('estado', 'Activo')
-                    ->where('boat_id', $user->bote_id)
-                    ->orderBy('id', 'desc')
-                    ->get();
-            }elseif ($user->company_id) {
-                $viajes = Viaje::with(['boat','crews'])
-                    ->where('estado', 'Activo')
-                    ->whereHas('boat', function($query) use ($user){
-                        $query->where('company_id', $user->company_id);
-                    })
-                    ->orderBy('id', 'desc')
-                    ->get();
-            }else{
-                $viajes = [];
-            }
+//        }else{
+//            $fechaInicio = $request->input('fechaInicio');
+//            $fechaFin = $request->input('fechaFin');
+//            $viajes = Viaje::where('fechaInicio', '>=', $fechaInicio)
+//                ->where('fechaInicio', '<=', $fechaFin)
+//                ->with(['boat','crews'])
+//                ->orderBy('id', 'desc')
+//                ->get();
+//        }
+//        return $viajes;
+        if ($user->id == 1) {
+            $viajes = Viaje::with(['boat','crews'])
+                ->orderBy('id', 'desc')
+                ->get();
         }else{
-            $fechaInicio = $request->input('fechaInicio');
-            $fechaFin = $request->input('fechaFin');
-            $viajes = Viaje::where('fechaInicio', '>=', $fechaInicio)
-                ->where('fechaInicio', '<=', $fechaFin)
-                ->with(['boat','crews'])
+            $viajes = Viaje::with(['boat','crews'])
+                ->where('company_id', $user->company_id)
                 ->orderBy('id', 'desc')
                 ->get();
         }
@@ -211,6 +222,7 @@ class ViajeController extends Controller{
             $viaje->puertoLlegada = $request->input('puertoLlegada');
             $viaje->bandera = $request->input('bandera');
             $viaje->propietario = $request->input('propietario');
+            $viaje->company_id = $request->user()->company_id;
 //        $viaje->observaciones = $request->input('observaciones');
             $viaje->save();
             $crews = $request->input('crews');
