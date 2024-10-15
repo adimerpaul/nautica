@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
@@ -111,6 +112,9 @@ class UserController extends Controller{
         $user->bote_id = $request->boat_id;
         $user->password = Hash::make($request->password);
         $user->save();
+        $role = Role::where('name', $request->role)->first();
+        $permissions = $role->permissions;
+        $user->syncPermissions($permissions);
         return User::with(['permissions', 'company', 'boat'])->find($user->id);
     }
     public function update(Request $request, $id){
