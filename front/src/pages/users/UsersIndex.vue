@@ -39,6 +39,14 @@
           <q-chip dense label="Patron" color="green" text-color="white" v-if="props.row.role === 'PATRON'" icon="account_circle"/>
         </q-td>
       </template>
+      <template v-slot:body-cell-permisos="props">
+        <q-td :props="props">
+<!--          <pre>{{props.row.permissions}}</pre>-->
+          <div style="display: flex; flex-wrap: wrap;">
+            <q-chip dense v-for="p in props.row.permissions" :key="p.id" size="10px">{{p.name}}</q-chip>
+          </div>
+        </q-td>
+      </template>
       <template v-slot:top-right>
         <div class="row">
           <div class="col-6 text-right">
@@ -186,6 +194,7 @@ export default {
         { name: 'username', label: 'Usuario', align: 'left', field: row => row.username },
         { name: 'company', label: 'Empresa', align: 'left', field: row => row?.company?.name },
         { name: 'boat', label: 'Barco', align: 'left', field: row => row?.boat?.name },
+        { name: 'permisos', label: 'Permisos', align: 'left', field: row => row.permissions.map(p => p.name).join(', ') },
         { name: 'role', label: 'Rol', align: 'left', field: row => row.role }
       ],
       dialogPermisosRole: false,
@@ -218,7 +227,7 @@ export default {
       // console.log(role)
       // console.log(event)
       this.$axios.put(`permissionsRole/${role.id}`, {permissions: event}).then(response => {
-        console.log(response.data)
+        // console.log(response.data)
       }).catch(error => {
         this.$alert.error(error.response.data.message)
       })
