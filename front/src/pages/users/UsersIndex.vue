@@ -170,7 +170,8 @@ export default {
       dialogPermisos: false,
       companies: [],
       boats: [],
-      boatsAll: []
+      boatsAll: [],
+      roles: []
     }
   },
   mounted() {
@@ -178,8 +179,16 @@ export default {
     this.boatGet()
     this.permissionGet()
     this.userGet()
+    this.rolesGet()
   },
   methods: {
+    rolesGet () {
+      this.$axios.get('roles').then(response => {
+        this.roles = response.data
+      }).catch(error => {
+        this.$alert.error(error.response.data.message)
+      })
+    },
     boatFilter (val) {
       // console.log('aaa')
       // console.log(val)

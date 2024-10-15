@@ -8,8 +8,20 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
 class UserController extends Controller{
+    function roles(){
+        $roles = Role::with('permissions')->get();
+        foreach ($roles as $role){
+            $permisosName = [];
+            foreach($role->permissions as $permiso){
+                $permisosName[] = $permiso->name;
+            }
+            $role->permisosName = $permisosName;
+        }
+        return $roles;
+    }
     public function login(Request $request){
         $credentials = $request->only('username', 'password');
         $user = User::where('username', $credentials['username'])->with('permissions','roles','company')->first();
