@@ -13,6 +13,7 @@ Route::group(['middleware' => 'auth:sanctum'], function(){
 
     Route::get('/users', [\App\Http\Controllers\UserController::class, 'index']);
     Route::get('/roles', [\App\Http\Controllers\UserController::class, 'roles']);
+    Route::put('/permissionsRole/{id}', [\App\Http\Controllers\UserController::class, 'permissionsRole']);
     Route::post('/users', [\App\Http\Controllers\UserController::class, 'store']);
     Route::put('/users/{id}', [\App\Http\Controllers\UserController::class, 'update']);
     Route::delete('/users/{id}', [\App\Http\Controllers\UserController::class, 'delete']);

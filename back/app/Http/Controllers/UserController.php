@@ -11,6 +11,11 @@ use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
 class UserController extends Controller{
+    function permissionsRole($id, Request $request){
+        $role = Role::find($id);
+        $role->syncPermissions($request->permissions);
+        return $role;
+    }
     function roles(){
         $roles = Role::with('permissions')->get();
         foreach ($roles as $role){

@@ -159,215 +159,11 @@
                 <div v-for="role in roles" :key="role.id">
                   <div class="text-bold">{{$filters.capitalizeText(role.name)}}</div>
                   <q-option-group v-model="role.permisosId" :options="permisos" dense  type="checkbox"
+                                  @update:modelValue="clickRole(role,$event)"
                   />
                 </div>
 <!--                <pre>{{permisos}}}</pre>-->
-                <pre>{{roles}}</pre>
-                <!--              [-->
-                <!--              {-->
-                <!--              "id": 1,-->
-                <!--              "name": "ADMIN",-->
-                <!--              "guard_name": "web",-->
-                <!--              "created_at": "2024-10-15T09:23:59.000000Z",-->
-                <!--              "updated_at": "2024-10-15T09:23:59.000000Z",-->
-                <!--              "permisosName": [-->
-                <!--              "ver inicio",-->
-                <!--              "ver usuarios",-->
-                <!--              "ver empresas",-->
-                <!--              "ver botes",-->
-                <!--              "ver tripulantes",-->
-                <!--              "ver clientes",-->
-                <!--              "ver viajes",-->
-                <!--              "ver ventas",-->
-                <!--              "ver deudores",-->
-                <!--              "ver productos"-->
-                <!--              ],-->
-                <!--              "permissions": [-->
-                <!--              {-->
-                <!--              "id": 1,-->
-                <!--              "name": "ver inicio",-->
-                <!--              "guard_name": "web",-->
-                <!--              "group": "ventas",-->
-                <!--              "created_at": "2024-07-23T01:16:54.000000Z",-->
-                <!--              "updated_at": "2024-07-23T01:16:54.000000Z",-->
-                <!--              "pivot": {-->
-                <!--              "role_id": 1,-->
-                <!--              "permission_id": 1-->
-                <!--              }-->
-                <!--              },-->
-                <!--              {-->
-                <!--              "id": 2,-->
-                <!--              "name": "ver usuarios",-->
-                <!--              "guard_name": "web",-->
-                <!--              "group": "usuarios",-->
-                <!--              "created_at": "2024-07-23T01:16:54.000000Z",-->
-                <!--              "updated_at": "2024-07-23T01:16:54.000000Z",-->
-                <!--              "pivot": {-->
-                <!--              "role_id": 1,-->
-                <!--              "permission_id": 2-->
-                <!--              }-->
-                <!--              },-->
-                <!--              {-->
-                <!--              "id": 3,-->
-                <!--              "name": "ver empresas",-->
-                <!--              "guard_name": "web",-->
-                <!--              "group": "empresas",-->
-                <!--              "created_at": "2024-07-23T01:16:54.000000Z",-->
-                <!--              "updated_at": "2024-07-23T01:16:54.000000Z",-->
-                <!--              "pivot": {-->
-                <!--              "role_id": 1,-->
-                <!--              "permission_id": 3-->
-                <!--              }-->
-                <!--              },-->
-                <!--              {-->
-                <!--              "id": 4,-->
-                <!--              "name": "ver botes",-->
-                <!--              "guard_name": "web",-->
-                <!--              "group": "botes",-->
-                <!--              "created_at": "2024-07-23T01:16:54.000000Z",-->
-                <!--              "updated_at": "2024-07-23T01:16:54.000000Z",-->
-                <!--              "pivot": {-->
-                <!--              "role_id": 1,-->
-                <!--              "permission_id": 4-->
-                <!--              }-->
-                <!--              },-->
-                <!--              {-->
-                <!--              "id": 5,-->
-                <!--              "name": "ver tripulantes",-->
-                <!--              "guard_name": "web",-->
-                <!--              "group": "tripulantes",-->
-                <!--              "created_at": "2024-07-23T01:16:54.000000Z",-->
-                <!--              "updated_at": "2024-07-23T01:16:54.000000Z",-->
-                <!--              "pivot": {-->
-                <!--              "role_id": 1,-->
-                <!--              "permission_id": 5-->
-                <!--              }-->
-                <!--              },-->
-                <!--              {-->
-                <!--              "id": 6,-->
-                <!--              "name": "ver clientes",-->
-                <!--              "guard_name": "web",-->
-                <!--              "group": "clientes",-->
-                <!--              "created_at": "2024-07-23T01:16:54.000000Z",-->
-                <!--              "updated_at": "2024-07-23T01:16:54.000000Z",-->
-                <!--              "pivot": {-->
-                <!--              "role_id": 1,-->
-                <!--              "permission_id": 6-->
-                <!--              }-->
-                <!--              },-->
-                <!--              {-->
-                <!--              "id": 7,-->
-                <!--              "name": "ver viajes",-->
-                <!--              "guard_name": "web",-->
-                <!--              "group": "viajes",-->
-                <!--              "created_at": "2024-07-23T01:16:54.000000Z",-->
-                <!--              "updated_at": "2024-07-23T01:16:54.000000Z",-->
-                <!--              "pivot": {-->
-                <!--              "role_id": 1,-->
-                <!--              "permission_id": 7-->
-                <!--              }-->
-                <!--              },-->
-                <!--              {-->
-                <!--              "id": 8,-->
-                <!--              "name": "ver ventas",-->
-                <!--              "guard_name": "web",-->
-                <!--              "group": "ventas",-->
-                <!--              "created_at": "2024-07-23T01:16:54.000000Z",-->
-                <!--              "updated_at": "2024-07-23T01:16:54.000000Z",-->
-                <!--              "pivot": {-->
-                <!--              "role_id": 1,-->
-                <!--              "permission_id": 8-->
-                <!--              }-->
-                <!--              },-->
-                <!--              {-->
-                <!--              "id": 9,-->
-                <!--              "name": "ver deudores",-->
-                <!--              "guard_name": "web",-->
-                <!--              "group": "deudores",-->
-                <!--              "created_at": "2024-07-23T01:16:54.000000Z",-->
-                <!--              "updated_at": "2024-07-23T01:16:54.000000Z",-->
-                <!--              "pivot": {-->
-                <!--              "role_id": 1,-->
-                <!--              "permission_id": 9-->
-                <!--              }-->
-                <!--              },-->
-                <!--              {-->
-                <!--              "id": 10,-->
-                <!--              "name": "ver productos",-->
-                <!--              "guard_name": "web",-->
-                <!--              "group": "productos",-->
-                <!--              "created_at": "2024-08-09T14:05:07.000000Z",-->
-                <!--              "updated_at": "2024-08-09T14:05:07.000000Z",-->
-                <!--              "pivot": {-->
-                <!--              "role_id": 1,-->
-                <!--              "permission_id": 10-->
-                <!--              }-->
-                <!--              }-->
-                <!--              ]-->
-                <!--              },-->
-                <!--              {-->
-                <!--              "id": 2,-->
-                <!--              "name": "VENDEDOR",-->
-                <!--              "guard_name": "web",-->
-                <!--              "created_at": "2024-10-15T09:23:59.000000Z",-->
-                <!--              "updated_at": "2024-10-15T09:23:59.000000Z",-->
-                <!--              "permisosName": [-->
-                <!--              "ver inicio",-->
-                <!--              "ver clientes",-->
-                <!--              "ver ventas",-->
-                <!--              "ver deudores"-->
-                <!--              ],-->
-                <!--              "permissions": [-->
-                <!--              {-->
-                <!--              "id": 1,-->
-                <!--              "name": "ver inicio",-->
-                <!--              "guard_name": "web",-->
-                <!--              "group": "ventas",-->
-                <!--              "created_at": "2024-07-23T01:16:54.000000Z",-->
-                <!--              "updated_at": "2024-07-23T01:16:54.000000Z",-->
-                <!--              "pivot": {-->
-                <!--              "role_id": 2,-->
-                <!--              "permission_id": 1-->
-                <!--              }-->
-                <!--              },-->
-                <!--              {-->
-                <!--              "id": 6,-->
-                <!--              "name": "ver clientes",-->
-                <!--              "guard_name": "web",-->
-                <!--              "group": "clientes",-->
-                <!--              "created_at": "2024-07-23T01:16:54.000000Z",-->
-                <!--              "updated_at": "2024-07-23T01:16:54.000000Z",-->
-                <!--              "pivot": {-->
-                <!--              "role_id": 2,-->
-                <!--              "permission_id": 6-->
-                <!--              }-->
-                <!--              },-->
-                <!--              {-->
-                <!--              "id": 8,-->
-                <!--              "name": "ver ventas",-->
-                <!--              "guard_name": "web",-->
-                <!--              "group": "ventas",-->
-                <!--              "created_at": "2024-07-23T01:16:54.000000Z",-->
-                <!--              "updated_at": "2024-07-23T01:16:54.000000Z",-->
-                <!--              "pivot": {-->
-                <!--              "role_id": 2,-->
-                <!--              "permission_id": 8-->
-                <!--              }-->
-                <!--              },-->
-                <!--              {-->
-                <!--              "id": 9,-->
-                <!--              "name": "ver deudores",-->
-                <!--              "guard_name": "web",-->
-                <!--              "group": "deudores",-->
-                <!--              "created_at": "2024-07-23T01:16:54.000000Z",-->
-                <!--              "updated_at": "2024-07-23T01:16:54.000000Z",-->
-                <!--              "pivot": {-->
-                <!--              "role_id": 2,-->
-                <!--              "permission_id": 9-->
-                <!--              }-->
-                <!--              }-->
-                <!--              ]-->
-                <!--              },-->
+<!--                <pre>{{roles}}</pre>-->
               </div>
             </div>
           </q-form>
@@ -418,6 +214,15 @@ export default {
     this.rolesGet()
   },
   methods: {
+    clickRole (role, event) {
+      // console.log(role)
+      // console.log(event)
+      this.$axios.put(`permissionsRole/${role.id}`, {permissions: event}).then(response => {
+        console.log(response.data)
+      }).catch(error => {
+        this.$alert.error(error.response.data.message)
+      })
+    },
     rolesGet () {
       this.$axios.get('roles').then(response => {
         this.roles = response.data
