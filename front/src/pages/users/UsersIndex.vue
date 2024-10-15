@@ -41,13 +41,18 @@
       </template>
       <template v-slot:top-right>
         <div class="row">
-          <div class="col-4 flex flex-center">
-            <q-btn outline dense icon="add_circle" @click="userAdd" label="Agregar" no-caps :loading="loading"
+          <div class="col-6 text-right">
+            <q-btn outline dense icon="add_circle" class="q-mr-md" @click="userAdd" label="Agregar" no-caps :loading="loading"
                    v-if="$store.user.id === 1">
               <q-tooltip>Agregar</q-tooltip>
             </q-btn>
+<!--            btn de controlar roles-->
+            <q-btn outline dense icon="verified_user" @click="dialogPermisosRole = true" label="Permisos" no-caps :loading="loading"
+                   v-if="$store.user.id === 1">
+              <q-tooltip>Permisos</q-tooltip>
+            </q-btn>
           </div>
-          <div class="col-8">
+          <div class="col-6">
             <q-input v-model="filter" dense class="q-ml-md" debounce="300" placeholder="Buscar" outlined clearable >
               <template v-slot:append>
                 <q-icon name="search" />
@@ -140,6 +145,235 @@
         </q-form>
       </q-card>
     </q-dialog>
+    <q-dialog v-model="dialogPermisosRole">
+      <q-card style="width: 450px;max-width: 90vw;">
+        <q-card-section class="row items-center q-pb-none">
+          <div class="text-h6">Permisos de Roles</div>
+          <q-space />
+          <q-btn flat dense icon="close" @click="dialogPermisosRole = false" />
+        </q-card-section>
+        <q-card-section>
+          <q-form @submit="userPermisos">
+            <div class="row">
+              <div class="col-12">
+                <div v-for="role in roles" :key="role.id">
+                  <div class="text-bold">{{$filters.capitalizeText(role.name)}}</div>
+                  <q-option-group v-model="role.permisosId" :options="permisos" dense  type="checkbox"
+                  />
+                </div>
+<!--                <pre>{{permisos}}}</pre>-->
+                <pre>{{roles}}</pre>
+                <!--              [-->
+                <!--              {-->
+                <!--              "id": 1,-->
+                <!--              "name": "ADMIN",-->
+                <!--              "guard_name": "web",-->
+                <!--              "created_at": "2024-10-15T09:23:59.000000Z",-->
+                <!--              "updated_at": "2024-10-15T09:23:59.000000Z",-->
+                <!--              "permisosName": [-->
+                <!--              "ver inicio",-->
+                <!--              "ver usuarios",-->
+                <!--              "ver empresas",-->
+                <!--              "ver botes",-->
+                <!--              "ver tripulantes",-->
+                <!--              "ver clientes",-->
+                <!--              "ver viajes",-->
+                <!--              "ver ventas",-->
+                <!--              "ver deudores",-->
+                <!--              "ver productos"-->
+                <!--              ],-->
+                <!--              "permissions": [-->
+                <!--              {-->
+                <!--              "id": 1,-->
+                <!--              "name": "ver inicio",-->
+                <!--              "guard_name": "web",-->
+                <!--              "group": "ventas",-->
+                <!--              "created_at": "2024-07-23T01:16:54.000000Z",-->
+                <!--              "updated_at": "2024-07-23T01:16:54.000000Z",-->
+                <!--              "pivot": {-->
+                <!--              "role_id": 1,-->
+                <!--              "permission_id": 1-->
+                <!--              }-->
+                <!--              },-->
+                <!--              {-->
+                <!--              "id": 2,-->
+                <!--              "name": "ver usuarios",-->
+                <!--              "guard_name": "web",-->
+                <!--              "group": "usuarios",-->
+                <!--              "created_at": "2024-07-23T01:16:54.000000Z",-->
+                <!--              "updated_at": "2024-07-23T01:16:54.000000Z",-->
+                <!--              "pivot": {-->
+                <!--              "role_id": 1,-->
+                <!--              "permission_id": 2-->
+                <!--              }-->
+                <!--              },-->
+                <!--              {-->
+                <!--              "id": 3,-->
+                <!--              "name": "ver empresas",-->
+                <!--              "guard_name": "web",-->
+                <!--              "group": "empresas",-->
+                <!--              "created_at": "2024-07-23T01:16:54.000000Z",-->
+                <!--              "updated_at": "2024-07-23T01:16:54.000000Z",-->
+                <!--              "pivot": {-->
+                <!--              "role_id": 1,-->
+                <!--              "permission_id": 3-->
+                <!--              }-->
+                <!--              },-->
+                <!--              {-->
+                <!--              "id": 4,-->
+                <!--              "name": "ver botes",-->
+                <!--              "guard_name": "web",-->
+                <!--              "group": "botes",-->
+                <!--              "created_at": "2024-07-23T01:16:54.000000Z",-->
+                <!--              "updated_at": "2024-07-23T01:16:54.000000Z",-->
+                <!--              "pivot": {-->
+                <!--              "role_id": 1,-->
+                <!--              "permission_id": 4-->
+                <!--              }-->
+                <!--              },-->
+                <!--              {-->
+                <!--              "id": 5,-->
+                <!--              "name": "ver tripulantes",-->
+                <!--              "guard_name": "web",-->
+                <!--              "group": "tripulantes",-->
+                <!--              "created_at": "2024-07-23T01:16:54.000000Z",-->
+                <!--              "updated_at": "2024-07-23T01:16:54.000000Z",-->
+                <!--              "pivot": {-->
+                <!--              "role_id": 1,-->
+                <!--              "permission_id": 5-->
+                <!--              }-->
+                <!--              },-->
+                <!--              {-->
+                <!--              "id": 6,-->
+                <!--              "name": "ver clientes",-->
+                <!--              "guard_name": "web",-->
+                <!--              "group": "clientes",-->
+                <!--              "created_at": "2024-07-23T01:16:54.000000Z",-->
+                <!--              "updated_at": "2024-07-23T01:16:54.000000Z",-->
+                <!--              "pivot": {-->
+                <!--              "role_id": 1,-->
+                <!--              "permission_id": 6-->
+                <!--              }-->
+                <!--              },-->
+                <!--              {-->
+                <!--              "id": 7,-->
+                <!--              "name": "ver viajes",-->
+                <!--              "guard_name": "web",-->
+                <!--              "group": "viajes",-->
+                <!--              "created_at": "2024-07-23T01:16:54.000000Z",-->
+                <!--              "updated_at": "2024-07-23T01:16:54.000000Z",-->
+                <!--              "pivot": {-->
+                <!--              "role_id": 1,-->
+                <!--              "permission_id": 7-->
+                <!--              }-->
+                <!--              },-->
+                <!--              {-->
+                <!--              "id": 8,-->
+                <!--              "name": "ver ventas",-->
+                <!--              "guard_name": "web",-->
+                <!--              "group": "ventas",-->
+                <!--              "created_at": "2024-07-23T01:16:54.000000Z",-->
+                <!--              "updated_at": "2024-07-23T01:16:54.000000Z",-->
+                <!--              "pivot": {-->
+                <!--              "role_id": 1,-->
+                <!--              "permission_id": 8-->
+                <!--              }-->
+                <!--              },-->
+                <!--              {-->
+                <!--              "id": 9,-->
+                <!--              "name": "ver deudores",-->
+                <!--              "guard_name": "web",-->
+                <!--              "group": "deudores",-->
+                <!--              "created_at": "2024-07-23T01:16:54.000000Z",-->
+                <!--              "updated_at": "2024-07-23T01:16:54.000000Z",-->
+                <!--              "pivot": {-->
+                <!--              "role_id": 1,-->
+                <!--              "permission_id": 9-->
+                <!--              }-->
+                <!--              },-->
+                <!--              {-->
+                <!--              "id": 10,-->
+                <!--              "name": "ver productos",-->
+                <!--              "guard_name": "web",-->
+                <!--              "group": "productos",-->
+                <!--              "created_at": "2024-08-09T14:05:07.000000Z",-->
+                <!--              "updated_at": "2024-08-09T14:05:07.000000Z",-->
+                <!--              "pivot": {-->
+                <!--              "role_id": 1,-->
+                <!--              "permission_id": 10-->
+                <!--              }-->
+                <!--              }-->
+                <!--              ]-->
+                <!--              },-->
+                <!--              {-->
+                <!--              "id": 2,-->
+                <!--              "name": "VENDEDOR",-->
+                <!--              "guard_name": "web",-->
+                <!--              "created_at": "2024-10-15T09:23:59.000000Z",-->
+                <!--              "updated_at": "2024-10-15T09:23:59.000000Z",-->
+                <!--              "permisosName": [-->
+                <!--              "ver inicio",-->
+                <!--              "ver clientes",-->
+                <!--              "ver ventas",-->
+                <!--              "ver deudores"-->
+                <!--              ],-->
+                <!--              "permissions": [-->
+                <!--              {-->
+                <!--              "id": 1,-->
+                <!--              "name": "ver inicio",-->
+                <!--              "guard_name": "web",-->
+                <!--              "group": "ventas",-->
+                <!--              "created_at": "2024-07-23T01:16:54.000000Z",-->
+                <!--              "updated_at": "2024-07-23T01:16:54.000000Z",-->
+                <!--              "pivot": {-->
+                <!--              "role_id": 2,-->
+                <!--              "permission_id": 1-->
+                <!--              }-->
+                <!--              },-->
+                <!--              {-->
+                <!--              "id": 6,-->
+                <!--              "name": "ver clientes",-->
+                <!--              "guard_name": "web",-->
+                <!--              "group": "clientes",-->
+                <!--              "created_at": "2024-07-23T01:16:54.000000Z",-->
+                <!--              "updated_at": "2024-07-23T01:16:54.000000Z",-->
+                <!--              "pivot": {-->
+                <!--              "role_id": 2,-->
+                <!--              "permission_id": 6-->
+                <!--              }-->
+                <!--              },-->
+                <!--              {-->
+                <!--              "id": 8,-->
+                <!--              "name": "ver ventas",-->
+                <!--              "guard_name": "web",-->
+                <!--              "group": "ventas",-->
+                <!--              "created_at": "2024-07-23T01:16:54.000000Z",-->
+                <!--              "updated_at": "2024-07-23T01:16:54.000000Z",-->
+                <!--              "pivot": {-->
+                <!--              "role_id": 2,-->
+                <!--              "permission_id": 8-->
+                <!--              }-->
+                <!--              },-->
+                <!--              {-->
+                <!--              "id": 9,-->
+                <!--              "name": "ver deudores",-->
+                <!--              "guard_name": "web",-->
+                <!--              "group": "deudores",-->
+                <!--              "created_at": "2024-07-23T01:16:54.000000Z",-->
+                <!--              "updated_at": "2024-07-23T01:16:54.000000Z",-->
+                <!--              "pivot": {-->
+                <!--              "role_id": 2,-->
+                <!--              "permission_id": 9-->
+                <!--              }-->
+                <!--              }-->
+                <!--              ]-->
+                <!--              },-->
+              </div>
+            </div>
+          </q-form>
+        </q-card-section>
+      </q-card>
+    </q-dialog>
   </q-page>
 </template>
 <script>
@@ -158,6 +392,7 @@ export default {
         { name: 'boat', label: 'Barco', align: 'left', field: row => row?.boat?.name },
         { name: 'role', label: 'Rol', align: 'left', field: row => row.role }
       ],
+      dialogPermisosRole: false,
       loading: false,
       users: [],
       user: {},
@@ -166,6 +401,7 @@ export default {
       filter: '',
       passwordShow: false,
       permisos: [],
+      permisosRole: [],
       permisosSelected: [],
       dialogPermisos: false,
       companies: [],

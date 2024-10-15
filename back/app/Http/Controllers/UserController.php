@@ -18,7 +18,12 @@ class UserController extends Controller{
             foreach($role->permissions as $permiso){
                 $permisosName[] = $permiso->name;
             }
-            $role->permisosName = $permisosName;
+            $permisosId = [];
+            foreach($role->permissions as $permiso){
+                $permisosId[] = $permiso->id;
+            }
+            $role->permisosId = $permisosId;
+//            $role->permisosName = $permisosName;
         }
         return $roles;
     }
