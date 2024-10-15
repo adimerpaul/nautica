@@ -100,104 +100,106 @@
               </q-item>
             </q-item-label>
             <q-separator dark />
-<!--            <template v-for="link in essentialLinks" :key="link.title">-->
-<!--              <q-item clickable dense v-ripple  :to="link.to" exact :class="`text-white ${rutaActual==link.to?'bg-secondary':''}`">-->
-<!--                <q-item-section avatar>-->
-<!--                  <q-avatar  text-color="white" :icon="`${rutaActual==link.to?link.icon:'o_'+link.icon}`" :size="`${rutaActual==link.to?'45px':'38px'}`" />-->
-<!--                </q-item-section>-->
-<!--                <q-item-section>-->
-<!--                  <q-item-label :class="`text-white ${rutaActual==link.to?'text-bold':''}`">{{ link.title }}</q-item-label>-->
-<!--                </q-item-section>-->
-<!--              </q-item>-->
-<!--            </template>-->
-              <q-item clickable dense v-ripple  to="/" exact :class="`text-white ${rutaActual== '/' ?'bg-secondary':''}`">
+            <template v-for="link in essentialLinks" :key="link.title">
+              <q-item clickable dense v-ripple  :to="link.to" exact :class="`text-white ${rutaActual==link.to?'bg-secondary':''}`"
+                        v-if="permisos.includes(link.can)"
+              >
                 <q-item-section avatar>
-                  <q-avatar  text-color="white" :icon="`${rutaActual=='/' ?'home':'o_'+'home'}`" :size="`${rutaActual=='/' ?'45px':'38px'}`" />
+                  <q-avatar  text-color="white" :icon="`${rutaActual==link.to?link.icon:'o_'+link.icon}`" :size="`${rutaActual==link.to?'45px':'38px'}`" />
                 </q-item-section>
                 <q-item-section>
-                  <q-item-label :class="`text-white ${rutaActual=='/' ?'text-bold':''}`">Inicio</q-item-label>
+                  <q-item-label :class="`text-white ${rutaActual==link.to?'text-bold':''}`">{{ link.title }}</q-item-label>
                 </q-item-section>
               </q-item>
-            <q-item clickable dense v-ripple  to="/users" exact :class="`text-white ${rutaActual== '/users' ?'bg-secondary':''}`" v-if="$store.user?.id ==1 || $store.user?.role == 'SUPERADMIN'">
-              <q-item-section avatar>
-                <q-avatar  text-color="white" :icon="`${rutaActual=='/users' ?'people':'o_'+'people'}`" :size="`${rutaActual=='/users' ?'45px':'38px'}`" />
-              </q-item-section>
-              <q-item-section>
-                <q-item-label :class="`text-white ${rutaActual=='/users' ?'text-bold':''}`">usuarios</q-item-label>
-              </q-item-section>
-            </q-item>
-            <q-item clickable dense v-ripple  to="/clients" exact :class="`text-white ${rutaActual== '/clients' ?'bg-secondary':''}`" v-if="$store.user?.id ==1 || $store.user?.role == 'SUPERADMIN'">
-              <q-item-section avatar>
-                <q-avatar  text-color="white" :icon="`${rutaActual=='/clients' ?'person':'o_'+'person'}`" :size="`${rutaActual=='/clients' ?'45px':'38px'}`" />
-              </q-item-section>
-              <q-item-section>
-                <q-item-label :class="`text-white ${rutaActual=='/clients' ?'text-bold':''}`">Clientes</q-item-label>
-              </q-item-section>
-            </q-item>
-            <q-item clickable dense v-ripple  to="/companies" exact :class="`text-white ${rutaActual== '/companies' ?'bg-secondary':''}`" v-if="$store.user?.id ==1">
-              <q-item-section avatar>
-                <q-avatar  text-color="white" :icon="`${rutaActual=='/companies' ?'business':'o_'+'business'}`" :size="`${rutaActual=='/companies' ?'45px':'38px'}`" />
-              </q-item-section>
-              <q-item-section>
-                <q-item-label :class="`text-white ${rutaActual=='/companies' ?'text-bold':''}`">Empresas</q-item-label>
-              </q-item-section>
-            </q-item>
-            <q-item clickable dense v-ripple  to="/boats" exact :class="`text-white ${rutaActual== '/boats' ?'bg-secondary':''}`" v-if="$store.user?.id ==1">
-              <q-item-section avatar>
-                <q-avatar  text-color="white" :icon="`${rutaActual=='/boats' ?'directions_boat':'o_'+'directions_boat'}`" :size="`${rutaActual=='/boats' ?'45px':'38px'}`" />
-              </q-item-section>
-              <q-item-section>
-                <q-item-label :class="`text-white ${rutaActual=='/boats' ?'text-bold':''}`">Botes</q-item-label>
-              </q-item-section>
-            </q-item>
-            <q-item clickable dense v-ripple  to="/crews" exact :class="`text-white ${rutaActual== '/crews' ?'bg-secondary':''}`" v-if="$store.user?.id ==1 || $store.user?.role == 'SUPERADMIN'">
-              <q-item-section avatar>
-                <q-avatar  text-color="white" :icon="`${rutaActual=='/crews' ?'group':'o_'+'group'}`" :size="`${rutaActual=='/crews' ?'45px':'38px'}`" />
-              </q-item-section>
-              <q-item-section>
-                <q-item-label :class="`text-white ${rutaActual=='/crews' ?'text-bold':''}`">Tripulantes</q-item-label>
-              </q-item-section>
-            </q-item>
-            <q-item clickable dense v-ripple  to="/products" exact :class="`text-white ${rutaActual== '/products' ?'bg-secondary':''}`" v-if="$store.user?.id ==1 || $store.user?.role == 'SUPERADMIN'">
-              <q-item-section avatar>
-                <q-avatar  text-color="white" :icon="`${rutaActual=='/products' ?'shopping_cart':'o_'+'shopping_cart'}`" :size="`${rutaActual=='/products' ?'45px':'38px'}`" />
-              </q-item-section>
-              <q-item-section>
-                <q-item-label :class="`text-white ${rutaActual=='/products' ?'text-bold':''}`">Productos</q-item-label>
-              </q-item-section>
-            </q-item>
-            <q-item clickable dense v-ripple  to="/viajes" exact :class="`text-white ${rutaActual== '/viajes' ?'bg-secondary':''}`" v-if="$store.user?.id ==1 || $store.user?.role == 'SUPERADMIN'">
-              <q-item-section avatar>
-                <q-avatar  text-color="white" :icon="`${rutaActual=='/viajes' ?'flight_takeoff':'o_'+'flight_takeoff'}`" :size="`${rutaActual=='/viajes' ?'45px':'38px'}`" />
-              </q-item-section>
-              <q-item-section>
-                <q-item-label :class="`text-white ${rutaActual=='/viajes' ?'text-bold':''}`">Viajes</q-item-label>
-              </q-item-section>
-            </q-item>
-            <q-item clickable dense v-ripple  to="/viajesActivos" exact :class="`text-white ${rutaActual== '/viajesActivos' ?'bg-secondary':''}`" v-if="$store.user?.id ==1 || $store.user?.role == 'SUPERADMIN'">
-              <q-item-section avatar>
-                <q-avatar  text-color="white" :icon="`${rutaActual=='/viajesActivos' ?'sailing':'o_'+'sailing'}`" :size="`${rutaActual=='/viajesActivos' ?'45px':'38px'}`" />
-              </q-item-section>
-              <q-item-section>
-                <q-item-label :class="`text-white ${rutaActual=='/viajesActivos' ?'text-bold':''}`">Viajes Activos</q-item-label>
-              </q-item-section>
-            </q-item>
-            <q-item clickable dense v-ripple  to="/sales" exact :class="`text-white ${rutaActual== '/sales' ?'bg-secondary':''}`">
-              <q-item-section avatar>
-                <q-avatar  text-color="white" :icon="`${rutaActual=='/sales' ?'shopping_cart':'o_'+'shopping_cart'}`" :size="`${rutaActual=='/sales' ?'45px':'38px'}`" />
-              </q-item-section>
-              <q-item-section>
-                <q-item-label :class="`text-white ${rutaActual=='/sales' ?'text-bold':''}`">Venta</q-item-label>
-              </q-item-section>
-            </q-item>
-            <q-item clickable dense v-ripple  to="/debtors" exact :class="`text-white ${rutaActual== '/debtors' ?'bg-secondary':''}`">
-              <q-item-section avatar>
-                <q-avatar  text-color="white" :icon="`${rutaActual=='/debtors' ?'credit_score':'o_'+'credit_score'}`" :size="`${rutaActual=='/debtors' ?'45px':'38px'}`" />
-              </q-item-section>
-              <q-item-section>
-                <q-item-label :class="`text-white ${rutaActual=='/debtors' ?'text-bold':''}`">Deudores</q-item-label>
-              </q-item-section>
-            </q-item>
+            </template>
+<!--              <q-item clickable dense v-ripple  to="/" exact :class="`text-white ${rutaActual== '/' ?'bg-secondary':''}`">-->
+<!--                <q-item-section avatar>-->
+<!--                  <q-avatar  text-color="white" :icon="`${rutaActual=='/' ?'home':'o_'+'home'}`" :size="`${rutaActual=='/' ?'45px':'38px'}`" />-->
+<!--                </q-item-section>-->
+<!--                <q-item-section>-->
+<!--                  <q-item-label :class="`text-white ${rutaActual=='/' ?'text-bold':''}`">Inicio</q-item-label>-->
+<!--                </q-item-section>-->
+<!--              </q-item>-->
+<!--            <q-item clickable dense v-ripple  to="/users" exact :class="`text-white ${rutaActual== '/users' ?'bg-secondary':''}`" v-if="$store.user?.id ==1 || $store.user?.role == 'SUPERADMIN'">-->
+<!--              <q-item-section avatar>-->
+<!--                <q-avatar  text-color="white" :icon="`${rutaActual=='/users' ?'people':'o_'+'people'}`" :size="`${rutaActual=='/users' ?'45px':'38px'}`" />-->
+<!--              </q-item-section>-->
+<!--              <q-item-section>-->
+<!--                <q-item-label :class="`text-white ${rutaActual=='/users' ?'text-bold':''}`">usuarios</q-item-label>-->
+<!--              </q-item-section>-->
+<!--            </q-item>-->
+<!--            <q-item clickable dense v-ripple  to="/clients" exact :class="`text-white ${rutaActual== '/clients' ?'bg-secondary':''}`" v-if="$store.user?.id ==1 || $store.user?.role == 'SUPERADMIN'">-->
+<!--              <q-item-section avatar>-->
+<!--                <q-avatar  text-color="white" :icon="`${rutaActual=='/clients' ?'person':'o_'+'person'}`" :size="`${rutaActual=='/clients' ?'45px':'38px'}`" />-->
+<!--              </q-item-section>-->
+<!--              <q-item-section>-->
+<!--                <q-item-label :class="`text-white ${rutaActual=='/clients' ?'text-bold':''}`">Clientes</q-item-label>-->
+<!--              </q-item-section>-->
+<!--            </q-item>-->
+<!--            <q-item clickable dense v-ripple  to="/companies" exact :class="`text-white ${rutaActual== '/companies' ?'bg-secondary':''}`" v-if="$store.user?.id ==1">-->
+<!--              <q-item-section avatar>-->
+<!--                <q-avatar  text-color="white" :icon="`${rutaActual=='/companies' ?'business':'o_'+'business'}`" :size="`${rutaActual=='/companies' ?'45px':'38px'}`" />-->
+<!--              </q-item-section>-->
+<!--              <q-item-section>-->
+<!--                <q-item-label :class="`text-white ${rutaActual=='/companies' ?'text-bold':''}`">Empresas</q-item-label>-->
+<!--              </q-item-section>-->
+<!--            </q-item>-->
+<!--            <q-item clickable dense v-ripple  to="/boats" exact :class="`text-white ${rutaActual== '/boats' ?'bg-secondary':''}`" v-if="$store.user?.id ==1">-->
+<!--              <q-item-section avatar>-->
+<!--                <q-avatar  text-color="white" :icon="`${rutaActual=='/boats' ?'directions_boat':'o_'+'directions_boat'}`" :size="`${rutaActual=='/boats' ?'45px':'38px'}`" />-->
+<!--              </q-item-section>-->
+<!--              <q-item-section>-->
+<!--                <q-item-label :class="`text-white ${rutaActual=='/boats' ?'text-bold':''}`">Botes</q-item-label>-->
+<!--              </q-item-section>-->
+<!--            </q-item>-->
+<!--            <q-item clickable dense v-ripple  to="/crews" exact :class="`text-white ${rutaActual== '/crews' ?'bg-secondary':''}`" v-if="$store.user?.id ==1 || $store.user?.role == 'SUPERADMIN'">-->
+<!--              <q-item-section avatar>-->
+<!--                <q-avatar  text-color="white" :icon="`${rutaActual=='/crews' ?'group':'o_'+'group'}`" :size="`${rutaActual=='/crews' ?'45px':'38px'}`" />-->
+<!--              </q-item-section>-->
+<!--              <q-item-section>-->
+<!--                <q-item-label :class="`text-white ${rutaActual=='/crews' ?'text-bold':''}`">Tripulantes</q-item-label>-->
+<!--              </q-item-section>-->
+<!--            </q-item>-->
+<!--            <q-item clickable dense v-ripple  to="/products" exact :class="`text-white ${rutaActual== '/products' ?'bg-secondary':''}`" v-if="$store.user?.id ==1 || $store.user?.role == 'SUPERADMIN'">-->
+<!--              <q-item-section avatar>-->
+<!--                <q-avatar  text-color="white" :icon="`${rutaActual=='/products' ?'shopping_cart':'o_'+'shopping_cart'}`" :size="`${rutaActual=='/products' ?'45px':'38px'}`" />-->
+<!--              </q-item-section>-->
+<!--              <q-item-section>-->
+<!--                <q-item-label :class="`text-white ${rutaActual=='/products' ?'text-bold':''}`">Productos</q-item-label>-->
+<!--              </q-item-section>-->
+<!--            </q-item>-->
+<!--            <q-item clickable dense v-ripple  to="/viajes" exact :class="`text-white ${rutaActual== '/viajes' ?'bg-secondary':''}`" v-if="$store.user?.id ==1 || $store.user?.role == 'SUPERADMIN'">-->
+<!--              <q-item-section avatar>-->
+<!--                <q-avatar  text-color="white" :icon="`${rutaActual=='/viajes' ?'flight_takeoff':'o_'+'flight_takeoff'}`" :size="`${rutaActual=='/viajes' ?'45px':'38px'}`" />-->
+<!--              </q-item-section>-->
+<!--              <q-item-section>-->
+<!--                <q-item-label :class="`text-white ${rutaActual=='/viajes' ?'text-bold':''}`">Viajes</q-item-label>-->
+<!--              </q-item-section>-->
+<!--            </q-item>-->
+<!--            <q-item clickable dense v-ripple  to="/viajesActivos" exact :class="`text-white ${rutaActual== '/viajesActivos' ?'bg-secondary':''}`" v-if="$store.user?.id ==1 || $store.user?.role == 'SUPERADMIN'">-->
+<!--              <q-item-section avatar>-->
+<!--                <q-avatar  text-color="white" :icon="`${rutaActual=='/viajesActivos' ?'sailing':'o_'+'sailing'}`" :size="`${rutaActual=='/viajesActivos' ?'45px':'38px'}`" />-->
+<!--              </q-item-section>-->
+<!--              <q-item-section>-->
+<!--                <q-item-label :class="`text-white ${rutaActual=='/viajesActivos' ?'text-bold':''}`">Viajes Activos</q-item-label>-->
+<!--              </q-item-section>-->
+<!--            </q-item>-->
+<!--            <q-item clickable dense v-ripple  to="/sales" exact :class="`text-white ${rutaActual== '/sales' ?'bg-secondary':''}`">-->
+<!--              <q-item-section avatar>-->
+<!--                <q-avatar  text-color="white" :icon="`${rutaActual=='/sales' ?'shopping_cart':'o_'+'shopping_cart'}`" :size="`${rutaActual=='/sales' ?'45px':'38px'}`" />-->
+<!--              </q-item-section>-->
+<!--              <q-item-section>-->
+<!--                <q-item-label :class="`text-white ${rutaActual=='/sales' ?'text-bold':''}`">Venta</q-item-label>-->
+<!--              </q-item-section>-->
+<!--            </q-item>-->
+<!--            <q-item clickable dense v-ripple  to="/debtors" exact :class="`text-white ${rutaActual== '/debtors' ?'bg-secondary':''}`">-->
+<!--              <q-item-section avatar>-->
+<!--                <q-avatar  text-color="white" :icon="`${rutaActual=='/debtors' ?'credit_score':'o_'+'credit_score'}`" :size="`${rutaActual=='/debtors' ?'45px':'38px'}`" />-->
+<!--              </q-item-section>-->
+<!--              <q-item-section>-->
+<!--                <q-item-label :class="`text-white ${rutaActual=='/debtors' ?'text-bold':''}`">Deudores</q-item-label>-->
+<!--              </q-item-section>-->
+<!--            </q-item>-->
           </q-list>
         </q-header>
         <q-footer>
@@ -234,7 +236,7 @@ export default {
         { title: 'Productos', icon: 'shopping_cart', to: '/products' , can: 'ver productos'},
         { title: 'Gastos', icon: 'point_of_sale', to: '/gastos' , can: 'ver ventas'},
         { title: 'Viajes Historico', icon: 'flight_takeoff', to: '/viajes' , can: 'ver viajes'},
-        { title: 'Viajes Activos', icon: 'sailing', to: '/viajesActivos' , can: 'ver ventas'},
+        { title: 'Viajes Activos', icon: 'sailing', to: '/viajesActivos' , can: 'ver viajes'},
         { title: 'Venta', icon: 'shopping_cart', to: '/sales' , can: 'ver ventas'},
         { title: 'Deudores', icon: 'credit_score', to: '/debtors' , can: 'ver deudores'}
       ],

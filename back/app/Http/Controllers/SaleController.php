@@ -129,12 +129,15 @@ class SaleController extends Controller{
         $nit = $request->nit;
         $name = $request->name;
         $phone = isset($request->phone) ? $request->phone : '';
-        $search = Client::where('nit', $nit)->first();
+        $search = Client::where('nit', $nit)
+            ->where('company_id', $request->user()->company_id)
+            ->first();
         if ($search == null){
             $client = new Client();
             $client->nit = $nit;
             $client->name = $name;
             $client->phone = $phone;
+            $client->company_id = $request->user()->company_id;
             $client->save();
         }else{
             $client = $search;
