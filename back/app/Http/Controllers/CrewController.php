@@ -43,6 +43,7 @@ class CrewController extends Controller{
         $crew->tipoDocumento = $request->tipoDocumento;
         $crew->numeroIdentificacion = $request->numeroIdentificacion;
         $crew->telefono = $request->telefono;
+        $crew->estado = $request->estado;
         $crew->save();
         return Crew::where('id', $crew->id)->with('boat')->first();
     }

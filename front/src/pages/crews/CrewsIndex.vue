@@ -16,6 +16,13 @@
           <q-chip :label="props.row.boat?.name" text-color="white" :style="{backgroundColor: props.row.boat?.color}" icon="directions_boat" />
         </q-td>
       </template>
+<!--      estado-->
+      <template v-slot:body-cell-estado="props">
+        <q-td :props="props">
+          <q-chip label="Activo" text-color="white" v-if="props.row.estado === 'Activo'"  dense icon="check" color="green" />
+          <q-chip label="Inactivo" text-color="white" v-if="props.row.estado === 'Inactivo'"  dense icon="close" color="red" />
+        </q-td>
+      </template>
       <template v-slot:body-cell-role="props">
         <q-td :props="props">
           <q-chip label="Capitan" text-color="white" v-if="props.row.role === 'CAPITAN'"  dense icon="person" color="primary" />
@@ -23,6 +30,7 @@
           <q-chip label="Maquinista" text-color="white" v-if="props.row.role === 'MAQUINISTA'"  dense icon="person" color="accent" />
         </q-td>
       </template>
+
       <template v-slot:top-right>
         <div class="row">
           <div class="col-4 flex flex-center">
@@ -56,7 +64,7 @@
               <q-input v-model="crew.name" label="Nombre" outlined dense :rules="[val => !!val || 'Campo requerido']" />
             </div>
             <div class="col-12">
-              <q-select v-model="crew.role" :options="$cargos" label="Rol" outlined dense
+              <q-select v-model="crew.role" :options="$cargos" label="Cargo" outlined dense
                         :rules="[val => !!val || 'Campo requerido']"
                         value-field="value" label-field="label"
                         map-options emit-value
@@ -87,6 +95,12 @@
                         emit-value map-options option-value="id" option-label="name"
               />
             </div>
+            <div class="col-12">
+              <q-select v-model="crew.estado" :options="['Activo','Inactivo']" label="Estado" outlined dense
+                        :rules="[val => !!val || 'Campo requerido']"
+                        value-field="value" label-field="label"
+              ></q-select>
+            </div>
 <!--            <pre>{{crew}}</pre>-->
           </div>
         </q-card-section>
@@ -107,13 +121,14 @@ export default {
       columns: [
         { name: 'option', label: 'Opciones', align: 'left', field: row => row.option },
         { name: 'name', label: 'Nombre', align: 'left', field: row => row.name },
-        { name: 'role', label: 'Rol', align: 'left', field: row => row.role },
+        { name: 'role', label: 'Cargo', align: 'left', field: row => row.role },
         { name: 'nacionalidad', label: 'Nacionalidad', align: 'left', field: row => row.nacionalidad },
         { name: 'tipoDocumento', label: 'Tipo de Documento', align: 'left', field: row => row.tipoDocumento },
         { name: 'numeroIdentificacion', label: 'Número de Identificación', align: 'left', field: row => row.numeroIdentificacion },
         { name: 'telefono', label: 'Teléfono', align: 'left', field: row => row.telefono },
         { name: 'id', label: 'ID', align: 'left', field: row => row.id },
         { name: 'boat', label: 'Barco', align: 'left', field: row => row.boat?.name },
+        { name: 'estado', label: 'Estado', align: 'left', field: row => row.estado },
       ],
       loading: false,
       crews: [],
@@ -183,6 +198,7 @@ export default {
       this.crewDialog = true
       this.crew = {
         name: '',
+        estado: 'Activo',
       }
     },
     crewGet () {
