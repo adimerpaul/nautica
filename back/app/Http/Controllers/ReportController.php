@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Client;
 use App\Models\Sale;
 use App\Models\User;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -36,6 +37,11 @@ class ReportController extends Controller{
                 ->whereDate('date', '<=', $fechaFin)
                 ->where('status', 'ACTIVO')
                 ->where('tipo_venta', 'EGRESO')
+                ->get();
+        }
+        if ($tipo == 'Clientes') {
+            $data = Client::whereDate('created_at', '>=', $fechaInicio)
+                ->whereDate('created_at', '<=', $fechaFin)
                 ->get();
         }
         error_log(json_encode($data));
