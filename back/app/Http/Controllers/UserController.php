@@ -63,7 +63,11 @@ class UserController extends Controller{
         return $user;
     }
     public function updatePermissions(Request $request, $id){
+        error_log(json_encode($request->permissions));
         $user = User::find($id);
+        error_log($user);
+        $permisos= Permission::all();
+        error_log(json_encode($permisos));
         $user->syncPermissions($request->permissions);
         return User::with('permissions')->find($id);
     }

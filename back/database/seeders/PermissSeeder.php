@@ -22,7 +22,9 @@ class PermissSeeder extends Seeder
 //        Permission::create(['name' => 'ver viajes', 'group' => 'viajes']);
 //        Permission::create(['name' => 'ver ventas', 'group' => 'ventas']);
 //        Permission::create(['name' => 'ver deudores', 'group' => 'deudores']);
-        Permission::create(['name' => 'ver productos', 'group' => 'productos']);
+//        Permission::create(['name' => 'ver productos', 'group' => 'productos']);
+        Permission::create(['name' => 'ver categories', 'group' => 'categories']);
+        Permission::create(['name' => 'ver reportes', 'group' => 'reportes']);
 
 //        $user = User::find(1);
 //
