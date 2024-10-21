@@ -22,6 +22,8 @@ const routes = [
       { path: 'new', component: () => import('pages/New.vue'), meta: { requiresAuth: true } },
       { path: 'categories', component: () => import('pages/categories/Categories.vue'), meta: { requiresAuth: true } },
       { path: 'viajesConciliacion/:id', component: () => import('pages/viajesActivos/ViajesConciliacion.vue'), meta: { requiresAuth: true } },
+      // reportes
+      { path: 'reportes', component: () => import('pages/reportes/ReportesIndex.vue'), meta: { requiresAuth: true } },
     ]
   },
   {

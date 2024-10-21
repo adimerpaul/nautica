@@ -250,7 +250,8 @@ export default {
         { title: 'Viajes Activos', icon: 'sailing', to: '/viajesActivos' , can: 'ver viajes'},
         { title: 'Venta', icon: 'shopping_cart', to: '/sales' , can: 'ver ventas'},
         { title: 'Deudores', icon: 'credit_score', to: '/debtors' , can: 'ver deudores'},
-        { title: 'Categories', icon: 'category', to: '/categories' , can: 'ver categories'}
+        { title: 'Categories', icon: 'category', to: '/categories' , can: 'ver categories'},
+        { title: 'Reportes', icon: 'analytics', to: '/reportes' , can: 'ver reportes'},
       ],
       permisos : JSON.parse(localStorage.getItem('permisos')),
       botesPorVencer: []
