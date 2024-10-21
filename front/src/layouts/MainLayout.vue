@@ -112,6 +112,16 @@
                 </q-item-section>
               </q-item>
             </template>
+<!--              <q-item clickable dense v-ripple  :to="linkCategories.to" exact :class="`text-white ${rutaActual==linkCategories.to?'bg-secondary':''}`"-->
+<!--                      v-if="permisos.includes(linkCategories.can)"-->
+<!--              >-->
+<!--                <q-item-section avatar>-->
+<!--                  <q-avatar  text-color="white" :icon="`${rutaActual==linkCategories.to?linkCategories.icon:'o_'+linkCategories.icon}`" :size="`${rutaActual==linkCategories.to?'45px':'38px'}`" />-->
+<!--                </q-item-section>-->
+<!--                <q-item-section>-->
+<!--                  <q-item-label :class="`text-white ${rutaActual==linkCategories.to?'text-bold':''}`">{{ linkCategories.title }}</q-item-label>-->
+<!--                </q-item-section>-->
+<!--              </q-item>-->
 <!--              <q-item clickable dense v-ripple  to="/" exact :class="`text-white ${rutaActual== '/' ?'bg-secondary':''}`">-->
 <!--                <q-item-section avatar>-->
 <!--                  <q-avatar  text-color="white" :icon="`${rutaActual=='/' ?'home':'o_'+'home'}`" :size="`${rutaActual=='/' ?'45px':'38px'}`" />-->
@@ -226,6 +236,7 @@ export default {
   data() {
     return {
       leftDrawerOpen: false,
+      // linkCategories: { title: 'Categorias', icon: 'category', to: '/categories', can: 'ver categories' },
       essentialLinks: [
         { title: 'Inicio', icon: 'home', to: '/', can: 'ver inicio' },
         { title: 'Usuarios', icon: 'people', to: '/users', can: 'ver usuarios' },
@@ -238,7 +249,8 @@ export default {
         { title: 'Viajes Historico', icon: 'flight_takeoff', to: '/viajes' , can: 'ver viajes'},
         { title: 'Viajes Activos', icon: 'sailing', to: '/viajesActivos' , can: 'ver viajes'},
         { title: 'Venta', icon: 'shopping_cart', to: '/sales' , can: 'ver ventas'},
-        { title: 'Deudores', icon: 'credit_score', to: '/debtors' , can: 'ver deudores'}
+        { title: 'Deudores', icon: 'credit_score', to: '/debtors' , can: 'ver deudores'},
+        { title: 'Categories', icon: 'category', to: '/categories' , can: 'ver categories'}
       ],
       permisos : JSON.parse(localStorage.getItem('permisos')),
       botesPorVencer: []

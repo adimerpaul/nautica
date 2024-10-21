@@ -57,6 +57,9 @@ Route::group(['middleware' => 'auth:sanctum'], function(){
     Route::delete('/products/{id}', [\App\Http\Controllers\ProductController::class, 'destroy']);
 
     Route::get('/categories', [\App\Http\Controllers\CategoryController::class, 'index']);
+    Route::post('/categories', [\App\Http\Controllers\CategoryController::class, 'store']);
+    Route::put('/categories/{id}', [\App\Http\Controllers\CategoryController::class, 'update']);
+    Route::delete('/categories/{id}', [\App\Http\Controllers\CategoryController::class, 'destroy']);
 
     Route::get('/viajes', [\App\Http\Controllers\ViajeController::class, 'index']);
     Route::get('/viajesConciliacion/{id}', [\App\Http\Controllers\ViajeController::class, 'viajesConciliacion']);

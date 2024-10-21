@@ -20,6 +20,7 @@ const routes = [
       { path: 'debtors', component: () => import('pages/debtors/DebtorsIndex.vue'), meta: { requiresAuth: true } },
       { path: 'gastos', component: () => import('pages/gastos/GastosIndex.vue'), meta: { requiresAuth: true } },
       { path: 'new', component: () => import('pages/New.vue'), meta: { requiresAuth: true } },
+      { path: 'categories', component: () => import('pages/categories/Categories.vue'), meta: { requiresAuth: true } },
       { path: 'viajesConciliacion/:id', component: () => import('pages/viajesActivos/ViajesConciliacion.vue'), meta: { requiresAuth: true } },
     ]
   },
