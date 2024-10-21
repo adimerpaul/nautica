@@ -123,5 +123,32 @@
     </table>
 @endif
 
+@if ($tipo == 'Deudores')
+    <table class="table">
+        <thead>
+        <tr>
+            <th class="th">ID</th>
+            <th class="th">Nombre</th>
+{{--            <th class="th">Compañía</th>--}}
+            <th class="th">Total</th>
+            <th class="th">Pago</th>
+            <th class="th">Deuda</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach($data as $item)
+            <tr>
+                <td class="td">{{ $item->id }}</td>
+                <td class="td">{{ $item->client->name }}</td>
+{{--                <td class="td">{{ isset($item->company) ? $item->company->name : '' }}</td>--}}
+                <td class="td">{{ $item->total }}</td>
+                <td class="td">{{ $item->pago }}</td>
+                <td class="td">{{ $item->debt }}</td>
+            </tr>
+        @endforeach
+        </tbody>
+    </table>
+@endif
+
 </body>
 </html>

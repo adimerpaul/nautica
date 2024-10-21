@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Client;
+use App\Models\Payment;
 use App\Models\Sale;
 use App\Models\User;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -44,7 +45,20 @@ class ReportController extends Controller{
                 ->whereDate('created_at', '<=', $fechaFin)
                 ->get();
         }
-        error_log(json_encode($data));
+        if ($tipo == 'Deudores') {
+            $debtors = Sale::with('client', 'user', 'details', 'payments.user', 'company')
+                ->where('tipo', 'CREDITO')
+                ->orderBy('id', 'desc')
+                ->get();
+            foreach ($debtors as $debtor){
+                $pago = Payment::where('sale_id', $debtor->id)->where('status', 'PAGADO')->sum('amount');
+                $debtor->pago = $pago;
+                $debtor->debt = $debtor->total - $pago;
+            }
+            $data = $debtors;
+        }
+
+//        error_log(json_encode($data[0]));
         $data = [
             'fechaInicio' => $fechaInicio,
             'fechaFin' => $fechaFin,

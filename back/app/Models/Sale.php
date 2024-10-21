@@ -42,4 +42,7 @@ class Sale extends Model{
     function boat(){
         return $this->belongsTo(Boat::class);
     }
+    function company(){
+        return $this->belongsTo(Company::class);
+    }
 }
