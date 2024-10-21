@@ -16,6 +16,7 @@ class Sale extends Model{
         'observacion',
         'pago',
         'description',
+        'tipo_venta',
         'numeroFactura',
         'motivo_anulacion',
         'viaje_id',

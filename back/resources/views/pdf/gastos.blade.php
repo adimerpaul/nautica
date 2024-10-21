@@ -6,10 +6,6 @@
     <title>Document</title>
 </head>
 <body>
-Gastos
-adsadsada
-
-
-<h1>asdsada</h1>
+{{$tipo}}
 </body>
 </html>
