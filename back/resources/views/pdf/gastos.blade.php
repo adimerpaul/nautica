@@ -7,5 +7,6 @@
 </head>
 <body>
 {{$tipo}}
+{{$data}}
 </body>
 </html>

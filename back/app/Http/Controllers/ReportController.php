@@ -24,18 +24,18 @@ class ReportController extends Controller{
         $tipo = $request->tipo;
 
         if ($tipo == 'Gastos') {
-            $sales = Sale::whereDate('date', '>=', $fechaInicio)
+            $data = Sale::whereDate('date', '>=', $fechaInicio)
                 ->whereDate('date', '<=', $fechaFin)
                 ->where('status', 'ACTIVO')
                 ->where('tipo_venta', 'EGRESO')
                 ->get();
-            $data = [
-                'fechaInicio' => $fechaInicio,
-                'fechaFin' => $fechaFin,
-                'tipo' => $tipo,
-                'data' => $sales
-            ];
         }
+        $data = [
+            'fechaInicio' => $fechaInicio,
+            'fechaFin' => $fechaFin,
+            'tipo' => $tipo,
+            'data' => $data
+        ];
         $pdf = Pdf::loadView('pdf.gastos',$data)->setPaper('letter');
         return $pdf->stream();
     }

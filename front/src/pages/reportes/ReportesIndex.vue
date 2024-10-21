@@ -60,31 +60,32 @@ export default {
   },
   methods: {
     reporteGenerar() {
-      this.loading = true
-      this.$axios.get(`reporte`, {
-        responseType: 'blob'
-      },
-      {
-        params: {
-          fechaInicio: this.fechaInicio,
-          fechaFin: this.fechaFin,
-          tipo: this.TipoReporte
-        }
-      }
-      ).then(response => {
-        const url = window.URL.createObjectURL(new Blob([response.data], { type: 'application/pdf' }));
-        const link = window.document.createElement('a'); // Usa window.document para evitar conflictos
-        link.href = url;
-        link.setAttribute('download', `reporte.pdf`);
-        window.document.body.appendChild(link);
-        link.click();
-        link.remove(); // Elimina el elemento del DOM
-        window.URL.revokeObjectURL(url); // Libera el URL del blob
-      }).catch(error => {
-        this.$alert.error(error.response.data.message)
-      }).finally(() => {
-        this.loading = false
-      })
+      this.loading = true;
+      this.$axios
+        .get('reporte', {
+          responseType: 'blob',
+          params: {
+            fechaInicio: this.fechaInicio,
+            fechaFin: this.fechaFin,
+            tipo: this.TipoReporte
+          }
+        })
+        .then(response => {
+          const url = window.URL.createObjectURL(new Blob([response.data], { type: 'application/pdf' }));
+          const link = window.document.createElement('a'); // Usa window.document para evitar conflictos
+          link.href = url;
+          link.setAttribute('download', `reporte.pdf`);
+          window.document.body.appendChild(link);
+          link.click();
+          link.remove(); // Elimina el elemento del DOM
+          window.URL.revokeObjectURL(url); // Libera el URL del blob
+        })
+        .catch(error => {
+          this.$alert.error(error.response.data.message);
+        })
+        .finally(() => {
+          this.loading = false;
+        });
     }
   },
 };
