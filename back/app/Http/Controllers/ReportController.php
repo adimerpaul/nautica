@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Sale;
+use App\Models\User;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class ReportController extends Controller{
@@ -22,7 +24,13 @@ class ReportController extends Controller{
         $fechaInicio = $request->fechaInicio;
         $fechaFin = $request->fechaFin;
         $tipo = $request->tipo;
-
+        $user = $request->user();
+//        error_log($user->id);
+        if (isset($user->id)) {
+            error_log('entro');
+        }else{
+            $user = User::find(1);
+        }
         if ($tipo == 'Gastos') {
             $data = Sale::whereDate('date', '>=', $fechaInicio)
                 ->whereDate('date', '<=', $fechaFin)
@@ -30,11 +38,14 @@ class ReportController extends Controller{
                 ->where('tipo_venta', 'EGRESO')
                 ->get();
         }
+        error_log(json_encode($data));
         $data = [
             'fechaInicio' => $fechaInicio,
             'fechaFin' => $fechaFin,
             'tipo' => $tipo,
-            'data' => $data
+            'data' => $data,
+            'user' => $user,
+            'fecha' => Carbon::now()
         ];
         $pdf = Pdf::loadView('pdf.gastos',$data)->setPaper('letter');
         return $pdf->stream();
