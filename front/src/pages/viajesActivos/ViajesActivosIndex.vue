@@ -21,49 +21,103 @@
              @rowClick="viajeClick"
     >
       <template v-slot:body-cell-option="props" >
-        <q-td auto-width>
-          <q-btn label="Consiliacion" color="primary" auto-close no-caps style="width: 120px" size="10px" icon="check_circle" :key="props.row.id"/>
+<!--        <q-td auto-width>-->
+<!--          <q-btn label="Consiliacion" color="primary" auto-close no-caps style="width: 120px" size="10px" icon="check_circle" :key="props.row.id"/>-->
 
-<!--          <q-btn-dropdown label="Opciones" color="primary" auto-close no-caps size="10px" @click="(event) => { event.stopPropagation() }">-->
-<!--            <q-list>-->
-<!--              <q-item clickable v-ripple @click="viajeEdit(props.row)" v-if="props.row.estado === 'Activo'">-->
-<!--                <q-item-section avatar>-->
-<!--                  <q-icon name="edit" />-->
-<!--                </q-item-section>-->
-<!--                <q-item-section>Editar</q-item-section>-->
-<!--              </q-item>-->
-<!--              <q-item clickable v-ripple @click="viajeDelete(props.row)" v-if="props.row.estado === 'Activo'">-->
-<!--                <q-item-section avatar>-->
-<!--                  <q-icon name="delete" />-->
-<!--                </q-item-section>-->
-<!--                <q-item-section>Eliminar</q-item-section>-->
-<!--              </q-item>-->
-<!--              <q-item clickable v-ripple @click="addProducts(props.row)">-->
-<!--                <q-item-section avatar>-->
-<!--                  <q-icon name="add_shopping_cart" />-->
-<!--                </q-item-section>-->
-<!--                <q-item-section>Agregar Carga</q-item-section>-->
-<!--              </q-item>-->
-<!--              <q-item clickable v-ripple @click="listaTripulantes(props.row)">-->
-<!--                <q-item-section avatar>-->
-<!--                  <q-icon name="print" />-->
-<!--                </q-item-section>-->
-<!--                <q-item-section>Lista Tripulantes</q-item-section>-->
-<!--              </q-item>-->
-<!--              <q-item clickable v-ripple @click="viajeClose(props.row)" v-if="props.row.estado === 'Activo'">-->
-<!--                <q-item-section avatar>-->
-<!--                  <q-icon name="close" />-->
-<!--                </q-item-section>-->
-<!--                <q-item-section>Cerrar Viaje</q-item-section>-->
-<!--              </q-item>-->
-<!--            </q-list>-->
-<!--          </q-btn-dropdown>-->
-<!--          <q-btn flat dense icon="edit" @click="viajeEdit(props.row)" >-->
-<!--            <q-tooltip>Editar</q-tooltip>-->
-<!--          </q-btn>-->
-<!--          <q-btn flat dense icon="delete" @click="viajeDelete(props.row)" >-->
-<!--            <q-tooltip>Eliminar</q-tooltip>-->
-<!--          </q-btn>-->
+<!--&lt;!&ndash;          <q-btn-dropdown label="Opciones" color="primary" auto-close no-caps size="10px" @click="(event) => { event.stopPropagation() }">&ndash;&gt;-->
+<!--&lt;!&ndash;            <q-list>&ndash;&gt;-->
+<!--&lt;!&ndash;              <q-item clickable v-ripple @click="viajeEdit(props.row)" v-if="props.row.estado === 'Activo'">&ndash;&gt;-->
+<!--&lt;!&ndash;                <q-item-section avatar>&ndash;&gt;-->
+<!--&lt;!&ndash;                  <q-icon name="edit" />&ndash;&gt;-->
+<!--&lt;!&ndash;                </q-item-section>&ndash;&gt;-->
+<!--&lt;!&ndash;                <q-item-section>Editar</q-item-section>&ndash;&gt;-->
+<!--&lt;!&ndash;              </q-item>&ndash;&gt;-->
+<!--&lt;!&ndash;              <q-item clickable v-ripple @click="viajeDelete(props.row)" v-if="props.row.estado === 'Activo'">&ndash;&gt;-->
+<!--&lt;!&ndash;                <q-item-section avatar>&ndash;&gt;-->
+<!--&lt;!&ndash;                  <q-icon name="delete" />&ndash;&gt;-->
+<!--&lt;!&ndash;                </q-item-section>&ndash;&gt;-->
+<!--&lt;!&ndash;                <q-item-section>Eliminar</q-item-section>&ndash;&gt;-->
+<!--&lt;!&ndash;              </q-item>&ndash;&gt;-->
+<!--&lt;!&ndash;              <q-item clickable v-ripple @click="addProducts(props.row)">&ndash;&gt;-->
+<!--&lt;!&ndash;                <q-item-section avatar>&ndash;&gt;-->
+<!--&lt;!&ndash;                  <q-icon name="add_shopping_cart" />&ndash;&gt;-->
+<!--&lt;!&ndash;                </q-item-section>&ndash;&gt;-->
+<!--&lt;!&ndash;                <q-item-section>Agregar Carga</q-item-section>&ndash;&gt;-->
+<!--&lt;!&ndash;              </q-item>&ndash;&gt;-->
+<!--&lt;!&ndash;              <q-item clickable v-ripple @click="listaTripulantes(props.row)">&ndash;&gt;-->
+<!--&lt;!&ndash;                <q-item-section avatar>&ndash;&gt;-->
+<!--&lt;!&ndash;                  <q-icon name="print" />&ndash;&gt;-->
+<!--&lt;!&ndash;                </q-item-section>&ndash;&gt;-->
+<!--&lt;!&ndash;                <q-item-section>Lista Tripulantes</q-item-section>&ndash;&gt;-->
+<!--&lt;!&ndash;              </q-item>&ndash;&gt;-->
+<!--&lt;!&ndash;              <q-item clickable v-ripple @click="viajeClose(props.row)" v-if="props.row.estado === 'Activo'">&ndash;&gt;-->
+<!--&lt;!&ndash;                <q-item-section avatar>&ndash;&gt;-->
+<!--&lt;!&ndash;                  <q-icon name="close" />&ndash;&gt;-->
+<!--&lt;!&ndash;                </q-item-section>&ndash;&gt;-->
+<!--&lt;!&ndash;                <q-item-section>Cerrar Viaje</q-item-section>&ndash;&gt;-->
+<!--&lt;!&ndash;              </q-item>&ndash;&gt;-->
+<!--&lt;!&ndash;            </q-list>&ndash;&gt;-->
+<!--&lt;!&ndash;          </q-btn-dropdown>&ndash;&gt;-->
+<!--&lt;!&ndash;          <q-btn flat dense icon="edit" @click="viajeEdit(props.row)" >&ndash;&gt;-->
+<!--&lt;!&ndash;            <q-tooltip>Editar</q-tooltip>&ndash;&gt;-->
+<!--&lt;!&ndash;          </q-btn>&ndash;&gt;-->
+<!--&lt;!&ndash;          <q-btn flat dense icon="delete" @click="viajeDelete(props.row)" >&ndash;&gt;-->
+<!--&lt;!&ndash;            <q-tooltip>Eliminar</q-tooltip>&ndash;&gt;-->
+<!--&lt;!&ndash;          </q-btn>&ndash;&gt;-->
+<!--        </q-td>-->
+        <q-td auto-width>
+          <q-btn-dropdown label="Opciones" color="primary" auto-close no-caps size="10px" @click="(event) => { event.stopPropagation() }">
+            <q-list>
+              <q-item clickable v-ripple @click="viajeEdit(props.row)" v-if="props.row.estado === 'Activo'">
+                <q-item-section avatar>
+                  <q-icon name="edit" />
+                </q-item-section>
+                <q-item-section>Editar</q-item-section>
+              </q-item>
+              <q-item clickable v-ripple @click="viajeDelete(props.row)" v-if="props.row.estado === 'Activo'">
+                <q-item-section avatar>
+                  <q-icon name="delete" />
+                </q-item-section>
+                <q-item-section>Eliminar</q-item-section>
+              </q-item>
+              <q-item clickable v-ripple @click="addProducts(props.row)" v-if="props.row.estado === 'Activo'">
+                <q-item-section avatar>
+                  <q-icon name="add_circle_outline" />
+                </q-item-section>
+                <q-item-section>Agregar Descarga</q-item-section>
+              </q-item>
+              <q-item clickable v-ripple @click="addLance(props.row)" v-if="props.row.estado === 'Activo'">
+                <q-item-section avatar>
+                  <q-icon name="add_circle_outline" />
+                </q-item-section>
+                <q-item-section>Agregar Lance</q-item-section>
+              </q-item>
+              <q-item clickable v-ripple @click="listaTripulantes(props.row)">
+                <q-item-section avatar>
+                  <q-icon name="print" />
+                </q-item-section>
+                <q-item-section>Lista Tripulantes</q-item-section>
+              </q-item>
+              <q-item clickable v-ripple :to="'/viajesConciliacion/' + props.row.id">
+                <q-item-section avatar>
+                  <q-icon name="check_circle" />
+                </q-item-section>
+                <q-item-section>Consolidado</q-item-section>
+              </q-item>
+              <q-item clickable v-ripple @click="viajeClose(props.row)" v-if="props.row.estado === 'Activo'">
+                <q-item-section avatar>
+                  <q-icon name="close" />
+                </q-item-section>
+                <q-item-section>Cerrar Viaje</q-item-section>
+              </q-item>
+            </q-list>
+          </q-btn-dropdown>
+          <!--          <q-btn flat dense icon="edit" @click="viajeEdit(props.row)" >-->
+          <!--            <q-tooltip>Editar</q-tooltip>-->
+          <!--          </q-btn>-->
+          <!--          <q-btn flat dense icon="delete" @click="viajeDelete(props.row)" >-->
+          <!--            <q-tooltip>Eliminar</q-tooltip>-->
+          <!--          </q-btn>-->
         </q-td>
       </template>
       <template v-slot:body-cell-name="props">

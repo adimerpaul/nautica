@@ -150,7 +150,7 @@ class ViajeController extends Controller{
     }
     public function index(Request $request){
         $user = $request->user();
-        error(json_encode($user));
+//        error(json_encode($user));
 //        if ($user->role == 'PATRON') {
 //            if ($user->bote_id) {
 //                $viajes = Viaje::with(['boat', 'crews'])
@@ -180,13 +180,16 @@ class ViajeController extends Controller{
 //        }
 //        return $viajes;
         if ($user->id == 1) {
+//            viajes cerrados
             $viajes = Viaje::with(['boat','crews'])
                 ->orderBy('id', 'desc')
+                ->where('estado', 'Cerrado')
                 ->get();
         }else{
             $viajes = Viaje::with(['boat','crews'])
                 ->where('company_id', $user->company_id)
                 ->orderBy('id', 'desc')
+                ->where('estado', 'Cerrado')
                 ->get();
         }
         return $viajes;
