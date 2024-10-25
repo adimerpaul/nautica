@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Viaje extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
     protected $fillable = ['fechaInicio', 'fechaFin', 'boat_id', 'observaciones', 'hora', 'dias', 'zarpe', 'puertoSalida', 'puertoLlegada', 'bandera', 'propietario', 'estado', 'company_id'];
     protected $hidden = ['created_at', 'updated_at'];
     function boat(){

@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Detail extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
     protected $fillable = ['sale_id', 'product_id','user_id', 'product_name', 'quantity', 'price', 'total'];
     protected $hidden = ['created_at', 'updated_at'];
     public function sale(){
