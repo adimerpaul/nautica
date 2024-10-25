@@ -26,9 +26,10 @@
                 <q-btn icon="add_circle" label="Agregar Documento" color="green" @click="createClick" no-caps />
               </div>
               <div class="col-12">
-                <q-markup-table dense wrap-cells>
+                <q-markup-table dense>
                   <thead>
                   <tr class="bg-primary text-white">
+                    <th>Opciones</th>
                     <th>Documento</th>
                     <th>Archivo</th>
                     <th>Año</th>
@@ -38,24 +39,32 @@
                   </thead>
                   <tbody>
                   <tr v-for="file in boat.files" :key="file.id">
+                    <td style="width: 100px">
+                      <q-btn icon="delete" dense flat color="negative" @click="deleteFile(file.id)" />
+                      <q-btn icon="edit" dense flat color="primary" @click="editFile(file)" />
+                    </td>
                     <td>{{file.documento}}</td>
                     <td>
-                      <q-btn icon="visibility"  dense flat :href="$url + '../files/' + file.archivo" type="a" target="_blank" />
+                      <q-btn icon="visibility"  dense flat :href="$url + '../files/' + file.file" type="a" target="_blank" />
+                      <span>
+                        {{file.name}}
+                      </span>
                     </td>
                     <td>{{file.anio}}</td>
                     <td>{{file.fecha}}</td>
                     <td>
-                      <span v-if="diffDays(file.fecha_vencimiento) > 0" :class="{'text-positive': diffDays(file.fecha_vencimiento) > 60, 'text-warning': diffDays(file.fecha_vencimiento) <= 60 && diffDays(file.fecha_vencimiento) > 30, 'text-negative': diffDays(file.fecha_vencimiento) <= 30}">
-                        {{diffDays(file.fecha_vencimiento)}}
+                      <span v-if="diffDays(file.fecha) > 0" :class="{'text-positive': diffDays(file.fecha) > 60, 'text-warning': diffDays(file.fecha) <= 60 && diffDays(file.fecha) > 30, 'text-negative': diffDays(file.fecha) <= 30}">
+                        {{diffDays(file.fecha)}}
                       </span>
                       <span v-else class="text-negative">
                         Vencido
                       </span>
                     </td>
                   </tr>
-<!--                  <pre>{{boat.files}}</pre>-->
                   </tbody>
                 </q-markup-table>
+<!--                <pre>{{boat.files}}</pre>-->
+
               </div>
 <!--              <div class="col-12 col-md-6">-->
 <!--                <div class="text-caption">DIF</div>-->
@@ -153,15 +162,18 @@
     </div>
     <q-dialog v-model="dialog">
       <q-card>
+        <q-card-section class="bg-primary">
+          <div class="text-white">{{tipo}} Documento</div>
+        </q-card-section>
         <q-card-section>
         <q-form @submit="storeFile">
 <!--          <q-input v-model="file.documento" label="Documento" outlined dense />-->
 <!--          DIF, Autoridad, Licencia-->
           <q-select v-model="file.documento" label="Documento" outlined dense :options="['DIF', 'Autoridad', 'Licencia']" :rules="[val => !!val || 'Seleccione un documento']" />
           <q-input v-model="file.anio" label="Año" outlined dense :rules="[val => !!val || 'Año es requerido']" />
-          <q-input v-model="file.fecha_vencimiento" label="Fecha de vencimiento" type="date" outlined dense :rules="[val => !!val || 'Fecha de vencimiento es requerido']" />
+          <q-input v-model="file.fecha" label="Fecha de vencimiento" type="date" outlined dense :rules="[val => !!val || 'Fecha de vencimiento es requerido']" />
 <!--          <q-input type="file" outlined dense @change="fileUpload" />-->
-          <input type="file" @change="onFileChange" />
+          <input type="file" @change="onFileChange" v-if="tipo === 'Crear'"/>
 <!--          <pre>{{file}}</pre>-->
         <q-card-actions align="right">
           <q-btn label="Cancelar" color="negative" @click="dialog = false" :loading="loading" />
@@ -184,14 +196,33 @@ export default {
       file: {},
       dialog: false,
       imageUrl: null,
-      loading: false
+      loading: false,
+      tipo: ''
     }
   },
   async created () {
     this.boatGet();
-    // this.boat = await this.$axios.get(`/boats/${this.$route.params.id}`).then(res => res.data)
+    // this.boat = await this.$axios.get(`/boats/${fthis.$route.params.id}`).then(res => res.data)
   },
   methods: {
+    editFile (file) {
+      this.file = file
+      this.tipo = 'Editar'
+      this.dialog = true
+    },
+    deleteFile (id) {
+      this.$alert.confirm('¿Está seguro de eliminar el archivo?').onOk(() => {
+        this.deleteFileConfirm(id)
+      })
+      // this.$axios.delete(`boatsFile/${id}`).then(response => {
+      //   this.boat = response.data
+      // })
+    },
+    deleteFileConfirm (id) {
+      this.$axios.delete(`boatsFile/${id}`).then(response => {
+        this.boat = response.data
+      })
+    },
     onFileChange(e) {
       const file = e.target.files[0];
       this.imageUrl = file;
@@ -202,6 +233,26 @@ export default {
       })
     },
     storeFile(){
+      if ( this.tipo === 'Crear') {
+        this.storeFileCreate()
+      } else {
+        this.storeFileUpdate()
+      }
+      // const formData = new FormData()
+      // formData.append('documento', this.file.documento)
+      // formData.append('anio', this.file.anio)
+      // formData.append('fecha', this.file.fecha)
+      // formData.append('archivo', this.imageUrl)
+      // this.loading = true
+      // this.$axios.post(`boatsFile2/${this.boat.id}`, formData).then(response => {
+      //   this.boat = response.data
+      //   this.dialog = false
+      //   this.boatGet()
+      // }).finally(() => {
+      //   this.loading = false
+      // })
+    },
+    storeFileCreate () {
       if ( !this.imageUrl) {
         this.$alert.error('Archivo es requerido')
         return false
@@ -209,10 +260,29 @@ export default {
       const formData = new FormData()
       formData.append('documento', this.file.documento)
       formData.append('anio', this.file.anio)
-      formData.append('fecha_vencimiento', this.file.fecha_vencimiento)
+      formData.append('fecha', this.file.fecha)
       formData.append('archivo', this.imageUrl)
       this.loading = true
       this.$axios.post(`boatsFile2/${this.boat.id}`, formData).then(response => {
+        this.boat = response.data
+        this.dialog = false
+        this.boatGet()
+      }).finally(() => {
+        this.loading = false
+      })
+    },
+    storeFileUpdate () {
+      // const formData = new FormData()
+      // formData.append('documento', this.file.documento)
+      // formData.append('anio', this.file.anio)
+      // formData.append('fecha', this.file.fecha)
+      // formData.append('archivo', this.imageUrl)
+      this.loading = true
+      this.$axios.put(`boatsFile/${this.file.id}`, {
+        documento: this.file.documento,
+        anio: this.file.anio,
+        fecha: this.file.fecha
+      }).then(response => {
         this.boat = response.data
         this.dialog = false
         this.boatGet()
@@ -230,11 +300,12 @@ export default {
     createClick() {
       this.dialog = true
       this.imageUrl = null
+      this.tipo = 'Crear'
       this.file = {
         documento:'',
         archivo:null,
         anio: moment().format('YYYY'),
-        fecha_vencimiento: moment().format('YYYY-MM-DD')
+        fecha: moment().format('YYYY-MM-DD')
       }
     },
     diffDays (date) {

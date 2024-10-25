@@ -30,11 +30,13 @@ Route::group(['middleware' => 'auth:sanctum'], function(){
     Route::get('/boats/{id}', [\App\Http\Controllers\BoatController::class, 'show']);
     Route::post('/boats', [\App\Http\Controllers\BoatController::class, 'store']);
     Route::post('/boatsFile/{boat}', [\App\Http\Controllers\BoatController::class, 'boatsFile']);
+    Route::delete('/boatsFile/{id}', [\App\Http\Controllers\BoatController::class, 'boatsFileDelete']);
     Route::put('/boats/{id}', [\App\Http\Controllers\BoatController::class, 'update']);
     Route::delete('/boats/{id}', [\App\Http\Controllers\BoatController::class, 'destroy']);
     Route::get('/botesPorVencer', [\App\Http\Controllers\BoatController::class, 'botesPorVencer']);
 
     Route::post('/boatsFile2/{id}', [\App\Http\Controllers\BoatController::class, 'boatsFile2']);
+    Route::put('/boatsFile/{id}', [\App\Http\Controllers\BoatController::class, 'boatsUpdate']);
 
     Route::get('/crews', [\App\Http\Controllers\CrewController::class, 'index']);
     Route::post('/crews', [\App\Http\Controllers\CrewController::class, 'store']);

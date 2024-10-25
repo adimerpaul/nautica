@@ -8,6 +8,17 @@ use App\Models\Company;
 use Illuminate\Http\Request;
 
 class BoatController extends Controller{
+    function boatsUpdate(Request $request,$id){
+        error_log(json_encode($request->all()));
+        $boat = BoteFile::find($id);
+        $boat->update($request->all());
+        return Boat::where('id', $boat->id)->with('company')->first();
+    }
+    function boatsFileDelete($id){
+        $file = BoteFile::find($id);
+        $file->delete();
+        return Boat::where('id', $file->boat_id)->with('company','files')->first();
+    }
     function boatsFile2(Request $request,$id){
 //        const formData = new FormData()
 //      formData.append('documento', this.file.documento)
@@ -24,15 +35,18 @@ class BoatController extends Controller{
         ]);
 
         $file = $request->file('archivo');
+        $nameFile = $file->getClientOriginalName();
         $name = time().$file->getClientOriginalName();
         $file->move(public_path().'/files/', $name);
         $boteFile = BoteFile::create([
             'boat_id' => $id,
             'documento' => $request->documento,
+            'name' => $nameFile,
             'anio' => $request->anio,
-            'fecha' => $request->fecha_vencimiento,
+            'fecha' => $request->fecha,
             'file' => $name,
         ]);
+        return Boat::where('id', $id)->with('company','files')->first();
 
     }
     public function index(Request $request){

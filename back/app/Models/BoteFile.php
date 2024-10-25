@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class BoteFile extends Model
 {
     use HasFactory, SoftDeletes;
-    protected $fillable = ['documento', 'file', 'anio', 'fecha', 'boat_id'];
+    protected $fillable = ['documento', 'file', 'anio', 'fecha', 'boat_id', 'name'];
     protected $hidden=['created_at', 'updated_at', 'deleted_at'];
     public function boat(){
         return $this->belongsTo(Boat::class);
