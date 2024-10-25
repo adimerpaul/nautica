@@ -366,6 +366,9 @@ export default {
         this.loading = false
       })
     },
+    addLance (viaje) {
+      this.$router.push('/viajesLance/' + viaje.id)
+    },
     addProducts (viaje) {
       this.$router.push('/viajesShow/' + viaje.id)
     },
