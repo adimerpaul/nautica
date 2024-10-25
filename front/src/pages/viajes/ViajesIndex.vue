@@ -167,6 +167,7 @@
                       <td>
                         <q-select v-model="crew.crew_id" :options="crews" outlined dense
                                   map-options emit-value
+                                  @update:modelValue="updateCrew($event, crew)"
                                   option-value="id" option-label="name"/>
                       </td>
                       <td>
@@ -245,6 +246,13 @@ export default {
     this.boatsGet()
   },
   methods: {
+    updateCrew (event, crew) {
+      // console.log(crew)
+      const index = this.crews.findIndex(c => c.id === event)
+      const crewFind= this.crews[index]
+      crew.cargo = crewFind.role
+      // console.log(crewFind)
+    },
     changePropietario (val) {
       const boat = this.boats.find(boat => boat.id === val)
       this.viaje.propietario = boat.company.name
