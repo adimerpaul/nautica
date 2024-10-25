@@ -247,9 +247,15 @@ export default {
   },
   methods: {
     updateCrew (event, crew) {
-      // console.log(crew)
       const index = this.crews.findIndex(c => c.id === event)
       const crewFind= this.crews[index]
+      // si existe en la lista no colcoar y enviar un mensja
+      const cont = this.crewViajes.filter(crew => crew.crew_id === event)
+      if (cont.length > 1) {
+        this.$alert.error('No puede agregar tripulantes repetidos')
+        crew.crew_id = ''
+        return
+      }
       crew.cargo = crewFind.role
       // console.log(crewFind)
     },
