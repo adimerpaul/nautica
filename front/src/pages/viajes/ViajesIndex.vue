@@ -177,7 +177,10 @@
                       </td>
                       <td>
                         <q-btn rounded color="red" dense icon="delete" @click="crewViajes.splice(index, 1)" v-if="crewViajes.length > 1 && index !== crewViajes.length - 1" />
-                        <q-btn rounded color="green" dense icon="add" @click="crewViajes.push({ crew_id: '', cargo: '' })" v-if="index === crewViajes.length - 1" />
+                        <template v-if="index === crewViajes.length - 1">
+                          <q-btn rounded color="green" dense icon="add" @click="crewViajes.push({ crew_id: '', cargo: '' })"  />
+                          <q-btn rounded color="red" dense icon="delete" @click="crewViajes.splice(index, 1)" />
+                        </template>
                       </td>
                     </tr>
                   </tbody>

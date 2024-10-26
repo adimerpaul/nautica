@@ -235,7 +235,7 @@ class ViajeController extends Controller{
                 }
             }
             DB::commit();
-            return Viaje::with('boat')->find($viaje->id);
+            return Viaje::with('boat','crews')->find($viaje->id);
         }catch (\Exception $e){
             DB::rollBack();
             return response()->json(['message' => $e->getMessage()], 500);
