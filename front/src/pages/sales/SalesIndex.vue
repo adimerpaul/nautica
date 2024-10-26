@@ -134,13 +134,18 @@
           <q-form @submit="saleInsert">
             <div class="row">
               <div class="col-12 col-md-4">
-                <q-input v-model="nit" label="dui" outlined dense  @update:modelValue="searchClient" debounce="300"  />
+                <q-input v-model="nit" label="dui" outlined dense  @update:modelValue="searchClient"
+                         debounce="300" mask="#########" placeholder="000000000"
+                />
+<!--                <pre>{{nit}}</pre>-->
               </div>
               <div class="col-12 col-md-4">
                 <q-input v-model="name" label="Nombre" outlined dense :rules="[val => !!val || 'Ingrese un nombre']" />
               </div>
               <div class="col-12 col-md-4">
-                <q-input v-model="phone" label="Telefono" outlined dense />
+                <q-input v-model="phone" label="Telefono" outlined dense
+                         mask="###############" placeholder="000000000000"
+                />
               </div>
               <div class="col-6 col-md-2 text-bold text-red text-h6 text-center">
                 <div style="line-height: 1">
