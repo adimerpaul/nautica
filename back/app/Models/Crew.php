@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Crew extends Model{
     use HasFactory, SoftDeletes;
-    protected $fillable = ['name', 'role', 'boat_id', 'nacionalidad', 'tipoDocumento', 'numeroIdentificacion', 'telefono', 'company_id'];
+    protected $fillable = ['name', 'role', 'boat_id', 'nacionalidad', 'tipoDocumento', 'numeroIdentificacion', 'telefono', 'company_id', 'estado'];
     public function boat(){
         return $this->belongsTo(Boat::class);
     }

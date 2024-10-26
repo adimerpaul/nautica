@@ -6,6 +6,14 @@ use App\Models\Crew;
 use Illuminate\Http\Request;
 
 class CrewController extends Controller{
+    function crewsActive(Request $request){
+        $user = $request->user();
+        if ($user->id == 1) {
+            return Crew::where('estado', 'Activo')->orderBy('id', 'desc')->with('boat')->get();
+        } else {
+            return Crew::where('company_id', $user->company_id)->where('estado', 'Activo')->orderBy('id', 'desc')->with('boat')->get();
+        }
+    }
     public function index(Request $request){
         $user = $request->user();
         if ($user->id == 1) {

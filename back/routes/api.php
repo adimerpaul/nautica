@@ -42,6 +42,8 @@ Route::group(['middleware' => 'auth:sanctum'], function(){
     Route::post('/crews', [\App\Http\Controllers\CrewController::class, 'store']);
     Route::put('/crews/{id}', [\App\Http\Controllers\CrewController::class, 'update']);
     Route::delete('/crews/{id}', [\App\Http\Controllers\CrewController::class, 'destroy']);
+//    crewsActive
+    Route::get('/crewsActive', [\App\Http\Controllers\CrewController::class, 'crewsActive']);
 
     Route::get('/clients', [\App\Http\Controllers\ClientController::class, 'index']);
     Route::get('/searchClient/{nit}', [\App\Http\Controllers\ClientController::class, 'searchClient']);

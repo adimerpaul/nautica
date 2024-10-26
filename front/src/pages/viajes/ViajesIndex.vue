@@ -268,7 +268,7 @@ export default {
     },
     crewsGet () {
       this.loading = true
-      this.$axios.get('crews').then(response => {
+      this.$axios.get('crewsActive').then(response => {
         this.crews = response.data
       }).catch(error => {
         this.$alert.error(error.response.data.message)
