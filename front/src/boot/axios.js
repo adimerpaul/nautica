@@ -45,7 +45,7 @@ export default boot(({ app, router }) => {
     },
     dateDmYHis (value) {
       const meses = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Set', 'Nov', 'Dic']
-      const mes = meses[moment(String(value)).format('MM') - 1]
+      const mes = meses[moment(String(value)).format('MM') - 2]
       if (!value) return ''
       const date = moment(String(value)).format('DD') + '-' + mes + '-' + moment(String(value)).format('YYYY') + ' ' + moment(String(value)).format('HH:mm')
       return date

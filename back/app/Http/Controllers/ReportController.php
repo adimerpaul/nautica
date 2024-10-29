@@ -27,6 +27,7 @@ class ReportController extends Controller{
         $fechaFin = $request->fechaFin;
         $tipo = $request->tipo;
         $user = $request->user();
+        $data = null;
 //        error_log($user->id);
         if (isset($user->id)) {
             error_log('entro');
@@ -59,6 +60,9 @@ class ReportController extends Controller{
         }
 
 //        error_log(json_encode($data[0]));
+        if ($data == null || count($data) == 0) {
+            return response()->json(['message' => 'No hay datos para mostrar'], 404);
+        }
         $data = [
             'fechaInicio' => $fechaInicio,
             'fechaFin' => $fechaFin,

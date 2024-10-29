@@ -83,7 +83,7 @@ export default {
           window.URL.revokeObjectURL(url); // Libera el URL del blob
         })
         .catch(error => {
-          this.$alert.error(error.response.data.message);
+          this.$alert.error('No existe información para el rango de fechas seleccionado');
         })
         .finally(() => {
           this.loading = false;
