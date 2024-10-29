@@ -112,6 +112,14 @@
                 </q-item-section>
               </q-item>
             </template>
+            <q-item clickable dense v-ripple @click="logout">
+              <q-item-section avatar>
+                <q-avatar text-color="red" icon="logout" size="38px" />
+              </q-item-section>
+              <q-item-section>
+                <q-item-label class="text-red text-bold">Cerrar Sesión</q-item-label>
+              </q-item-section>
+            </q-item>
 <!--              <q-item clickable dense v-ripple  :to="linkCategories.to" exact :class="`text-white ${rutaActual==linkCategories.to?'bg-secondary':''}`"-->
 <!--                      v-if="permisos.includes(linkCategories.can)"-->
 <!--              >-->
@@ -212,16 +220,16 @@
 <!--            </q-item>-->
           </q-list>
         </q-header>
-        <q-footer>
-          <q-item clickable dense v-ripple @click="logout">
-            <q-item-section avatar>
-              <q-avatar text-color="red" icon="logout" size="38px" />
-            </q-item-section>
-            <q-item-section>
-              <q-item-label class="text-red text-bold">Cerrar Sesión</q-item-label>
-            </q-item-section>
-          </q-item>
-        </q-footer>
+<!--        <q-footer>-->
+<!--          <q-item clickable dense v-ripple @click="logout">-->
+<!--            <q-item-section avatar>-->
+<!--              <q-avatar text-color="red" icon="logout" size="38px" />-->
+<!--            </q-item-section>-->
+<!--            <q-item-section>-->
+<!--              <q-item-label class="text-red text-bold">Cerrar Sesión</q-item-label>-->
+<!--            </q-item-section>-->
+<!--          </q-item>-->
+<!--        </q-footer>-->
       </q-layout>
     </q-drawer>
 
