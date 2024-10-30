@@ -28,6 +28,7 @@ class ReportController extends Controller{
         $tipo = $request->tipo;
         $user = $request->user();
         $data = null;
+        $get = $request->get;
 //        error_log($user->id);
         if (isset($user->id)) {
             error_log('entro');
@@ -35,11 +36,21 @@ class ReportController extends Controller{
             $user = User::find(1);
         }
         if ($tipo == 'Gastos') {
-            $data = Sale::whereDate('date', '>=', $fechaInicio)
-                ->whereDate('date', '<=', $fechaFin)
-                ->where('status', 'ACTIVO')
-                ->where('tipo_venta', 'EGRESO')
-                ->get();
+            if ($user->id == 1) {
+                $data = Sale::whereDate('date', '>=', $fechaInicio)
+                    ->whereDate('date', '<=', $fechaFin)
+                    ->where('status', 'ACTIVO')
+                    ->where('tipo_venta', 'EGRESO')
+                    ->with('user', 'company','client')
+                    ->get();
+            } else {
+                $data = Sale::whereDate('date', '>=', $fechaInicio)
+                    ->whereDate('date', '<=', $fechaFin)
+                    ->where('status', 'ACTIVO')
+                    ->where('tipo_venta', 'EGRESO')
+                    ->where('company_id', $user->company_id)
+                    ->get();
+            }
         }
         if ($tipo == 'Clientes') {
             $data = Client::whereDate('created_at', '>=', $fechaInicio)
@@ -63,15 +74,20 @@ class ReportController extends Controller{
         if ($data == null || count($data) == 0) {
             return response()->json(['message' => 'No hay datos para mostrar'], 404);
         }
-        $data = [
-            'fechaInicio' => $fechaInicio,
-            'fechaFin' => $fechaFin,
-            'tipo' => $tipo,
-            'data' => $data,
-            'user' => $user,
-            'fecha' => Carbon::now()
-        ];
-        $pdf = Pdf::loadView('pdf.gastos',$data)->setPaper('letter');
-        return $pdf->stream();
+
+        if ($get == 'pdf') {
+            $data = [
+                'fechaInicio' => $fechaInicio,
+                'fechaFin' => $fechaFin,
+                'tipo' => $tipo,
+                'data' => $data,
+                'user' => $user,
+                'fecha' => Carbon::now()
+            ];
+            $pdf = Pdf::loadView('pdf.gastos',$data)->setPaper('letter');
+            return $pdf->stream();
+        }else{
+            return response()->json($data, 200);
+        }
     }
 }
