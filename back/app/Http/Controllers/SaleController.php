@@ -179,7 +179,8 @@ class SaleController extends Controller{
         $description = substr($description, 0, -2);
         $sale->description = $description;
         $sale->save();
-        return Sale::with('client', 'user', 'details')->where('id', $sale->id)->first();
+        $sale= Sale::with('client', 'user', 'details','payments')->where('id', $sale->id)->first();
+        return response()->json($sale);
     }
 
     /**

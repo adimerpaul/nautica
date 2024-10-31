@@ -46,4 +46,30 @@ class Sale extends Model{
     function company(){
         return $this->belongsTo(Company::class);
     }
+//$pago=0;
+//foreach ($sale->payments as $payment){
+//$pago += $payment->amount;
+//}
+//$sale->pago = $pago;
+//$debt = $sale->total - $pago;
+//$sale->debt = $sale->total - $pago;
+    protected $appends = ['debt','pago'];
+    function getDebtAttribute(){
+        $pago=0;
+        if ($this->tipo == 'CONTADO'){
+            return 0;
+        }
+
+        foreach ($this->payments as $payment){
+            $pago += $payment->amount;
+        }
+        return $this->total - $pago;
+    }
+    function getPagoAttribute(){
+        $pago=0;
+        foreach ($this->payments as $payment){
+            $pago += $payment->amount;
+        }
+        return $pago;
+    }
 }
