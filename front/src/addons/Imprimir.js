@@ -100,6 +100,14 @@ Oruro</div>
           light: '#FFF'
         }
       }
+      let pago = ''
+      if (factura.pago > 0) {
+        pago = `<tr><td class='titder'>PAGO $</td><td class='conte2'>${parseFloat(factura.pago).toFixed(2)}</td></tr>`
+      }
+      let debt = ''
+      if (factura.debt > 0) {
+        debt = `<tr><td class='titder'>DEUDA $</td><td class='conte2'>${parseFloat(factura.debt).toFixed(2)}</td></tr>`
+      }
       const env = useCounterStore().env
       QRCode.toDataURL(`Fecha: ${factura.date} Monto: ${parseFloat(factura.total).toFixed(2)}`, opts).then(url => {
         let cadena = `${this.head()}
@@ -134,6 +142,8 @@ Tel. ${env.telefono}<br>
         cadena += `<hr>
       <table style='font-size: 8px;'>
       <tr><td class='titder' style='width: 60%'>SUBTOTAL $</td><td class='conte2'>${parseFloat(factura.total).toFixed(2)}</td></tr>
+      ${pago}
+      ${debt}
       </table>
       <br>
       <div>Son ${a} ${((parseFloat(factura.total) - Math.floor(parseFloat(factura.total))) * 100).toFixed(2)} /100 Dolares</div><hr>
