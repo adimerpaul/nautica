@@ -9,7 +9,7 @@
           <q-btn
             color="primary"
             label="Volver"
-            @click="() => { this.$router.push('/viajesActivos') }"
+            @click="() => { this.$router.go(-1) }"
             no-caps
             icon="arrow_back"
             size="sm"
