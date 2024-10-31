@@ -13,7 +13,7 @@
         </div>
         <div class="col-12 col-md-5 q-pa-xs text-right">
           <q-btn color="indigo" label="Buscar" @click="viajeActivosGet" no-caps icon="search" :loading="loading"/>
-<!--          <q-btn color="green" label="Agregar" @click="viajeAdd" no-caps icon="add_circle_outline" :loading="loading"/>-->
+          <q-btn color="green" label="Agregar" @click="viajeAdd" no-caps icon="add_circle_outline" :loading="loading"/>
         </div>
       </div>
     </q-card>
@@ -150,7 +150,7 @@
               <div class="col-6 col-md-3">
                 <q-input v-model="viaje.fechaFin" label="Fecha Fin" type="date" outlined dense
                          :rules="[val => !!val || 'Campo requerido', val => moment(val).isSameOrAfter(viaje.fechaInicio) || 'La fecha debe ser mayor o igual a la fecha de inicio']"
-                          @update:modelValue="caculoDias"
+                         @update:modelValue="caculoDias"
                 />
               </div>
               <div class="col-6 col-md-3">
@@ -169,16 +169,23 @@
                 <q-select v-model="viaje.boat_id" :options="boats" label="Barco" outlined dense
                           :rules="[val => !!val || 'Campo requerido']"
                           map-options emit-value
+                          @update:modelValue="changePropietario"
                           option-value="id" option-label="name"
                 />
               </div>
               <div class="col-12 col-md-6">
-                <q-input v-model="viaje.puertoSalida" label="Puerto de Salida" outlined dense
-                         :rules="[val => !!val || 'Campo requerido']" />
+                <!--                <q-input v-model="viaje.puertoSalida" label="Puerto de Salida" outlined dense-->
+                <!--                         :rules="[val => !!val || 'Campo requerido']" />-->
+                <q-select v-model="viaje.puertoSalida" :options="puertos" label="Puerto de Salida" outlined dense
+                          :rules="[val => !!val || 'Campo requerido']"
+                          map-options emit-value />
               </div>
               <div class="col-12 col-md-6">
-                <q-input v-model="viaje.puertoLlegada" label="Puerto de Llegada" outlined dense
-                         :rules="[val => !!val || 'Campo requerido']" />
+                <!--                <q-input v-model="viaje.puertoLlegada" label="Puerto de Llegada" outlined dense-->
+                <!--                         :rules="[val => !!val || 'Campo requerido']" />-->
+                <q-select v-model="viaje.puertoLlegada" :options="puertos" label="Puerto de Llegada" outlined dense
+                          :rules="[val => !!val || 'Campo requerido']"
+                          map-options emit-value />
               </div>
               <div class="col-12 col-md-6">
                 <q-input v-model="viaje.bandera" label="Bandera" outlined dense
@@ -191,35 +198,39 @@
               <div class="col-12">
                 <q-markup-table flat bordered dense wrap-cells>
                   <thead>
-                    <tr>
-                      <th>#</th>
-                      <th>Nombre</th>
-                      <th>Cargo</th>
-                      <th>Opciones</th>
-                    </tr>
+                  <tr>
+                    <th>#</th>
+                    <th>Nombre</th>
+                    <th>Cargo</th>
+                    <th>Opciones</th>
+                  </tr>
                   </thead>
                   <tbody>
-                    <tr v-for="(crew, index) in crewViajes" :key="index">
-                      <td>{{index + 1}}</td>
-                      <td>
-                        <q-select v-model="crew.crew_id" :options="crews" outlined dense
-                                  map-options emit-value
-                                  option-value="id" option-label="name"/>
-                      </td>
-                      <td>
-                        <q-select v-model="crew.cargo" :options="$cargos" outlined dense
-                                  value-field="value" label-field="label"
-                                  map-options emit-value/>
-                      </td>
-                      <td>
-                        <q-btn rounded color="red" dense icon="delete" @click="crewViajes.splice(index, 1)" v-if="crewViajes.length > 1 && index !== crewViajes.length - 1" />
-                        <q-btn rounded color="green" dense icon="add" @click="crewViajes.push({ crew_id: '', cargo: '' })" v-if="index === crewViajes.length - 1" />
-                      </td>
-                    </tr>
+                  <tr v-for="(crew, index) in crewViajes" :key="index">
+                    <td>{{index + 1}}</td>
+                    <td>
+                      <q-select v-model="crew.crew_id" :options="crews" outlined dense
+                                map-options emit-value
+                                @update:modelValue="updateCrew($event, crew)"
+                                option-value="id" option-label="name"/>
+                    </td>
+                    <td>
+                      <q-select v-model="crew.cargo" :options="$cargos" outlined dense
+                                value-field="value" label-field="label"
+                                map-options emit-value/>
+                    </td>
+                    <td>
+                      <q-btn rounded color="red" dense icon="delete" @click="crewViajes.splice(index, 1)" v-if="crewViajes.length > 1 && index !== crewViajes.length - 1" />
+                      <template v-if="index === crewViajes.length - 1">
+                        <q-btn rounded color="green" dense icon="add" @click="crewViajes.push({ crew_id: '', cargo: '' })"  />
+                        <q-btn rounded color="red" dense icon="delete" @click="crewViajes.splice(index, 1)" />
+                      </template>
+                    </td>
+                  </tr>
                   </tbody>
                 </q-markup-table>
               </div>
-<!--              <pre>{{crewViajes}}</pre>-->
+              <!--              <pre>{{crewViajes}}</pre>-->
             </div>
           </q-card-section>
           <q-card-actions align="right">
@@ -254,6 +265,16 @@ export default {
       loading: false,
       moment: moment,
       viajes: [],
+      puertos: [
+        'SONSONATE, Acajutla - Muelle Artesanal de Pesca',
+        'SONSONATE, Acajutla - Puerto de ACAJUTLA CEPA',
+        'LA LIBERTAD, La Libertad - Muelle Artesanal de Pesca',
+        'LA PAZ, San Luis La Herradura - Oficinas de CENDEPESCA',
+        'USULUTAN, Puerto El Triunfo - Muelle Artesanal de Puerto el Triunfo',
+        'LA UNION, La Unión Puerto CORSAIN',
+        'LA UNION, La Unión - Muelle Artesanal los Coquitos',
+        'LA UNION, Meanguera del Golfo - Muelle de Meanguera del Golfo'
+      ],
       viaje: {},
       viajeDialog: false,
       clienDialogHistory: false,
@@ -272,6 +293,23 @@ export default {
     this.boatsGet()
   },
   methods: {
+    updateCrew (event, crew) {
+      const index = this.crews.findIndex(c => c.id === event)
+      const crewFind= this.crews[index]
+      // si existe en la lista no colcoar y enviar un mensja
+      const cont = this.crewViajes.filter(crew => crew.crew_id === event)
+      if (cont.length > 1) {
+        this.$alert.error('No puede agregar tripulantes repetidos')
+        crew.crew_id = ''
+        return
+      }
+      crew.cargo = crewFind.role
+      // console.log(crewFind)
+    },
+    changePropietario (val) {
+      const boat = this.boats.find(boat => boat.id === val)
+      this.viaje.propietario = boat.company?.name
+    },
     crewsGet () {
       this.loading = true
       this.$axios.get('crews').then(response => {
@@ -415,8 +453,8 @@ export default {
         hora: moment().format('HH:00'),
         dias: '',
         zarpe: '',
-        puertoSalida: 'MUELLE DE PESCA, PUERTO EL TRIUNFO',
-        puertoLlegada: 'MUELLE DE PESCA, PUERTO EL TRIUNFO',
+        puertoSalida: '',
+        puertoLlegada: '',
         bandera: 'SALVADOREÑA ESA-00283 (ARB 90.74 TM)',
         propietario: 'LA REYNAGA MORENO, S.A. DE C.V.'
       }

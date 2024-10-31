@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Boat;
 use App\Models\Descarga;
 use App\Models\Detail;
 use App\Models\LanceProducto;
@@ -214,6 +215,8 @@ class ViajeController extends Controller{
         try {
             DB::beginTransaction();
             //        protected $fillable = ['fechaInicio', 'fechaFin', 'boats_id'];
+
+            $boat = Boat::find($request->input('boat_id'));
             $viaje = new Viaje();
             $viaje->fechaInicio = $request->input('fechaInicio');
             $viaje->fechaFin = $request->input('fechaFin');
@@ -225,7 +228,7 @@ class ViajeController extends Controller{
             $viaje->puertoLlegada = $request->input('puertoLlegada');
             $viaje->bandera = $request->input('bandera');
             $viaje->propietario = $request->input('propietario');
-            $viaje->company_id = $request->user()->company_id;
+            $viaje->company_id = $boat->company_id;
 //        $viaje->observaciones = $request->input('observaciones');
             $viaje->save();
             $crews = $request->input('crews');
